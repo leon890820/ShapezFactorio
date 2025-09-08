@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87ab26d687106044aae158e8856be54, type: 3}
+  m_Name: BuildingObjectSetting2
+  m_EditorClassIdentifier: 
+  factorioObjects:
+  - name: Scaffolding(1*1)
+    object_prefab: {fileID: 784665625986490288, guid: 607f5dc9f7443ce438256213ee8be499, type: 3}
+    info: {fileID: 21300000, guid: e034dddd69d59e74dbadfb9ecfd74203, type: 3}
+  - name: Scaffolding(2*2)
+    object_prefab: {fileID: 3599690403614681558, guid: 25d4bc9cad8499746a46a988acaad288, type: 3}
+    info: {fileID: 21300000, guid: 4a190f810d878ed4b84235d40a0625ba, type: 3}

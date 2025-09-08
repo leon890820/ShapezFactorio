@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87ab26d687106044aae158e8856be54, type: 3}
+  m_Name: ResourceObject
+  m_EditorClassIdentifier: 
+  factorioObjects:
+  - name: Iron_Ore
+    object_prefab: {fileID: 8734344189933053435, guid: 515da65b2a5e05744a2272551ff4890a, type: 3}
+    info: {fileID: 0}
+  - name: Copper_Ore
+    object_prefab: {fileID: 2035040000578202122, guid: e4400da29c1ab6e46a92f4f460feae7f, type: 3}
+    info: {fileID: 0}

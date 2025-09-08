@@ -1,0 +1,42 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+#include "Includes/FractalNoise.cginc"
+#include "Includes/Math.cginc"
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWStructuredBuffer<float3> vertex;
+
+int numberVertex;
+float4 noiseParams_ground[3];
+float4 noiseParams_mountains[3];
+float4 noiseParams_mask[3];
+
+
+float oceanDepthMultiplier;
+float oceanFloorDepth;
+float oceanFloorSmoothing;
+float mountainBlend;
+
+[numthreads(512,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= numberVertex)
+        return;
+    
+    float3 vertexPos = vertex[id.x];
+    
+    
+    float noiseShape = simpleNoise(vertexPos, noiseParams_ground);
+    
+    float oceanFloorShape = -oceanFloorDepth + noiseShape * 0.15;
+    noiseShape = smoothMax(noiseShape, oceanFloorShape, oceanFloorSmoothing);
+    noiseShape *= (noiseShape < 0) ? 1 + oceanDepthMultiplier : 1;
+    
+    float mountainMask = Blend(0, mountainBlend, simpleNoise(vertexPos, noiseParams_mask));
+    float mountain = smoothedRidgidNoise(vertexPos, noiseParams_mountains) * mountainMask;
+    
+    // TODO: insert actual code here!
+    vertex[id.x] = vertexPos * (1 + noiseShape * 0.01 + mountain * 0.01);
+}

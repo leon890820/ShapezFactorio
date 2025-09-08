@@ -1,0 +1,52 @@
+# -------------------------
+# Unity 專案忽略檔
+# -------------------------
+
+# Unity 產生的暫存與編譯資料夾
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Uu]serSettings/
+
+# Cache 與輸出檔
+*.apk
+*.aab
+*.unitypackage
+*.gradle/
+.gradle/
+.vs/
+
+# Rider / Visual Studio / VSCode
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+
+.vscode/
+.idea/
+
+# 系統檔
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# 保留 (不要忽略的檔案/資料夾)
+# -------------------------
+# 遊戲資源與設定
+!Assets/
+!ProjectSettings/
+!Packages/
+!*.unity
+!*.prefab
