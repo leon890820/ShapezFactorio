@@ -244,8 +244,8 @@ public class PlayGroundPlatform : FactorioBuilding {
         return new Vector3Int(originX, (int)position.y, originZ);
     }
 
-        public Vector3Int[] GetBuildingLocalPositions(FactorioBuilding building) {
-        Vector3Int buildingSize = building.buildingSize;
+    public Vector3Int[] GetBuildingLocalPositions(FactorioBuilding building) {
+        Vector3Int buildingSize = AbsVector3Int(building.buildingSize);
         Vector3Int[] result = new Vector3Int[buildingSize.x * buildingSize.y * buildingSize.z];
         Vector3 positionBias = building.transform.position - transform.position;
 
@@ -260,7 +260,9 @@ public class PlayGroundPlatform : FactorioBuilding {
         for (int y = 0; y < buildingSize.y; y++) {
             for (int z = 0; z < buildingSize.z; z++) {
                 for (int x = 0; x < buildingSize.x; x++) {
-                    result[y * buildingSize.x * buildingSize.z + z * buildingSize.x + x] = new Vector3Int(originX + x, originY + y, originZ + z);
+                    result[y * buildingSize.x * buildingSize.z + z * buildingSize.x + x] = new Vector3Int(originX + x * (int)Mathf.Sign(building.buildingSize.x), 
+                                                                                                          originY + y * (int)Mathf.Sign(building.buildingSize.y), 
+                                                                                                          originZ + z * (int)Mathf.Sign(building.buildingSize.z));
                 }
             }
         }
@@ -268,6 +270,9 @@ public class PlayGroundPlatform : FactorioBuilding {
         return result;
     }
 
+    public Vector3Int AbsVector3Int(Vector3Int v) { 
+        return new Vector3Int(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));    
+    }
     public Vector3Int GetBuildingLocalPosition(FactorioBuilding building) {
         
         Vector3 positionBias = building.transform.position - transform.position;

@@ -179,8 +179,12 @@ MonoBehaviour:
   - {fileID: -2432090755550338912, guid: 87fea874625edb64995cd88ebcd7e3e9, type: 3}
   - {fileID: -2432090755550338912, guid: e8046ea58bb911648929cfd0089af20c, type: 3}
   - {fileID: -2432090755550338912, guid: 5039d95d5e386334bb3d39715ca6a40e, type: 3}
+  - {fileID: -2432090755550338912, guid: a2ab10378f22c3c499980d3317aaf298, type: 3}
+  - {fileID: -2432090755550338912, guid: 301785cbe16817244b61c2f3b4b5521a, type: 3}
+  - {fileID: -2432090755550338912, guid: 43c337fc0f14cfd4d8fe5e926364725d, type: 3}
   meshFilter: {fileID: 1946115677922738342}
   type: 0
+  forkPrefab: {fileID: 919132149155446097, guid: 7101832547818d14a8969bfae0f2ca44, type: 3}
 --- !u!4 &3735404635935308268 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1151388028547126963, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}

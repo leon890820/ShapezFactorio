@@ -12,14 +12,22 @@ public class StairBelt : Belt {
                 BeltType.UPLEFT => meshes[1],
                 BeltType.UPBACK => meshes[2],
                 BeltType.UPRIGHT => meshes[1],
+                BeltType.DOWNSTRAIGHT => meshes[3],
+                BeltType.DOWNLEFT => meshes[4],
+                BeltType.DOWNBACK => meshes[5],
+                BeltType.DOWNRIGHT => meshes[4],
                 _ => meshes[0],
             };
         }
     }
 
+    public GameObject forkPrefab;
     private int rotation_sec;
+    private bool upstair;
     private FactorioGameObjectBase[] beltBackpad;
     private float[] beltCount;
+    private GameObject[] forks;
+
 
     protected override void Awake() {       
         base.Awake();
@@ -28,6 +36,10 @@ public class StairBelt : Belt {
 
         beltBackpad = new FactorioGameObjectBase[6];
         beltCount = new float[6];
+        forks = new GameObject[2];
+        for (int i = 0; i < forks.Length; i++) {
+            forks[i] = Instantiate(forkPrefab);
+        }
     }
 
 
@@ -66,7 +78,7 @@ public class StairBelt : Belt {
     }
 
     public override void TryOutput(int dir) {
-        Vector3Int direction = FactorioData.direction[dir] + new Vector3Int(0,1,0);        
+        Vector3Int direction = FactorioData.direction[dir] + new Vector3Int(0,1 * (upstair ? 1 : -1),0);        
         Vector3Int pos = playGroundPlatform.GetLocalPositions(transform.position) + direction;
         FactorioPlatformBuilding neighbor = playGroundPlatform.GetBuilding(this, direction);
 
@@ -86,9 +98,9 @@ public class StairBelt : Belt {
         if (i < 2) {
             return midPos  + dir * 0.25f * (time - 2f + i);
         } else if (i < 4) {
-            return midPos + Vector3.up * 0.5f * (i - 2f + time);
+            return midPos + Vector3.up * 0.5f * (i - 2f + time) * (upstair ? 1 : -1);
         } else {
-            return midPos + Vector3.up + dir_sec * 0.25f * (time + i - 4);
+            return midPos + Vector3.up * (upstair ? 1 : -1) + (time + i - 4) * 0.25f * dir_sec;
         }
         
     }
@@ -98,7 +110,7 @@ public class StairBelt : Belt {
             return false;
         } else {
             Vector3Int localPos = playGroundPlatform.GetLocalPositions(transform.position);
-            int bias = pos.y - localPos.y;
+            int bias = pos.y - localPos.y + (upstair ? 0 : 1);
 
             if (beltDirections[dir + bias * 4] is BuildingDirection.OUPUT or BuildingDirection.NONE) return false;
             if (beltBackpad[0]) return false;
@@ -113,11 +125,13 @@ public class StairBelt : Belt {
 
     public override void SetBuildingType(PlayGroundPlatform pgp) {
         for (int i = 0; i < 4; i++) {
-            beltDirections[i] = (rotation + 2) % 4 == i ? BuildingDirection.INPUT : BuildingDirection.NONE;
+            beltDirections[i] = R(upstair ? rotation : rotation_sec, 2 + (upstair? 0 : 2)) == i ? (upstair ? BuildingDirection.INPUT : BuildingDirection.OUPUT) : BuildingDirection.NONE;
         }
         for (int i = 4; i < 8; i++) {
-            beltDirections[i] = rotation_sec % 4 == i - 4 ? BuildingDirection.OUPUT : BuildingDirection.NONE;
+            beltDirections[i] = R(upstair? rotation_sec : rotation, 0 + (upstair ? 0 : 2)) == i - 4 ? (upstair ? BuildingDirection.OUPUT : BuildingDirection.INPUT) : BuildingDirection.NONE;
         }
+
+        Debug.Log(string.Join(", ", beltDirections));
 
         SetRotation(rotation);
         SetBeltType();        
@@ -127,7 +141,7 @@ public class StairBelt : Belt {
 
     protected override void SetBeltType() {
         int bias = R(rotation_sec - rotation, 4);
-        switch (bias) {
+        switch (bias + (upstair? 0 : 4)) {
             case 0:
                 type = BeltType.UPSTRAIGHT;
                 break;
@@ -140,6 +154,18 @@ public class StairBelt : Belt {
             case 3:
                 type = BeltType.UPLEFT;
                 break;
+            case 4:
+                type = BeltType.DOWNSTRAIGHT;
+                break;
+            case 5:
+                type = BeltType.DOWNRIGHT;
+                break;
+            case 6:
+                type = BeltType.DOWNBACK;
+                break;
+            case 7:
+                type = BeltType.DOWNLEFT;
+                break;
         
         }
 
@@ -149,9 +175,14 @@ public class StairBelt : Belt {
         rotation_sec = (r + 4) % 4;
     }
 
+    public void SetUpStair(bool b) {
+        upstair = b;
+        buildingSize = new Vector3Int(1, 2 * (b ? 1 : - 1), 1);
+    }
+
     public override BuildingDirection GetDirectionType(Vector3Int pos, int dir) {
         Vector3Int localPos =  playGroundPlatform.GetBuildingLocalPosition(this);
-        int bias = pos.y - localPos.y;
+        int bias = pos.y - localPos.y + (upstair ? 0 : 1);
 
         if (beltDirections[dir + bias * 4] == BuildingDirection.OUPUT) return BuildingDirection.INPUT;
         if (beltDirections[dir + bias * 4] == BuildingDirection.INPUT) return BuildingDirection.OUPUT;

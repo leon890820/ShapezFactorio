@@ -102,7 +102,7 @@ public class Belt : FactorioPlatformBuilding {
 
     void HandleInputDirection(int dir) {
         // 把物品從遠端移到近端
-        if (beltCount[dir, 1] > 1f && !beltBackpad[dir, 0]) {
+        if (beltCount[dir, 1] > 1f && !beltBackpad[dir, 0] && !transport) {
             beltBackpad[dir, 0] = beltBackpad[dir, 1];
             beltBackpad[dir, 1] = null;
             beltCount[dir, 1] = 0f;
@@ -223,9 +223,10 @@ public class Belt : FactorioPlatformBuilding {
             result.Add(fb);
         } else if (anchor.Count == 2) {
             int dirIndex = GetDirection(anchor[1] - anchor[0]);
-            if (anchor[1].y - anchor[0].y > 0) {
+            if (anchor[1].y - anchor[0].y != 0) {
                 StairBelt fb = Instantiate(Clone().object_prefab).GetComponent<StairBelt>();
                 fb.enabled = true;
+                fb.SetUpStair(anchor[1].y - anchor[0].y > 0);
                 fb.SetRotation(PlayerControll.rotation);
                 fb.SetRotationSec(dirIndex);
                 fb.UpdateBlueprintState(anchor[0], pgp);
@@ -238,8 +239,7 @@ public class Belt : FactorioPlatformBuilding {
             Vector3 dir = FactorioData.direction[dirIndex];
             int count = (int)Mathf.Max(Mathf.Abs(anchor[1].x - anchor[0].x), Mathf.Abs(anchor[1].z - anchor[0].z)) + 1;
 
-            for (int i = 0; i < count; i++) {
-                
+            for (int i = 0; i < count; i++) {               
                 Belt fb = Instantiate(Clone().object_prefab).GetComponent<Belt>();
                 fb.SetRotation(dirIndex);
                 fb.UpdateBlueprintState(anchor[0] + dir * i, pgp);
@@ -314,12 +314,14 @@ public class Belt : FactorioPlatformBuilding {
             case BeltType.ONETO2L:
             case BeltType.TWO2ONEL:
             case BeltType.UPLEFT:
+            case BeltType.DOWNLEFT:
                 pivotTransform.localScale = new Vector3(1, 1f, 1);
                 break;
             case BeltType.RIGHT:
             case BeltType.ONETO2R:
             case BeltType.TWO2ONER:
             case BeltType.UPRIGHT:
+            case BeltType.DOWNRIGHT:
                 pivotTransform.localScale = new Vector3(1, 1f, -1);
                 break;
 
@@ -523,7 +525,11 @@ public class Belt : FactorioPlatformBuilding {
         UPSTRAIGHT,
         UPLEFT,
         UPBACK,
-        UPRIGHT
+        UPRIGHT,
+        DOWNSTRAIGHT,
+        DOWNLEFT,
+        DOWNBACK,
+        DOWNRIGHT
     }
     
 
