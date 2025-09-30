@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9205351727326445812}
   - component: {fileID: 2923547314365164821}
   m_Layer: 6
-  m_Name: PlayerGroundPivot 1
+  m_Name: PlayerGroundPivot2x1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,11 +87,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8fb9fbb49552f4bbe462b841c001eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIPrefab: {fileID: 0}
+  factorioUIControlBase: {fileID: 0}
+  factorioSprite: {fileID: 0}
   pivotTransform: {fileID: 4523217965956943925}
-  buildingSize: {x: 1, y: 1}
+  buildingSize: {x: 1, y: 1, z: 1}
   tintColor: []
   rimMaterial: {fileID: 2100000, guid: 0e0fc7f64db4a7149bc04c0ef52d44ed, type: 2}
   platformSize: {x: 2, y: 1}
+  platformLayer: 10
   notch: {fileID: 3299481306576397375, guid: 57cfc3db98f69c34fb6638d8a3bb47e3, type: 3}
   corner: {fileID: 2261732992372952250, guid: 4f0777742189031419b107aff6a4e7c1, type: 3}
   wall6m: {fileID: 4246509593470099801, guid: 0ef8d755d81636a439d1be98bad46544, type: 3}

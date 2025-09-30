@@ -38,7 +38,7 @@ public class StairBelt : Belt {
         beltCount = new float[6];
         forks = new GameObject[2];
         for (int i = 0; i < forks.Length; i++) {
-            forks[i] = Instantiate(forkPrefab);
+            //forks[i] = Instantiate(forkPrefab);
         }
     }
 

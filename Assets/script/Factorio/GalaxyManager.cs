@@ -33,11 +33,9 @@ public class GalaxyManager : MonoBehaviour{
 
 
     public static bool AddPlayground(PlayGroundPlatform pgp) {
-
         if(IsValid(pgp)) return false;
-
  
-        ChunkCoord[] chunkCoord = GetPlatFormCoordPosition(pgp);
+        ChunkCoord[] chunkCoord = GetPlatFormCoordPositions(pgp);
 
         foreach (ChunkCoord cc in chunkCoord) {
             playgrounds[cc] = pgp;
@@ -48,8 +46,7 @@ public class GalaxyManager : MonoBehaviour{
     }
 
     public static bool IsValid(PlayGroundPlatform pgp) {
-
-        ChunkCoord[] chunkCoord = GetPlatFormCoordPosition(pgp);
+        ChunkCoord[] chunkCoord = GetPlatFormCoordPositions(pgp);
 
         foreach (ChunkCoord cc in chunkCoord) {
             if (playgrounds.ContainsKey(cc)) return true;
@@ -58,7 +55,7 @@ public class GalaxyManager : MonoBehaviour{
 
     }
 
-    public static ChunkCoord[] GetPlatFormCoordPosition(PlayGroundPlatform pgp) {
+    public static ChunkCoord[] GetPlatFormCoordPositions(PlayGroundPlatform pgp) {
         
         Vector2Int platformSize = pgp.platformSize;
         ChunkCoord[] result = new ChunkCoord[platformSize.x * platformSize.y];
@@ -67,7 +64,6 @@ public class GalaxyManager : MonoBehaviour{
 
         int originX = oc.x - offset.x;
         int originY = oc.y - offset.y;
-
 
         for (int y = 0; y < platformSize.y; y++) {
             for (int x = 0; x < platformSize.x; x++) {
@@ -78,6 +74,25 @@ public class GalaxyManager : MonoBehaviour{
         return result;
     }
 
+    public static ChunkCoord GetPlatFormCoordPosition(PlayGroundPlatform pgp) {
+
+        Vector2Int platformSize = pgp.platformSize;
+        ChunkCoord oc = PositionToChunkCoord(pgp.transform.position);
+        Vector2Int offset = platformSize / 2;
+
+        int originX = oc.x - offset.x;
+        int originY = oc.y - offset.y;
+
+        return new ChunkCoord(originX , originY);
+    }
+
+    public static PlayGroundPlatform GetNeiborPlayGroundPlatform(PlayGroundPlatform pgp, int rot, int num) {
+        ChunkCoord cp = GetPlatFormCoordPosition(pgp);
+        Vector2Int dir = FactorioData.direction2D[rot] + num * (rot % 2 == 0 ? Vector2Int.up : Vector2Int.right)
+                                                       + new Vector2Int(rot == 0 ? pgp.platformSize.x - 1 : 0, rot == 3 ? pgp.platformSize.y - 1 : 0);
+        ChunkCoord nc = new ChunkCoord(dir.x + cp.x, dir.y + cp.y);
+        return playgrounds.GetValueOrDefault(nc);
+    }
 
     public void SetGroundPlatformLlayer(int n) {
        

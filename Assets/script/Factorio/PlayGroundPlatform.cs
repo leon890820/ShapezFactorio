@@ -31,7 +31,6 @@ public class PlayGroundPlatform : FactorioBuilding {
     // Start is called before the first frame update
 
     protected override void Awake() {
-        
         //gameObject.layer = 6;
         InitPlatformMesh();
         InitNotch();
@@ -43,9 +42,6 @@ public class PlayGroundPlatform : FactorioBuilding {
 
 
     protected override void Start(){
-       
-        
-
         buildings = new FactorioPlatformBuilding[scale.x , platformLayer , scale.y];
         scaffoldings = new Scaffolding[scale.x, platformLayer, scale.y];
         base.Start();
@@ -145,9 +141,13 @@ public class PlayGroundPlatform : FactorioBuilding {
     public bool SetBulding(FactorioPlatformBuilding building) {
         Vector3Int[] localPos = GetBuildingLocalPositions(building);
         FactorioPlatformBuilding[,,] builds = building is Scaffolding ? scaffoldings : buildings;
+        if (building is Belt) {
+            if (HasBulding(localPos[0], builds)) return false;
+        } else {
+            if (HasBulding(localPos, builds)) return false;
+        }
 
-        if (HasBulding(localPos, builds)) return false;
-        if (OutOfBoundary(localPos))  return false;
+        if (OutOfBoundary(localPos)) return false;
         if (building is not Scaffolding) { 
             if(!HasScanffolding(building, localPos)) return false;
         }
@@ -155,7 +155,7 @@ public class PlayGroundPlatform : FactorioBuilding {
         for (int i = 0; i < localPos.Length; i++) {
             builds[localPos[i].x, localPos[i].y, localPos[i].z] = building;
         }
-
+        building.transform.parent = transform;
 
         return true;
     }
@@ -183,11 +183,14 @@ public class PlayGroundPlatform : FactorioBuilding {
     }
     public bool OutOfBoundary(Vector3Int[] pos) { 
         for (int i = 0; i < pos.Length; i++) {
-
-            if (OutOfBoundary(pos[i])) return true;
-        
+            if (OutOfBoundary(pos[i])) return true;       
         }
         return false;   
+    }
+
+    public bool OnBoundary(Vector3Int pos) { 
+        if(pos.x == 0 || pos.x == scale.x - 1 || pos.z == 0 || pos.z == scale.y - 1) return true;
+        return false;
     }
 
 
@@ -206,20 +209,35 @@ public class PlayGroundPlatform : FactorioBuilding {
         return GetBuilding(pos);
     }
 
-
-
-
-
-    public bool HasBulding(Vector3Int[] pos, FactorioPlatformBuilding[,,] builds) {
+    public bool HasBulding(Vector3Int[] pos) {
 
         if (OutOfBoundary(pos)) return true;
 
         for (int i = 0; i < pos.Length; i++) {
-            if (builds[pos[i].x, pos[i].y, pos[i].z]) {
+            if (buildings[pos[i].x, pos[i].y, pos[i].z]) {
                 return true;
             }
+            if (OnBoundary(pos[i])) return true;
         }
 
+        return false;
+    }
+
+    public bool HasBulding(Vector3Int[] pos, FactorioPlatformBuilding[,,] builds) {
+        if (OutOfBoundary(pos)) return true;
+        for (int i = 0; i < pos.Length; i++) {
+            if (OnBoundary(pos[i])) return true;
+            if (builds[pos[i].x, pos[i].y, pos[i].z]) {
+                return true;
+            }           
+        }
+        return false;
+    }
+
+    public bool HasBulding(Vector3Int pos, FactorioPlatformBuilding[,,] builds) {
+        if (OutOfBoundary(pos)) return true;       
+        if (OnBoundary(pos) && IsExits(pos) == (-1,-1)) return true;
+        if (builds[pos.x, pos.y, pos.z]) return true;
         return false;
     }
 
@@ -229,7 +247,12 @@ public class PlayGroundPlatform : FactorioBuilding {
             if (!HasScanffolding(building, localPos)) return true;
         }
 
-        return HasBulding(localPos, building is Scaffolding ? scaffoldings : buildings);
+        if (building is not Belt) return HasBulding(localPos, building is Scaffolding ? scaffoldings : buildings);
+        else {
+            bool b = HasBulding(localPos[0], buildings);
+            Debug.Log(b);
+            return b;
+        }
     }
 
     public Vector3Int GetLocalPositions(Vector3 position) {
@@ -239,7 +262,6 @@ public class PlayGroundPlatform : FactorioBuilding {
 
         int originX = Mathf.FloorToInt(positionBias.x) + gridOffset.x;
         int originZ = Mathf.FloorToInt(positionBias.z) + gridOffset.y;
-
 
         return new Vector3Int(originX, (int)position.y, originZ);
     }
@@ -286,8 +308,35 @@ public class PlayGroundPlatform : FactorioBuilding {
         return new Vector3Int(originX, (int)building.transform.position.y , originZ);
     }
 
+    public (int,int) IsExits(Vector3Int pos) {
+        if (pos.z == 0 || pos.z == scale.y - 1) {
+            for (int i = 0; i < platformSize.x; i++) {
+                if (pos.x > 6 + i * 20 && pos.x <= i * 20 + 10) return (pos.z == 0 ? 1 : 3, i);
+            }
+        }
+        if (pos.x == 0 || pos.x == scale.x - 1) {
+            for (int i = 0; i < platformSize.y; i++) {
+                if (pos.z > 6 + i * 20 && pos.z <= i * 20 + 10) return (pos.x == 0 ? 2 : 0, i);
+            }
+        }
+        return (-1, -1);
+    }
+
+    public Vector3Int GetExitsPosition(int rot, int num, Vector2Int bias) {
+        int b = rot % 2 == 0 ? bias.y : bias.x;
+        int count = 7 + b * 20 + num;
+        return rot switch {
+            0 => new Vector3Int(scale.x - 1, 0, count),
+            1 => new Vector3Int(count, 0, 0),
+            2 => new Vector3Int(0, 0, count),
+            3 => new Vector3Int(count, 0, scale.y - 1),
+            _ => new Vector3Int(0, 0, 0),
+        };
+    }
+
     public override FactorioPrefabBaseObject Clone() {
-        return PrefabManager.Instance.GetPrefab("PlayerGround");
+        string suffix = platformSize.x + "x" + platformSize.y;
+        return PrefabManager.Instance.GetPrefab("PlayerGround" + suffix);
     }
 
 

@@ -37,6 +37,8 @@ public class Belt : FactorioPlatformBuilding {
                 BeltType.TWO2ONEL => meshes[5],
                 BeltType.TWO2ONET => meshes[6],
                 BeltType.CROSS2ONE => meshes[7],
+                BeltType.SENDER => meshes[8],
+                BeltType.RECEIVER => meshes[9],
                 _ => meshes[0],
             };
         }
@@ -88,7 +90,6 @@ public class Belt : FactorioPlatformBuilding {
                     beltBackpad[i, y].transform.localPosition = GetResourceLocalPosition(i, y, beltCount[i,y]);                   
                 }    
             }
-        
         }
 
     }
@@ -194,16 +195,14 @@ public class Belt : FactorioPlatformBuilding {
             PlayerControll.AddAnchor(pos);
             return true;
         }
-
-       
         
         if (anchor[anchor.Count - 1].Equals(pos)) {
             return false;
         }
 
         TryGetPlatformUnderMouse(out var hit0, out var pgp0, anchor[0]);
+        if (!pgp0) return false;
         if(!pgp0.Equals(pgp)) return false;
-
 
         PlayerControll.PopAnchor();
         PlayerControll.AddAnchor(pos);
@@ -234,7 +233,6 @@ public class Belt : FactorioPlatformBuilding {
                 result.Add(fb);
                 return result;
             }
-
             
             Vector3 dir = FactorioData.direction[dirIndex];
             int count = (int)Mathf.Max(Mathf.Abs(anchor[1].x - anchor[0].x), Mathf.Abs(anchor[1].z - anchor[0].z)) + 1;
@@ -301,7 +299,7 @@ public class Belt : FactorioPlatformBuilding {
         int d1 = beltDirections[i] == BuildingDirection.OUPUT ? y : y + 1;
 
         Vector3 dir = FactorioData.direction[i];
-        Vector3 pos = midPos+ dir * 0.25f * (d1 + d2 * time);
+        Vector3 pos = midPos + dir * 0.25f * (d1 + d2 * time);
         return pos;
 
     }
@@ -360,14 +358,18 @@ public class Belt : FactorioPlatformBuilding {
         ResetAllDirection();
         FactorioPlatformBuilding[] buildings = pgp.GetNeiborBuilding(this);
         Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
-        
+        (int sender, int num) = pgp.IsExits(localPos);
+        if (sender != -1) {
+            SetBuildingTypeSender(sender);
+            TrySpawnReceiver(sender, num);
+            return;
+        }
 
         for (int i = 0; i < buildings.Length; i++) {
             if (!buildings[i]) continue;
             Vector3Int dir = FactorioData.direction[i];
             beltDirections[i] = buildings[i].GetDirectionType(localPos + dir, R(i , 2));
         }
-
 
         beltDirections[rotation] = BuildingDirection.OUPUT;
         if (CheckAllDirectionNoInput()) {
@@ -381,12 +383,40 @@ public class Belt : FactorioPlatformBuilding {
      
     }
 
+    public void SetBuildingTypeSender(int rot) {
+        type = BeltType.SENDER;
+        SetRotation(rot);
+        meshFilter.mesh = MeshType;
+    }
+
+    public void SetBuildingTypeReceiver(int rot) {
+        type = BeltType.RECEIVER;
+        SetRotation(rot);
+        meshFilter.mesh = MeshType;
+    }
+
+    public void TrySpawnReceiver(int rot, int num) {
+        PlayGroundPlatform neibor = GalaxyManager.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
+        if (!neibor) return;
+        Vector3 pos = transform.position + FactorioData.direction[rot] * 3;
+
+        Belt belt = Instantiate(Clone().object_prefab).GetComponent<Belt>();
+        belt.UpdateBlueprintState(pos, neibor);
+        belt.SetBuildingTypeReceiver(rot);
+        PlayerControll.bluePrintBuildings.Add(belt);
+    }
+
     public void SetBuildingTypeForce(PlayGroundPlatform pgp, int dirI) {
 
         ResetAllDirection();
         FactorioPlatformBuilding[] buildings = pgp.GetNeiborBuilding(this);
         Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
-
+        (int sender, int num) = pgp.IsExits(localPos);
+        if (sender != -1) {            
+            SetBuildingTypeSender(sender);
+            TrySpawnReceiver(sender, num);
+            return;
+        }
 
         for (int i = 0; i < buildings.Length; i++) {
             if (!buildings[i]) continue;
@@ -529,7 +559,9 @@ public class Belt : FactorioPlatformBuilding {
         DOWNSTRAIGHT,
         DOWNLEFT,
         DOWNBACK,
-        DOWNRIGHT
+        DOWNRIGHT,
+        SENDER,
+        RECEIVER
     }
     
 

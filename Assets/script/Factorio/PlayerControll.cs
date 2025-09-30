@@ -28,6 +28,7 @@ public class PlayerControll : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start(){
+        bluePrintBuildings = new List<FactorioBuilding>();
     }
 
     // Update is called once per frame
@@ -61,7 +62,7 @@ public class PlayerControll : MonoBehaviour {
 
         if (bluePrintBuilding.UpdateAnchor()) {
             ClearBuildings();
-            bluePrintBuildings = bluePrintBuilding.GetMultiMuilding(anchor);
+            bluePrintBuildings.AddRange(bluePrintBuilding.GetMultiMuilding(anchor));
         }
         bluePrintBuilding.UpdateBehavior();
 
@@ -102,6 +103,7 @@ public class PlayerControll : MonoBehaviour {
         bluePrintBuilding = null;
 
         ClearBuildings();
+        anchor.Clear();
 
     }
 

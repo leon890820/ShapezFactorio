@@ -51,6 +51,13 @@ static public class FactorioData {
         new  ( 0 ,0 , 1)
     };
 
+    public static readonly Vector2Int[] direction2D = {
+        new  ( 1 , 0),
+        new  ( 0 ,-1),
+        new  (-1 , 0),
+        new  ( 0 , 1)
+    };
+
     public static readonly int platformTexelSize = 20;
     public static readonly int platformHalfTexelSize = platformTexelSize / 2;
 
