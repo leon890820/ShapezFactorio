@@ -223,6 +223,13 @@ public class PlayGroundPlatform : FactorioBuilding {
         return false;
     }
 
+    public bool HasBulding(Vector3Int pos) {
+        if (OutOfBoundary(pos)) return true;
+        if (OnBoundary(pos)) return true;
+        if (buildings[pos.x, pos.y, pos.z]) return true;        
+        return false;
+    }
+
     public bool HasBulding(Vector3Int[] pos, FactorioPlatformBuilding[,,] builds) {
         if (OutOfBoundary(pos)) return true;
         for (int i = 0; i < pos.Length; i++) {
@@ -248,11 +255,7 @@ public class PlayGroundPlatform : FactorioBuilding {
         }
 
         if (building is not Belt) return HasBulding(localPos, building is Scaffolding ? scaffoldings : buildings);
-        else {
-            bool b = HasBulding(localPos[0], buildings);
-            Debug.Log(b);
-            return b;
-        }
+        else return HasBulding(localPos[0], buildings);        
     }
 
     public Vector3Int GetLocalPositions(Vector3 position) {

@@ -360,8 +360,12 @@ public class Belt : FactorioPlatformBuilding {
         Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
         (int sender, int num) = pgp.IsExits(localPos);
         if (sender != -1) {
-            SetBuildingTypeSender(sender);
-            TrySpawnReceiver(sender, num);
+            if (TrySpawnSender(sender, num)) {
+                SetBuildingTypeSender(sender);
+                TrySpawnReceiver(sender, num);
+            } else {
+                SetBuildingTypeReceiver(R(sender, 2));
+            }
             return;
         }
 
@@ -383,6 +387,8 @@ public class Belt : FactorioPlatformBuilding {
      
     }
 
+    
+
     public void SetBuildingTypeSender(int rot) {
         type = BeltType.SENDER;
         SetRotation(rot);
@@ -395,11 +401,20 @@ public class Belt : FactorioPlatformBuilding {
         meshFilter.mesh = MeshType;
     }
 
+    public bool TrySpawnSender(int rot, int num) {
+        PlayGroundPlatform neibor = GalaxyManager.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
+        if (!neibor) return true;
+        Vector3 pos = transform.position + FactorioData.direction[rot] * 3;        
+        Belt nbelt = (Belt)neibor.GetBuilding(pos);
+        if (!nbelt) return true;
+        if (nbelt.type == BeltType.SENDER) return false;        
+        return true;
+    }
+
     public void TrySpawnReceiver(int rot, int num) {
         PlayGroundPlatform neibor = GalaxyManager.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
         if (!neibor) return;
         Vector3 pos = transform.position + FactorioData.direction[rot] * 3;
-
         Belt belt = Instantiate(Clone().object_prefab).GetComponent<Belt>();
         belt.UpdateBlueprintState(pos, neibor);
         belt.SetBuildingTypeReceiver(rot);
@@ -412,9 +427,13 @@ public class Belt : FactorioPlatformBuilding {
         FactorioPlatformBuilding[] buildings = pgp.GetNeiborBuilding(this);
         Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
         (int sender, int num) = pgp.IsExits(localPos);
-        if (sender != -1) {            
-            SetBuildingTypeSender(sender);
-            TrySpawnReceiver(sender, num);
+        if (sender != -1) {
+            if (TrySpawnSender(sender, num)) {
+                SetBuildingTypeSender(sender);
+                TrySpawnReceiver(sender, num);
+            } else {
+                SetBuildingTypeReceiver(R(sender, 2));
+            }
             return;
         }
 
