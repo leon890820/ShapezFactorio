@@ -21,7 +21,8 @@ public class Belt : FactorioPlatformBuilding {
     private FactorioGameObjectBase transport;
     private int transportCount;
 
-    protected Vector3 midPos = new Vector3(0.5f, 0.24f, 0.5f);
+
+    protected Vector3 midPos = new (0.5f, 0.24f, 0.5f);
 
     Mesh MeshType {
         get {
@@ -360,12 +361,9 @@ public class Belt : FactorioPlatformBuilding {
         Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
         (int sender, int num) = pgp.IsExits(localPos);
         if (sender != -1) {
-            if (TrySpawnSender(sender, num)) {
-                SetBuildingTypeSender(sender);
-                TrySpawnReceiver(sender, num);
-            } else {
-                SetBuildingTypeReceiver(R(sender, 2));
-            }
+            SenderBelt belt = GetComponent<SenderBelt>();
+            belt.enabled = true;
+            belt.SetBuildingType(pgp);
             return;
         }
 
@@ -387,53 +385,17 @@ public class Belt : FactorioPlatformBuilding {
      
     }
 
-    
 
-    public void SetBuildingTypeSender(int rot) {
-        type = BeltType.SENDER;
-        SetRotation(rot);
-        meshFilter.mesh = MeshType;
-    }
-
-    public void SetBuildingTypeReceiver(int rot) {
-        type = BeltType.RECEIVER;
-        SetRotation(rot);
-        meshFilter.mesh = MeshType;
-    }
-
-    public bool TrySpawnSender(int rot, int num) {
-        PlayGroundPlatform neibor = GalaxyManager.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
-        if (!neibor) return true;
-        Vector3 pos = transform.position + FactorioData.direction[rot] * 3;        
-        Belt nbelt = (Belt)neibor.GetBuilding(pos);
-        if (!nbelt) return true;
-        if (nbelt.type == BeltType.SENDER) return false;        
-        return true;
-    }
-
-    public void TrySpawnReceiver(int rot, int num) {
-        PlayGroundPlatform neibor = GalaxyManager.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
-        if (!neibor) return;
-        Vector3 pos = transform.position + FactorioData.direction[rot] * 3;
-        Belt belt = Instantiate(Clone().object_prefab).GetComponent<Belt>();
-        belt.UpdateBlueprintState(pos, neibor);
-        belt.SetBuildingTypeReceiver(rot);
-        PlayerControll.bluePrintBuildings.Add(belt);
-    }
-
-    public void SetBuildingTypeForce(PlayGroundPlatform pgp, int dirI) {
+    public virtual void SetBuildingTypeForce(PlayGroundPlatform pgp, int dirI) {
 
         ResetAllDirection();
         FactorioPlatformBuilding[] buildings = pgp.GetNeiborBuilding(this);
         Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
         (int sender, int num) = pgp.IsExits(localPos);
         if (sender != -1) {
-            if (TrySpawnSender(sender, num)) {
-                SetBuildingTypeSender(sender);
-                TrySpawnReceiver(sender, num);
-            } else {
-                SetBuildingTypeReceiver(R(sender, 2));
-            }
+            SenderBelt belt = GetComponent<SenderBelt>();
+            belt.enabled = true;
+            belt.SetBuildingTypeForce(pgp, dirI);
             return;
         }
 
