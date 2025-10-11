@@ -106,21 +106,20 @@ public class StairBelt : Belt {
     }
 
     public override bool TryInput(FactorioGameObjectBase resource, Vector3Int pos, int dir, bool mid) {
-        if (mid) {
-            return false;
-        } else {
-            Vector3Int localPos = playGroundPlatform.GetLocalPositions(transform.position);
-            int bias = pos.y - localPos.y + (upstair ? 0 : 1);
+        if (mid) return false;
+        
+        Vector3Int localPos = playGroundPlatform.GetLocalPositions(transform.position);
+        int bias = pos.y - localPos.y + (upstair ? 0 : 1);
 
-            if (beltDirections[dir + bias * 4] is BuildingDirection.OUPUT or BuildingDirection.NONE) return false;
-            if (beltBackpad[0]) return false;
+        if (beltDirections[dir + bias * 4] is BuildingDirection.OUPUT or BuildingDirection.NONE) return false;
+        if (beltBackpad[0]) return false;
 
-            resource.transform.SetParent(transform);
-            resource.transform.localPosition = GetResourceLocalPosition(0, 0f);
+        resource.transform.SetParent(transform);
+        resource.transform.localPosition = GetResourceLocalPosition(0, 0f);
 
-            beltBackpad[0] = resource;
-            return true;
-        }
+        beltBackpad[0] = resource;
+        return true;
+        
     }
 
     public override void SetBuildingType(PlayGroundPlatform pgp) {
@@ -130,8 +129,6 @@ public class StairBelt : Belt {
         for (int i = 4; i < 8; i++) {
             beltDirections[i] = R(upstair? rotation_sec : rotation, 0 + (upstair ? 0 : 2)) == i - 4 ? (upstair ? BuildingDirection.OUPUT : BuildingDirection.INPUT) : BuildingDirection.NONE;
         }
-
-        Debug.Log(string.Join(", ", beltDirections));
 
         SetRotation(rotation);
         SetBeltType();        

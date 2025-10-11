@@ -216,35 +216,49 @@ public class Belt : FactorioPlatformBuilding {
         TryGetPlatformUnderMouse(out var hit, out var pgp, anchor[0]);
 
         if (anchor.Count == 1) {           
-            FactorioPlatformBuilding fb = Instantiate(Clone().object_prefab).GetComponent<FactorioPlatformBuilding>();
+            Belt fb = Instantiate(Clone().object_prefab).GetComponent<Belt>();
             fb.SetRotation(PlayerControll.rotation);
             fb.UpdateBlueprintState(anchor[0], pgp);
-            fb.SetBuildingType(pgp);
-            result.Add(fb);
+            if (fb.IsSender(pgp)) {
+                SenderBelt belt = fb.GetComponent<SenderBelt>();
+                belt.enabled = true;
+                belt.SetBuildingType(pgp);
+                result.Add(belt);
+            } else {                
+                fb.SetBuildingType(pgp);
+                result.Add(fb);
+            }
         } else if (anchor.Count == 2) {
             int dirIndex = GetDirection(anchor[1] - anchor[0]);
             if (anchor[1].y - anchor[0].y != 0) {
-                StairBelt fb = Instantiate(Clone().object_prefab).GetComponent<StairBelt>();
-                fb.enabled = true;
-                fb.SetUpStair(anchor[1].y - anchor[0].y > 0);
-                fb.SetRotation(PlayerControll.rotation);
-                fb.SetRotationSec(dirIndex);
-                fb.UpdateBlueprintState(anchor[0], pgp);
-                fb.SetBuildingType(pgp);
-                result.Add(fb);
+                StairBelt stair = Instantiate(Clone().object_prefab).GetComponent<StairBelt>();
+                stair.enabled = true;
+                stair.SetUpStair(anchor[1].y - anchor[0].y > 0);
+                stair.SetRotation(PlayerControll.rotation);
+                stair.SetRotationSec(dirIndex);
+                stair.UpdateBlueprintState(anchor[0], pgp);
+                stair.SetBuildingType(pgp);
+                result.Add(stair);
                 return result;
             }
             
             Vector3 dir = FactorioData.direction[dirIndex];
             int count = (int)Mathf.Max(Mathf.Abs(anchor[1].x - anchor[0].x), Mathf.Abs(anchor[1].z - anchor[0].z)) + 1;
 
-            for (int i = 0; i < count; i++) {               
+            for (int i = 0; i < count; i++) {
                 Belt fb = Instantiate(Clone().object_prefab).GetComponent<Belt>();
                 fb.SetRotation(dirIndex);
                 fb.UpdateBlueprintState(anchor[0] + dir * i, pgp);
-                if(i == 0) fb.SetBuildingType(pgp);
-                else fb.SetBuildingTypeForce(pgp, fb.rotation);
-                result.Add(fb);
+                if (fb.IsSender(pgp)) {
+                    SenderBelt belt = fb.GetComponent<SenderBelt>();
+                    belt.enabled = true;
+                    belt.SetBuildingType(pgp);
+                    result.Add(belt);
+                } else {                   
+                    if (i == 0) fb.SetBuildingType(pgp);
+                    else fb.SetBuildingTypeForce(pgp, fb.rotation);
+                    result.Add(fb);
+                }
             }
 
         }
@@ -353,19 +367,18 @@ public class Belt : FactorioPlatformBuilding {
         rotation = (i + 4) % 4;
         pivotTransform.rotation = Quaternion.Euler(0.0f, (rotation + bias_rotation) * 90.0f, 0.0f);
     }
+    public bool IsSender(PlayGroundPlatform pgp) {
+        Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
+        (int sender, int num) = pgp.IsExits(localPos);
+        
+        return sender != -1;
+    }
 
     public override void SetBuildingType(PlayGroundPlatform pgp) {
 
         ResetAllDirection();
         FactorioPlatformBuilding[] buildings = pgp.GetNeiborBuilding(this);
         Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
-        (int sender, int num) = pgp.IsExits(localPos);
-        if (sender != -1) {
-            SenderBelt belt = GetComponent<SenderBelt>();
-            belt.enabled = true;
-            belt.SetBuildingType(pgp);
-            return;
-        }
 
         for (int i = 0; i < buildings.Length; i++) {
             if (!buildings[i]) continue;
@@ -391,13 +404,6 @@ public class Belt : FactorioPlatformBuilding {
         ResetAllDirection();
         FactorioPlatformBuilding[] buildings = pgp.GetNeiborBuilding(this);
         Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
-        (int sender, int num) = pgp.IsExits(localPos);
-        if (sender != -1) {
-            SenderBelt belt = GetComponent<SenderBelt>();
-            belt.enabled = true;
-            belt.SetBuildingTypeForce(pgp, dirI);
-            return;
-        }
 
         for (int i = 0; i < buildings.Length; i++) {
             if (!buildings[i]) continue;
@@ -500,7 +506,7 @@ public class Belt : FactorioPlatformBuilding {
         return true;
     }
 
-    private void ResetAllDirection() {
+    public void ResetAllDirection() {
         for (int i = 0; i < beltDirections.Length; i++) {
             beltDirections[i] = BuildingDirection.NONE;
         }

@@ -91,7 +91,6 @@ public class FactorioPlatformBuilding : FactorioBuilding{
     public override bool TryPutBuilding() {
         TryGetPlatformUnderMouse(out var hit, out var pgp, transform.position);
         return pgp.SetBulding(this);
-
     }
 
     public bool TryGetPlatformUnderMouse(out RaycastHit hit, out PlayGroundPlatform pgp) {
