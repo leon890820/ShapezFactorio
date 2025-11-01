@@ -32,6 +32,18 @@ public class RidgeNoiseSettings {
         this.peakSmoothing = peakSmoothing;
     }
 
+    public void SetParameter(NoiseSettingsData.RidgeNoiseParams para) {
+        this.numLayers = para.numLayers;
+        this.lacunarity = para.lacunarity;
+        this.persistence = para.persistence;
+        this.scale = para.scale;
+        this.power = para.power;
+        this.elevation = para.elevation;
+        this.gain = para.gain;
+        this.verticalShift = para.verticalShift;
+        this.peakSmoothing = para.peakSmoothing;
+    }
+
     // Set values using custom scale and elevation
     public void SetComputeValues(ComputeShader cs, PRNG prng, string varSuffix, float scale, float elevation, float power) {
         Vector3 seededOffset = new Vector3(prng.Value(), prng.Value(), prng.Value()) * prng.Value() * 10000;

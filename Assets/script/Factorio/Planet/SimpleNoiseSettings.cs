@@ -31,6 +31,15 @@ public class SimpleNoiseSettings {
         this.verticalShift = verticalShift;
     }
 
+    public void SetParameter(NoiseSettingsData.SimpleNoiseParams para) {
+        this.numLayers = para.numLayers;
+        this.lacunarity = para.lacunarity;
+        this.persistence = para.persistence;
+        this.scale = para.scale;
+        this.elevation = para.elevation;
+        this.verticalShift = para.verticalShift;
+    }
+
 
     // Set values using custom scale and elevation
     public void SetComputeValues(ComputeShader cs, PRNG prng, string varSuffix, float scale, float elevation, float persistence) {

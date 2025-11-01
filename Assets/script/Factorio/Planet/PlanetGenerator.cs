@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlanetGenerator : MonoBehaviour{
-    List<Planet> planets;
+    List<FactorioPlanet> planets;
     public int numberOfPlanets = 1;
 
+    public FactorioPlanet EarthPrefab;
+
     private void Awake(){
-        planets = new List<Planet>();
+        planets = new List<FactorioPlanet>();
 
         for (int i = 0; i < numberOfPlanets; i++) {
-            planets.Add(CreatePlanet(new Vector3(),"Planet" + i));
+            planets.Add(CreatePlanet(new Vector3()));
         }
 
     }
@@ -29,11 +31,9 @@ public class PlanetGenerator : MonoBehaviour{
 
     
 
-    Planet CreatePlanet(Vector3 pos,string name) {
-        GameObject go = new GameObject(name);
-        Planet planet = go.AddComponent<Planet>();
-        go.transform.SetParent(transform);
-        go.transform.position = pos;
+    FactorioPlanet CreatePlanet(Vector3 pos) {
+        FactorioPlanet planet = Instantiate(EarthPrefab, transform);
+        planet.transform.position = pos;
         return planet;
     }
 }

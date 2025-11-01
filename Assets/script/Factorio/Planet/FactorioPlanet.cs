@@ -1,34 +1,28 @@
+using Cinemachine;
 using UnityEngine;
 
-public class Planet : MonoBehaviour {
+public class FactorioPlanet : MonoBehaviour {
     // === 场把计 ===
     public ComputeShader terrainCompute;
-
-    public SimpleNoiseSettings noiseSettings_ground;
-    public SimpleNoiseSettings noiseSettings_mask;
-    public RidgeNoiseSettings ridgeNoiseSettings_mountain;
-
-    public float oceanDepthMultiplier = 4.9f;
-    public float oceanFloorDepth = 1.35f;
-    public float oceanFloorSmoothing = 0.55f;
-    public float mountainBlend = 1.0f;
+    [SerializeField]
+    public NoiseSettingsData noiseSettingAttribute;
+    public Material material;
 
     // === ず场篈 ===
+    private SimpleNoiseSettings noiseSettings_ground;
+    private SimpleNoiseSettings noiseSettings_mask;
+    private RidgeNoiseSettings ridgeNoiseSettings_mountain;
+
     private BodyPlaceholder bodyPlaceholder;
     private ComputeBuffer vertexBuffer;
     private PRNG prng;
     private bool settingsChanged;
 
-    private Material material;
+    
 
     // === ﹍て ===
     void Awake() {
-        terrainCompute = Resources.Load<ComputeShader>("Shaders/Terrain");
-        material = Resources.Load<Material>("Shaders/Earth");
-
-        bodyPlaceholder = gameObject.AddComponent<BodyPlaceholder>();
-
-       
+        bodyPlaceholder = GetComponent<BodyPlaceholder>();       
         bodyPlaceholder.SetMaterial(material);
         prng = new PRNG(0);
         InitNoise();
@@ -66,7 +60,7 @@ public class Planet : MonoBehaviour {
         terrainCompute.SetInt("numberVertex", count);
 
         SetNoiseParameters();
-        SetGlobalFloatParameters();
+        if(noiseSettingAttribute.hasOcean) SetGlobalFloatParameters();
 
         ComputeHelper.Run(terrainCompute, count);
 
@@ -78,13 +72,13 @@ public class Planet : MonoBehaviour {
     // === 靖羘﹍て ===
     void InitNoise() {
         noiseSettings_ground = new SimpleNoiseSettings();
-        noiseSettings_ground.SetParameter(6, 2f, 0.5f, 1f, 4.65f, 0f);
+        noiseSettings_ground.SetParameter(noiseSettingAttribute.ground);
 
         noiseSettings_mask = new SimpleNoiseSettings();
-        noiseSettings_mask.SetParameter(3, 2.06f, 0.76f, 1.34f, 1f, -0.38f);
+        noiseSettings_mask.SetParameter(noiseSettingAttribute.mask);
 
         ridgeNoiseSettings_mountain = new RidgeNoiseSettings();
-        ridgeNoiseSettings_mountain.SetParameter(7, 2.61f, 0.5f, 1.26f, 1.17f, 5.42f, 1.24f, 0.11f, 0f);
+        ridgeNoiseSettings_mountain.SetParameter(noiseSettingAttribute.mountain);
     }
 
     // === 肚癳 Noise 砞﹚把计 ComputeShader ===
@@ -96,9 +90,9 @@ public class Planet : MonoBehaviour {
 
     // === 肚癳疊翴把计獶 Noise ===
     void SetGlobalFloatParameters() {
-        terrainCompute.SetFloat("oceanDepthMultiplier", oceanDepthMultiplier);
-        terrainCompute.SetFloat("oceanFloorDepth", oceanFloorDepth);
-        terrainCompute.SetFloat("oceanFloorSmoothing", oceanFloorSmoothing);
-        terrainCompute.SetFloat("mountainBlend", mountainBlend);
+        terrainCompute.SetFloat("oceanDepthMultiplier", noiseSettingAttribute.oceanDepthMultiplier);
+        terrainCompute.SetFloat("oceanFloorDepth", noiseSettingAttribute.oceanFloorDepth);
+        terrainCompute.SetFloat("oceanFloorSmoothing", noiseSettingAttribute.oceanFloorSmoothing);
+        terrainCompute.SetFloat("mountainBlend", noiseSettingAttribute.mountainBlend);
     }
 }

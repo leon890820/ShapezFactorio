@@ -53,8 +53,13 @@ MonoBehaviour:
       name: Inserter
       object_prefab: {fileID: 1088317581152810247, guid: cdee701af43bcc0459ed15f936b56f7a, type: 3}
       info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
-  - key: PlayerGround
+  - key: PlayerGround1x1
     prefab:
-      name: PlayerGround
+      name: PlayerGround1x1
       object_prefab: {fileID: 8929525771567350715, guid: 36f7018541ae75c49b357b27d4f0fe3a, type: 3}
+      info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
+  - key: PlayerGround2x1
+    prefab:
+      name: PlayerGround2x1
+      object_prefab: {fileID: 7664686751139306624, guid: d53810be49fe66a48b0cf2e5cf69d65f, type: 3}
       info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
