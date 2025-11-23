@@ -25,7 +25,11 @@ public abstract class FactorioGameObjectBase : MonoBehaviour{
 
     // Update is called once per frame
     protected virtual void Update() {
+        UpdateUI();
+    }
 
+    private void OnDestroy() {
+        Destroy(UIPrefab);
     }
 
     public abstract FactorioPrefabBaseObject Clone();
@@ -41,4 +45,6 @@ public abstract class FactorioGameObjectBase : MonoBehaviour{
         if(UIPrefab.activeSelf) FactorioGameObjectUIManager.AddUI(factorioUIControlBase);
         
     }
+
+    public virtual void UpdateUI() {}
 }

@@ -63,7 +63,8 @@ static public class FactorioData {
 
     public static readonly int galaxyGridSize = 10;
 
-    public static readonly FactorioObjectSetting ResourceObject =
-        Resources.Load<FactorioObjectSetting>("ResourceObject");
+}
 
+public enum BaseResource { 
+    Iron,Copper
 }

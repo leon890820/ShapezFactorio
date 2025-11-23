@@ -11,30 +11,54 @@ public class MiningDrill : FactorioPlatformBuilding {
     float mining_speed = 1f;
     float mining_count = 0f;
 
+    MiningUIControl miningUIControl;
+    FactorioPrefabBaseObject miningResource;
 
     protected override void Awake() {
-        base.Awake();
-        
+        base.Awake();        
     }
 
     // Start is called before the first frame update
     protected override void Start(){
         base.Start();
         backpadMax = 50;
-       
+        miningUIControl = factorioUIControlBase as MiningUIControl;
+        miningUIControl.InitItemUI(this, GalaxyManager.PositionToChunkCoord(transform.position));
     }
 
     // Update is called once per frame
  
     protected override void Update() {
         base.Update();
-        SetAnimation();
-        
+        SetAnimation();        
+    }
+
+    public void SetResource(FactorioPrefabBaseObject resource) { 
+        miningResource = resource;
+    }
+
+    public override void SetStatus() {
+        if(miningResource == null) buildStatus = BuildStatus.NoInput;
+        else buildStatus = BuildStatus.Working;
+    }
+
+
+    public override void UpdateUI() {
+        miningUIControl.SetbackpadImage(backpad.Count > 0 ? backpad[0].factorioSprite : null, backpad.Count);
+        miningUIControl.SetValue(mining_count / mining_time);
+
+        if (buildStatus == BuildStatus.Working) {
+            miningUIControl.SetWorking(true);
+        } else if (buildStatus == BuildStatus.NoInput) {
+            miningUIControl.SetWorking(false);
+        }
+
     }
 
     public override void Run() {
         if (bluePrintMode) return;
 
+        if (buildStatus != BuildStatus.Working) return;
         TryOutput();
 
         if (mining_count > mining_time) {
@@ -50,13 +74,13 @@ public class MiningDrill : FactorioPlatformBuilding {
     public void TryMining() {
         if (backpad.Count >= backpadMax) return;
 
-        FactorioPrefabBaseObject prefab =  PrefabManager.Instance.GetPrefab("IronOre");
-        GameObject go = Instantiate(prefab.object_prefab);
+        
+        GameObject go = Instantiate(miningResource.object_prefab);
 
         go.transform.SetParent(transform);
         go.transform.localPosition = Vector3.zero;
         FactorioGameObjectBase factorioGameObjectBase = go.GetComponent<FactorioGameObjectBase>();
-        factorioGameObjectBase.SetSprite(prefab.info);
+        factorioGameObjectBase.SetSprite(miningResource.info);
         backpad.Add(factorioGameObjectBase);
     
     }

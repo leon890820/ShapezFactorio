@@ -20,18 +20,15 @@ public class Furnace : FactorioPlatformBuilding {
     protected override void Start() {
         base.Start();
         backpadMax = 50;
-        furnaceUIControl = UIPrefab.GetComponent<FurnaceUIControl>();
+        furnaceUIControl = factorioUIControlBase as FurnaceUIControl;
     }
 
     // Update is called once per frame
     protected override void Update() {
-        base.Update();
-
-        UpdateUI();
-
+        base.Update();        
     }
 
-    public void UpdateUI() {
+    public override void UpdateUI() {
       
         furnaceUIControl.SetProductImage(productBackpad.Count > 0 ? productBackpad[0].factorioSprite : null, productBackpad.Count);
         furnaceUIControl.SetbackpadImage(backpad.Count > 0 ? backpad[0].factorioSprite : null , backpad.Count);

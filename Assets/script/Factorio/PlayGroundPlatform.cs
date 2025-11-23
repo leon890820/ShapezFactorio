@@ -102,6 +102,9 @@ public class PlayGroundPlatform : FactorioBuilding {
         return false;
     }
 
+    public ChunkCoord GetChunkCoord() { 
+        return GalaxyManager.GetPlatFormCoordPosition(this);
+    }
 
 
 

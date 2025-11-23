@@ -14,9 +14,9 @@ public class FurnaceUIControl : FactorioUIControlBase {
 
     public Slider progress;
 
-    
 
-    public void SetValue(float value) { 
+
+    public void SetValue(float value) {
         progress.value = value;
     }
 

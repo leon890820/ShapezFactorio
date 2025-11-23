@@ -7,7 +7,7 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
     public Transform pivotTransform;
 
     protected int rotation = 0;
-    public Vector3Int buildingSize = new Vector3Int(1, 1 , 1);
+    public Vector3Int buildingSize = new Vector3Int(1, 1, 1);
 
     public Color[] tintColor;
 
@@ -19,9 +19,10 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
     public Material rimMaterial;
 
     protected Camera main_camera;
+    protected BuildStatus buildStatus;
 
     // Start is called before the first frame update
-    protected override void Awake(){
+    protected override void Awake() {
 
         base.Awake();
 
@@ -33,7 +34,7 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
 
         meshRenderers = rendererList.ToArray();
 
-       
+
         foreach (var renderer in meshRenderers) {
             originalMaterials[renderer] = renderer.materials;
         }
@@ -41,21 +42,22 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
 
     }
 
-    protected override void Start() { 
+    protected override void Start() {
         base.Start();
-        
+
     }
 
     // Update is called once per frame
-    protected override void Update(){
+    protected override void Update() {
         base.Update();
-        Run();
+        SetStatus();
+        Run();        
     }
 
 
-    public virtual void Run() { 
-        
-    
+    public virtual void Run() {
+
+
     }
 
     public abstract bool UpdateAnchor();
@@ -75,7 +77,7 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
         foreach (var renderer in meshRenderers) {
             Material[] newMats = new Material[renderer.materials.Length];
             for (int i = 0; i < newMats.Length; i++) {
-                newMats[i] = rimMaterial; 
+                newMats[i] = rimMaterial;
             }
             renderer.materials = newMats;
         }
@@ -87,7 +89,7 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
         }
     }
 
-    
+
 
     public virtual void AddRotation() {
         rotation = (rotation + 1) % 4;
@@ -100,17 +102,20 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
         pivotTransform.rotation = Quaternion.Euler(0.0f, rotation * 90.0f, 0.0f);
     }
 
-    public void SetBluePrintMode(bool b) { 
+    public void SetBluePrintMode(bool b) {
         bluePrintMode = b;
     }
 
 
     public virtual void SetPosition(Vector3 pos) {
-        pivotTransform.position =  Floor(pos);
+        pivotTransform.position = Floor(pos);
     }
 
     
-    
+    public virtual void SetStatus() { 
+        
+    }
+
 
 
     public static Vector3 Floor(Vector3 v) {
@@ -119,6 +124,17 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
             v.y,
             Mathf.FloorToInt(v.z)
             );
-        }
-
     }
+
+}
+
+public enum BuildStatus {
+    None,             // 初始狀態 / 未定義
+    Idle,             // 閒置中 (有電，有設定，但沒事做)
+    Working,          // 正常運作中 (Producing/Operating)
+    Paused,           // 玩家手動暫停
+    NoPower,          // 沒有電力 (PowerOff)
+    NoRecipe,         // 沒有設定配方 (NotConfigured)
+    NoInput,          // 缺少原料 (Starved)
+    OutputFull,       // 背包/輸出滿了 (Blocked/Jammed)
+}

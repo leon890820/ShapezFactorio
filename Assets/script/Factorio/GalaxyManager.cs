@@ -8,11 +8,12 @@ public class GalaxyManager : MonoBehaviour{
 
 
     public static Dictionary<ChunkCoord, PlayGroundPlatform> playgrounds;
-    
+    public static Dictionary<ChunkCoord, FactorioPlanet> planets;
 
     // Start is called before the first frame update
-    void Start(){
+    void Awake(){
         playgrounds = new Dictionary<ChunkCoord, PlayGroundPlatform>();
+        planets = new Dictionary<ChunkCoord, FactorioPlanet>();
     }
 
     // Update is called once per frame
@@ -20,7 +21,12 @@ public class GalaxyManager : MonoBehaviour{
         
     }
 
-
+    public static FactorioPlanet GetFactorioPlanet(ChunkCoord cc) {
+        if (planets.TryGetValue(cc, out FactorioPlanet planet)) {
+            return planet;
+        }
+        return null;
+    }
 
 
     public static ChunkCoord PositionToChunkCoord(Vector3 pos) {
@@ -98,6 +104,21 @@ public class GalaxyManager : MonoBehaviour{
        
         foreach (var value in playgrounds.Values) { 
             value.SetLayer(n);
+        }
+    }
+
+    public static void AddPlanet(FactorioPlanet factorioPlanet) {
+        Vector3 radius = Vector3.one * factorioPlanet.radius;
+        Vector3 center = factorioPlanet.transform.position;
+        Vector3 minPos = center - radius;
+        Vector3 maxPos = center + radius;
+
+        for (int x = (int)minPos.x; x <= maxPos.x; x += 20) {
+            for (int z = (int)minPos.x; z <= maxPos.z; z += 20) {
+                ChunkCoord cc = new ChunkCoord(x / 20, z / 20);
+                if (x * x + z * z > factorioPlanet.radius * factorioPlanet.radius) continue;
+                planets[cc] = factorioPlanet;
+            }
         }
     }
 

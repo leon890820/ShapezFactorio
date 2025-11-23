@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8267132552377523310}
   - component: {fileID: 438276616298572665}
-  - component: {fileID: 1135548720101691057}
+  - component: {fileID: 1468709447141111213}
+  - component: {fileID: 6152274826056602884}
+  - component: {fileID: 8448147640872553384}
   m_Layer: 0
   m_Name: Earth
   m_TagString: Untagged
@@ -45,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30938b9a8047ce24ca8bc2a64a763ae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1135548720101691057
+--- !u!114 &1468709447141111213
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,9 +56,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 1997732756650932030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 826c1621978c48d49a66a2200fd0e458, type: 3}
+  m_Script: {fileID: 11500000, guid: b171a077350eb534fae94f0779d5f74a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   terrainCompute: {fileID: 7200000, guid: cc05958ce5e4c984cb747d90ab4a63ed, type: 3}
   noiseSettingAttribute: {fileID: 11400000, guid: 742588190dd69b141859269a417e60af, type: 2}
-  material: {fileID: 2100000, guid: eb5a5f9abea1717438bb429ea54b7307, type: 2}
+--- !u!114 &6152274826056602884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997732756650932030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1283881217eb8e940b6860a9714dd488, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 91f6d0f3f7bb3c04f9ce9877486cfb90, type: 2}
+--- !u!114 &8448147640872553384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997732756650932030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01db11a156799034ca4fdea831af107a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shading: {fileID: 6152274826056602884}
+  shape: {fileID: 1468709447141111213}
+  radius: 200
+  minableResource:
+  - IronOre
+  - CopperOre

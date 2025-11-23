@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb6b5e8356112fb4483c5efa028b4933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIPrefab: {fileID: 927094593582732503, guid: 9b74dbe2ff6463a47962814f18fcd5be, type: 3}
+  factorioUIControlBase: {fileID: 0}
+  factorioSprite: {fileID: 0}
   pivotTransform: {fileID: 4237687787294861158}
   buildingSize: {x: 3, y: 1, z: 3}
   tintColor: []
