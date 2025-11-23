@@ -151,8 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933b35cb554e831469b6f698ec0c84c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlanetPrefab: {fileID: 7819202602233368617, guid: df17defdd2bb42444ba59ab4992c89a0, type: 3}
-  planetDensity: {x: 5, y: 5}
+  EarthPrefab: {fileID: 8448147640872553384, guid: 2870dd568c0875445a1b364641f6e086, type: 3}
 --- !u!4 &112686291
 Transform:
   m_ObjectHideFlags: 0

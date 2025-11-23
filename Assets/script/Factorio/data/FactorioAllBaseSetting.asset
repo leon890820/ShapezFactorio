@@ -22,7 +22,7 @@ MonoBehaviour:
     prefab:
       name: Copper_Ore
       object_prefab: {fileID: 2035040000578202122, guid: e4400da29c1ab6e46a92f4f460feae7f, type: 3}
-      info: {fileID: 0}
+      info: {fileID: 21300000, guid: 866a4929dfcced643b73ed0f2541730f, type: 3}
   - key: IronPlate
     prefab:
       name: Iron_Plate
