@@ -68,3 +68,8 @@ MonoBehaviour:
       name: PlayerGround2x1
       object_prefab: {fileID: 2923547314365164821, guid: d53810be49fe66a48b0cf2e5cf69d65f, type: 3}
       info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
+  - key: Gear
+    prefab:
+      name: Gear
+      object_prefab: {fileID: 4838283898619873523, guid: 774764fba1d34e140ae70b35b533fe5a, type: 3}
+      info: {fileID: 21300000, guid: d4e2cfda758505f49a54e5ea7e52c83a, type: 3}
