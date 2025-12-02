@@ -37,6 +37,12 @@ public class MiningDrill : FactorioPlatformBuilding {
         miningResource = resource;
     }
 
+    public void ResetBuilding() {
+        miningResource = null;
+        mining_count = 0f;
+        backpad.Clear();
+    }
+
     public override void SetStatus() {
         if(miningResource == null) buildStatus = BuildStatus.NoInput;
         else buildStatus = BuildStatus.Working;
@@ -74,12 +80,11 @@ public class MiningDrill : FactorioPlatformBuilding {
     public void TryMining() {
         if (backpad.Count >= backpadMax) return;
 
-        
-        GameObject go = Instantiate(miningResource.object_prefab);
 
-        go.transform.SetParent(transform);
-        go.transform.localPosition = Vector3.zero;
-        FactorioGameObjectBase factorioGameObjectBase = go.GetComponent<FactorioGameObjectBase>();
+        FactorioGameObjectBase factorioGameObjectBase = Instantiate(miningResource.object_prefab);
+
+        factorioGameObjectBase.transform.SetParent(transform);
+        factorioGameObjectBase.transform.localPosition = Vector3.zero;        
         factorioGameObjectBase.SetSprite(miningResource.info);
         backpad.Add(factorioGameObjectBase);
     
@@ -117,7 +122,7 @@ public class MiningDrill : FactorioPlatformBuilding {
 
 
     public void SetAnimation() {
-        if (bluePrintMode) {
+        if (bluePrintMode || buildStatus == BuildStatus.NoInput) {
             animator1.SetBool("Mining", false);
             animator2.SetBool("Mining", false);
         } else {

@@ -137,4 +137,6 @@ public enum BuildStatus {
     NoRecipe,         // 沒有設定配方 (NotConfigured)
     NoInput,          // 缺少原料 (Starved)
     OutputFull,       // 背包/輸出滿了 (Blocked/Jammed)
+    FalseInput,        // 錯誤輸入
+    NoSelected
 }

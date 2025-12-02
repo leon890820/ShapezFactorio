@@ -91,7 +91,8 @@ public class PlayerControll : MonoBehaviour {
             Destroy(bluePrintBuilding.gameObject);
         }
 
-        bluePrintBuilding = Instantiate(prefab.object_prefab).GetComponent<FactorioBuilding>();
+
+        bluePrintBuilding = Instantiate(prefab.object_prefab) as FactorioBuilding;
         bluePrintBuilding.gameObject.SetActive(false);     
     }
 

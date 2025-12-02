@@ -21,6 +21,7 @@ public class PlayGroundPlatform : FactorioBuilding {
 
     Vector2Int scale;
 
+    public Transform wallTransform;
     public GameObject notch;
     public GameObject corner;
     public GameObject wall6m;
@@ -69,7 +70,7 @@ public class PlayGroundPlatform : FactorioBuilding {
         List<FactorioBuilding> result = new List<FactorioBuilding>(); ;
 
         if (anchor.Count == 1) {
-            PlayGroundPlatform fb = Instantiate(Clone().object_prefab).GetComponent<PlayGroundPlatform>();
+            PlayGroundPlatform fb = Instantiate(Clone().object_prefab) as PlayGroundPlatform;
             fb.SetPosition(anchor[0]);
             fb.SetRimMaterial();
             fb.SetValidColor(GalaxyManager.IsValid(fb) ? 1 : 0);
@@ -404,9 +405,7 @@ public class PlayGroundPlatform : FactorioBuilding {
                 int b = -FactorioData.platformHalfTexelSize * (ms - 1) + FactorioData.platformTexelSize * y;
                 Vector3 localPos = new Vector3(mainDir.x, 0.0f, mainDir.z) * s + new Vector3(perpDir.x, 0, perpDir.z) * b + Vector3.up * 0.01f;
                 Quaternion localRot = Quaternion.Euler(0f, 90f * (dirIndex + 1), 0f);
-                GameObject go = Instantiate(notch);
-                go.transform.SetParent(pivotTransform, false);
-                go.transform.SetLocalPositionAndRotation(localPos, localRot);
+                PlaceWallPrefab(notch, localPos, localRot);
             }
         }    
     }
@@ -414,7 +413,7 @@ public class PlayGroundPlatform : FactorioBuilding {
 
     private void PlaceWallPrefab(GameObject prefab, Vector3 localPos, Quaternion localRot) {
         GameObject go = Instantiate(prefab);
-        go.transform.SetParent(pivotTransform, false);
+        go.transform.SetParent(wallTransform, false);
         go.transform.SetLocalPositionAndRotation(localPos, localRot);
     }
     private void InitWall() {

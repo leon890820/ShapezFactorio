@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class IronOre : FactorioResource,IBurnable{
-    public FactorioPrefabBaseObject GetBurnProduct() {
-        return PrefabManager.Instance.GetPrefab("IronPlate");
+    public FactorioGameObjectBasePacket GetBurnProduct() {
+        return new FactorioGameObjectBasePacket(PrefabManager.Instance.GetPrefab("IronPlate"), 1);
     }
 
     public override FactorioPrefabBaseObject Clone() {

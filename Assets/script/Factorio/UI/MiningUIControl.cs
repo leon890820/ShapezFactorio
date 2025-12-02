@@ -15,33 +15,34 @@ public class MiningUIControl : FactorioUIControlBase {
     public GameObject ItemUI;
 
     public GameObject buttonPrefab;
+    private MiningDrill minedrill;
 
     public void InitItemUI(MiningDrill md,ChunkCoord cc) { 
         FactorioPlanet planet = GalaxyManager.GetFactorioPlanet(cc);
-        if(!planet) return;
+        minedrill = md;
+        if (!planet) return;
         float space = 60f;
         int resourceCount = planet.minableResource.Count;
-        float startX = -(resourceCount / 2 * space) + (resourceCount % 2 == 1 ? 0 : space / 2); 
+        float startX = -(resourceCount * 0.5f * space) + (space * 0.5f);
+
         for (int i = 0; i < planet.minableResource.Count; i++) { 
             GameObject buttonUI = Instantiate(buttonPrefab);
-            buttonUI.transform.SetParent(ItemUI.transform);
-            buttonUI.transform.localPosition = new Vector3(startX , 0);
+            buttonUI.transform.SetParent(ItemUI.transform, false);
+            buttonUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(startX, 0);
             startX += space;
 
             Image image = buttonUI.GetComponent<Image>();
             image.sprite = PrefabManager.Instance.GetSprite(planet.minableResource[i]);
 
-            int index = i;
             Button button = buttonUI.GetComponent<Button>();
-            button.onClick.AddListener(() => {
-                SetMiningResource(md, planet.minableResource[index]);
-            });
+            string resourceName = planet.minableResource[i];
+            button.onClick.AddListener(() => SetMiningResource(resourceName));
         }
     }
 
-    public void SetMiningResource(MiningDrill md,string name) {
+    public void SetMiningResource(string name) {
         FactorioPrefabBaseObject fgob = PrefabManager.Instance.GetPrefab(name);
-        md.SetResource(fgob);
+        minedrill.SetResource(fgob);
     }
 
     public void SetValue(float value) { 
@@ -51,6 +52,15 @@ public class MiningUIControl : FactorioUIControlBase {
     public void SetWorking(bool work) { 
         workingUI.SetActive(work);
         ItemUI.SetActive(!work);
+    }
+
+    public void SetItem() {
+        SetWorking(false);
+        minedrill.ResetBuilding();
+    }
+
+    public void Close() { 
+        this.gameObject.SetActive(false);
     }
 
     public void SetbackpadImage(Sprite sprite, int number) {

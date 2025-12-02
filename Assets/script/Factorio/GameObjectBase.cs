@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class FactorioGameObjectBase : MonoBehaviour{
+public abstract class FactorioGameObjectBase : MonoBehaviour,IAssembled{
     // Start is called before the first frame update
 
     public GameObject UIPrefab;
@@ -34,6 +34,9 @@ public abstract class FactorioGameObjectBase : MonoBehaviour{
 
     public abstract FactorioPrefabBaseObject Clone();
 
+    public virtual List<FactorioGameObjectBasePacket> GetItemMaterial() {
+        return null;
+    }
     public void SetSprite(Sprite sprite) {
         factorioSprite = sprite;
     }
@@ -47,4 +50,14 @@ public abstract class FactorioGameObjectBase : MonoBehaviour{
     }
 
     public virtual void UpdateUI() {}
+}
+
+public class FactorioGameObjectBasePacket {
+    public FactorioPrefabBaseObject factorioPrefab;
+    public int number;
+
+    public FactorioGameObjectBasePacket(FactorioPrefabBaseObject factorioPrefab, int number) { 
+        this.factorioPrefab = factorioPrefab;
+        this.number = number;
+    }
 }

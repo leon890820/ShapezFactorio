@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6183551940417962078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6802748987270778760}
+  m_Layer: 6
+  m_Name: Wall
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6802748987270778760
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6183551940417962078}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5521177318758389587}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8929525771567350715
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +61,8 @@ Transform:
   m_LocalPosition: {x: 10, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6802748987270778760}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &5273815430484086399
@@ -87,11 +119,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8fb9fbb49552f4bbe462b841c001eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIPrefab: {fileID: 0}
+  factorioUIControlBase: {fileID: 0}
+  factorioSprite: {fileID: 0}
   pivotTransform: {fileID: 5521177318758389587}
-  buildingSize: {x: 1, y: 1}
+  buildingSize: {x: 1, y: 1, z: 1}
   tintColor: []
   rimMaterial: {fileID: 2100000, guid: 0e0fc7f64db4a7149bc04c0ef52d44ed, type: 2}
   platformSize: {x: 1, y: 1}
+  platformLayer: 10
+  wallTransform: {fileID: 6802748987270778760}
   notch: {fileID: 3299481306576397375, guid: 57cfc3db98f69c34fb6638d8a3bb47e3, type: 3}
   corner: {fileID: 2261732992372952250, guid: 4f0777742189031419b107aff6a4e7c1, type: 3}
   wall6m: {fileID: 4246509593470099801, guid: 0ef8d755d81636a439d1be98bad46544, type: 3}

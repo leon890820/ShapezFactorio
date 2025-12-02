@@ -51,6 +51,7 @@ public class Inserter : FactorioPlatformBuilding
         FactorioGameObjectBase factorioResource = fpb?.TryBeGrab();
         if (factorioResource) {
             resource = factorioResource;
+            resource.transform.SetParent(transform, false);
             return true;
         }
         return false;

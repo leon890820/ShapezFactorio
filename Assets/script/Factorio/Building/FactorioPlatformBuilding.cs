@@ -11,9 +11,7 @@ public class FactorioPlatformBuilding : FactorioBuilding{
     [HideInInspector]
     public PlayGroundPlatform playGroundPlatform;
 
-    
 
-    [HideInInspector]
     private bool beSelected = false;
 
     // Start is called before the first frame update

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Furnace : FactorioPlatformBuilding {
 
@@ -47,12 +48,12 @@ public class Furnace : FactorioPlatformBuilding {
 
             if (furnaceCount > 1f) {
                 furnaceCount = 0f;
-                FactorioPrefabBaseObject productPrefab = burnable.GetBurnProduct();
+                FactorioGameObjectBasePacket productPrefabPacket = burnable.GetBurnProduct();
+                FactorioPrefabBaseObject productPrefab = productPrefabPacket.factorioPrefab;
 
-                GameObject product = Instantiate(productPrefab.object_prefab);
-                product.transform.SetParent(transform, false);
-                product.transform.localPosition = Vector3.zero;
-                FactorioGameObjectBase factorioGameObject = product.GetComponent<FactorioGameObjectBase>();
+                FactorioGameObjectBase factorioGameObject = Instantiate(productPrefab.object_prefab);
+                factorioGameObject.transform.SetParent(transform, false);
+                factorioGameObject.transform.localPosition = Vector3.zero;
                 factorioGameObject.SetSprite(productPrefab.info);
                 productBackpad.Add(factorioGameObject);
 
@@ -60,9 +61,21 @@ public class Furnace : FactorioPlatformBuilding {
                 Destroy(lastObject.gameObject);
 
             }
-
         }
 
+    }
+
+    public override void SetStatus() {
+        if (backpad.Count == 0) {
+            buildStatus = BuildStatus.Idle;
+            return;
+        }
+        FactorioGameObjectBase lastObject = backpad[backpad.Count - 1];
+        if (lastObject is IBurnable) {
+            buildStatus = BuildStatus.Working;
+        } else { 
+            buildStatus= BuildStatus.FalseInput;
+        }
     }
 
 

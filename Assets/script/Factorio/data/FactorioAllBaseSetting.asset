@@ -32,7 +32,7 @@ MonoBehaviour:
     prefab:
       name: Copper_Plate
       object_prefab: {fileID: 404376677966123582, guid: 484b94185195a0d4195c2202fc8c4a04, type: 3}
-      info: {fileID: 0}
+      info: {fileID: 21300000, guid: cd8c4c585ae35754e80ffb2ff03a9054, type: 3}
   - key: Furnace
     prefab:
       name: Furnace
@@ -52,6 +52,11 @@ MonoBehaviour:
     prefab:
       name: Inserter
       object_prefab: {fileID: 1088317581152810247, guid: cdee701af43bcc0459ed15f936b56f7a, type: 3}
+      info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
+  - key: Assembling
+    prefab:
+      name: Assembling
+      object_prefab: {fileID: 9107768920770778382, guid: 46fc4ca59c99db34283a0c6c540f81b4, type: 3}
       info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
   - key: PlayerGround1x1
     prefab:

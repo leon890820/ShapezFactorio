@@ -3,5 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface IBurnable{
-    FactorioPrefabBaseObject GetBurnProduct();
+    FactorioGameObjectBasePacket GetBurnProduct();
 }
