@@ -16,55 +16,55 @@ MonoBehaviour:
   - key: IronOre
     prefab:
       name: Iron_Ore
-      object_prefab: {fileID: 8734344189933053435, guid: 515da65b2a5e05744a2272551ff4890a, type: 3}
+      object_prefab: {fileID: 8062840230757444813, guid: 515da65b2a5e05744a2272551ff4890a, type: 3}
       info: {fileID: 21300000, guid: 1b6042eeaa0776848ad46288f3d6cc7e, type: 3}
   - key: CopperOre
     prefab:
       name: Copper_Ore
-      object_prefab: {fileID: 2035040000578202122, guid: e4400da29c1ab6e46a92f4f460feae7f, type: 3}
+      object_prefab: {fileID: 2738734058647379323, guid: e4400da29c1ab6e46a92f4f460feae7f, type: 3}
       info: {fileID: 21300000, guid: 866a4929dfcced643b73ed0f2541730f, type: 3}
   - key: IronPlate
     prefab:
       name: Iron_Plate
-      object_prefab: {fileID: 7591232976809761087, guid: 3b526c558ef4d044a985342de012a931, type: 3}
+      object_prefab: {fileID: 2860653878297800083, guid: 3b526c558ef4d044a985342de012a931, type: 3}
       info: {fileID: 21300000, guid: 0a0022ba13fed9d46acccd122668e28a, type: 3}
   - key: CopperPlate
     prefab:
       name: Copper_Plate
-      object_prefab: {fileID: 404376677966123582, guid: 484b94185195a0d4195c2202fc8c4a04, type: 3}
+      object_prefab: {fileID: 4571124443902627078, guid: 484b94185195a0d4195c2202fc8c4a04, type: 3}
       info: {fileID: 21300000, guid: cd8c4c585ae35754e80ffb2ff03a9054, type: 3}
   - key: Furnace
     prefab:
       name: Furnace
-      object_prefab: {fileID: 6661065761965500901, guid: a8a75af4d02b4ba409819c1099ef6760, type: 3}
+      object_prefab: {fileID: 3306030583405989832, guid: a8a75af4d02b4ba409819c1099ef6760, type: 3}
       info: {fileID: 21300000, guid: e034dddd69d59e74dbadfb9ecfd74203, type: 3}
   - key: Belt
     prefab:
       name: Belt
-      object_prefab: {fileID: 3525533627074482702, guid: ccd5c8be98c0f7a409a4d85322d58d99, type: 3}
+      object_prefab: {fileID: 53998353698826942, guid: ccd5c8be98c0f7a409a4d85322d58d99, type: 3}
       info: {fileID: 21300000, guid: 4a190f810d878ed4b84235d40a0625ba, type: 3}
   - key: MiningDrill
     prefab:
       name: Mining_Drill
-      object_prefab: {fileID: 7009668268853047774, guid: be4f7ec185788944780c7138a3a3eeb1, type: 3}
+      object_prefab: {fileID: 1426529606628258192, guid: be4f7ec185788944780c7138a3a3eeb1, type: 3}
       info: {fileID: 21300000, guid: 5a8b74e5c70998a458605c646ff7914c, type: 3}
   - key: Inserter
     prefab:
       name: Inserter
-      object_prefab: {fileID: 1088317581152810247, guid: cdee701af43bcc0459ed15f936b56f7a, type: 3}
+      object_prefab: {fileID: 3080137978823493041, guid: cdee701af43bcc0459ed15f936b56f7a, type: 3}
       info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
   - key: Assembling
     prefab:
       name: Assembling
-      object_prefab: {fileID: 9107768920770778382, guid: 46fc4ca59c99db34283a0c6c540f81b4, type: 3}
-      info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
+      object_prefab: {fileID: 1161653960368072227, guid: 46fc4ca59c99db34283a0c6c540f81b4, type: 3}
+      info: {fileID: 21300000, guid: 25ce1eceeb7bd0247b0ce8bca740a344, type: 3}
   - key: PlayerGround1x1
     prefab:
       name: PlayerGround1x1
-      object_prefab: {fileID: 8929525771567350715, guid: 36f7018541ae75c49b357b27d4f0fe3a, type: 3}
+      object_prefab: {fileID: 7709512150654115890, guid: 36f7018541ae75c49b357b27d4f0fe3a, type: 3}
       info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
   - key: PlayerGround2x1
     prefab:
       name: PlayerGround2x1
-      object_prefab: {fileID: 7664686751139306624, guid: d53810be49fe66a48b0cf2e5cf69d65f, type: 3}
+      object_prefab: {fileID: 2923547314365164821, guid: d53810be49fe66a48b0cf2e5cf69d65f, type: 3}
       info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
