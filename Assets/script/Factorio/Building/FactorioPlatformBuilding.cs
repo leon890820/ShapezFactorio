@@ -33,8 +33,7 @@ public class FactorioPlatformBuilding : FactorioBuilding{
 
 
     public void SetSelect(bool b) { 
-        beSelected = b;
-        
+        beSelected = b;        
     }
 
 
@@ -49,7 +48,6 @@ public class FactorioPlatformBuilding : FactorioBuilding{
             return false;
         }
 
-
         PlayerControll.ClearAnchor();
         PlayerControll.AddAnchor(pos);
         return true;
@@ -61,15 +59,12 @@ public class FactorioPlatformBuilding : FactorioBuilding{
 
         if (anchor.Count == 1) {
             TryGetPlatformUnderMouse(out var hit, out var pgp, anchor[0]);
-            FactorioPlatformBuilding fb = Instantiate(Clone().object_prefab).GetComponent<FactorioPlatformBuilding>();
+            FactorioPlatformBuilding fb = Instantiate(Clone().object_prefab) as FactorioPlatformBuilding;
             fb.SetRotation(PlayerControll.rotation);
-            fb.UpdateBlueprintState(anchor[0], pgp);      
-            
+            fb.UpdateBlueprintState(anchor[0], pgp);                  
             result.Add(fb);
         }
-
         return result;
-
     }
 
     public override void UpdateBehavior() {
@@ -140,13 +135,9 @@ public class FactorioPlatformBuilding : FactorioBuilding{
 
     public virtual void SetBuildingType(PlayGroundPlatform pgp) { }
 
-    public virtual BuildingDirection GetDirectionType(Vector3Int pos, int dir) {
-        
-
+    public virtual BuildingDirection GetDirectionType(Vector3Int pos, int dir) {        
         return BuildingDirection.NONE;
     }
-
-
 
     public enum BuildingDirection {
         NONE,

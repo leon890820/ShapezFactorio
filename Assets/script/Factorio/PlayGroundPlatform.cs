@@ -145,7 +145,7 @@ public class PlayGroundPlatform : FactorioBuilding {
     public bool SetBulding(FactorioPlatformBuilding building) {
         Vector3Int[] localPos = GetBuildingLocalPositions(building);
         FactorioPlatformBuilding[,,] builds = building is Scaffolding ? scaffoldings : buildings;
-        if (building is Belt) {
+        if (building is Belt or TeleGraphPole) {
             if (HasBulding(localPos[0], builds)) return false;
         } else {
             if (HasBulding(localPos, builds)) return false;
@@ -174,6 +174,30 @@ public class PlayGroundPlatform : FactorioBuilding {
                 result[i] = buildings[pos.x, pos.y, pos.z];
             }
 
+        }
+
+        return result;
+    }
+
+    public HashSet<FactorioPlatformBuilding> GetSurroundBuilding(FactorioPlatformBuilding center) {
+        var result = new HashSet<FactorioPlatformBuilding>();
+
+        Vector3Int origin = GetBuildingLocalPosition(center);
+        // 計算出「外圈起始點」的 offset（假設 direction[0]/[3] 是 +x、-z 或類似）
+        Vector3Int offset =
+            FactorioData.direction[0] * Mathf.CeilToInt(center.buildingSize.x / 2f) +
+            FactorioData.direction[3] * Mathf.CeilToInt(center.buildingSize.z / 2f);
+        for (int side = 0; side < 4; side++) {
+            int length = (side % 2 == 0 ? center.buildingSize.z : center.buildingSize.x) + 1;
+            Vector3Int step = FactorioData.direction[(side + 1) % 4];
+            for (int i = 0; i < length; i++) {
+                offset += step;
+                Vector3Int pos = origin + offset;
+                FactorioPlatformBuilding building = GetBuilding(pos);
+                if (building != null && building != center) {
+                    result.Add(building);
+                }
+            }
         }
 
         return result;
@@ -258,7 +282,7 @@ public class PlayGroundPlatform : FactorioBuilding {
             if (!HasScanffolding(building, localPos)) return true;
         }
 
-        if (building is not Belt) return HasBulding(localPos, building is Scaffolding ? scaffoldings : buildings);
+        if (building is not (Belt or TeleGraphPole)) return HasBulding(localPos, building is Scaffolding ? scaffoldings : buildings);
         else return HasBulding(localPos[0], buildings);        
     }
 
@@ -339,6 +363,14 @@ public class PlayGroundPlatform : FactorioBuilding {
             3 => new Vector3Int(count, 0, scale.y - 1),
             _ => new Vector3Int(0, 0, 0),
         };
+    }
+
+    public void UpdatePowerGrid() {
+        foreach (var building in buildings) {
+            if (building is TeleGraphPole teleGraphPole) {
+                teleGraphPole.ReBuildPowerGrid();
+            }
+        }
     }
 
     public override FactorioPrefabBaseObject Clone() {

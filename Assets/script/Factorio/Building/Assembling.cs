@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Assembling : FactorioPlatformBuilding {
+public class Assembling : PowerCosumeBulding {
     public Animator animator;
 
 

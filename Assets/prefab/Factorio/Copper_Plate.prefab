@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3eb2d5a74401d3a4993dec8e9ba093cf, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.4
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3eb2d5a74401d3a4993dec8e9ba093cf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3eb2d5a74401d3a4993dec8e9ba093cf, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.4
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3eb2d5a74401d3a4993dec8e9ba093cf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -90,5 +90,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIPrefab: {fileID: 0}
-  factorioUIControlBase: {fileID: 0}
   factorioSprite: {fileID: 0}

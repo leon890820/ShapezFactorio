@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &643519639534355171
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      propertyPath: m_Name
+      value: SmallTelePole
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5631043936192904428}
+  m_SourcePrefab: {fileID: 100100000, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+--- !u!1 &301552480014303154 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+  m_PrefabInstance: {fileID: 643519639534355171}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5631043936192904428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301552480014303154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7818b91a200c7f242845fbc58a27f104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIPrefab: {fileID: 0}
+  factorioSprite: {fileID: 0}
+  pivotTransform: {fileID: 1109157431202784520}
+  buildingSize: {x: 1, y: 1, z: 1}
+  tintColor: []
+  rimMaterial: {fileID: 2100000, guid: 0e0fc7f64db4a7149bc04c0ef52d44ed, type: 2}
+  playGroundPlatform: {fileID: 0}
+  through: 0
+  wireTransform: {fileID: 517152858143893838}
+  ropePrefab: {fileID: 5419131036483154630, guid: fd9c71e81190deb4cae5e9c7dbc9eaf8, type: 3}
+  connectionRange: 5
+  powerRange: 2
+  ropeWide: 0.03
+  ropeLengthMult: 1.2
+--- !u!4 &517152858143893838 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8087490234296538195, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+  m_PrefabInstance: {fileID: 643519639534355171}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1109157431202784520 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
+  m_PrefabInstance: {fileID: 643519639534355171}
+  m_PrefabAsset: {fileID: 0}

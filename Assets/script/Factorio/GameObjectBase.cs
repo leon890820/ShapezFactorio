@@ -6,7 +6,7 @@ public abstract class FactorioGameObjectBase : MonoBehaviour,IAssembled{
     // Start is called before the first frame update
 
     public GameObject UIPrefab;
-    public FactorioUIControlBase factorioUIControlBase;
+    protected FactorioUIControlBase factorioUIControlBase;
 
     public Sprite factorioSprite;
 

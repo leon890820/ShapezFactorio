@@ -139,6 +139,7 @@ public class PlayerControll : MonoBehaviour {
             }
             factorioBuilding.SetOriginalMaterial();
             factorioBuilding.SetBluePrintMode(false);
+            factorioBuilding.InitBuilding();
         }
         bluePrintBuildings.Clear();
         anchor.Clear();

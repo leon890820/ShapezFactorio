@@ -21,13 +21,45 @@ public class GalaxyManager : MonoBehaviour{
         
     }
 
-    public static FactorioPlanet GetFactorioPlanet(ChunkCoord cc) {
-        if (planets.TryGetValue(cc, out FactorioPlanet planet)) {
-            return planet;
+    public static HashSet<FactorioPlatformBuilding> FindSurroundPlatformBuildings(FactorioPlatformBuilding building , int radius) {
+        return FindSurroundPlatformBuildings<FactorioPlatformBuilding>(building, radius);
+    }
+
+    public static HashSet<T> FindSurroundPlatformBuildings<T>(FactorioPlatformBuilding building, int radius) where T : FactorioPlatformBuilding {
+        HashSet<T> result = new();
+        Vector3 offset =
+           - FactorioData.direction[0] * Mathf.FloorToInt(building.buildingSize.x / 2f) +
+           - FactorioData.direction[3] * Mathf.FloorToInt(building.buildingSize.z / 2f);
+        Vector3 startPos = building.transform.position + offset - new Vector3(radius, 0, radius);
+        for (int z = 0; z < radius * 2 + building.buildingSize.z; z++) {
+            for (int x = 0; x < radius * 2 + building.buildingSize.x; x++) {
+                Vector3 position = startPos + new Vector3(x, 0, z);
+                FactorioPlatformBuilding factorioPlatformBuilding = FindPlatformBuildingByPosition(position);
+                if (!factorioPlatformBuilding || factorioPlatformBuilding == building) continue;
+                if (factorioPlatformBuilding is T typed) {      // pattern matching，成功才拿到 typed
+                    result.Add(typed);
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+
+    public static FactorioPlatformBuilding FindPlatformBuildingByPosition(Vector3 pos) {
+        PlayGroundPlatform playGroundPlatform = FindPlayGroundPlatformByPosition(pos);
+        if (!playGroundPlatform) return null;
+        return playGroundPlatform.GetBuilding(pos);
+    }
+
+    public static PlayGroundPlatform FindPlayGroundPlatformByPosition(Vector3 pos) {
+        ChunkCoord coord = PositionToChunkCoord(pos);
+        if (playgrounds.TryGetValue(coord, out PlayGroundPlatform pgp)) {
+            return pgp;
         }
         return null;
     }
-
 
     public static ChunkCoord PositionToChunkCoord(Vector3 pos) {
         int texelSize = FactorioData.platformTexelSize;
@@ -105,6 +137,13 @@ public class GalaxyManager : MonoBehaviour{
         foreach (var value in playgrounds.Values) { 
             value.SetLayer(n);
         }
+    }
+
+    public static FactorioPlanet GetFactorioPlanet(ChunkCoord cc) {
+        if (planets.TryGetValue(cc, out FactorioPlanet planet)) {
+            return planet;
+        }
+        return null;
     }
 
     public static void AddPlanet(FactorioPlanet factorioPlanet) {

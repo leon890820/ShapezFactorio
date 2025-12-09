@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inserter : FactorioPlatformBuilding
-{
+public class Inserter : PowerCosumeBulding {
     public Animator animator;
     public AnimationClip clip;
     public Transform grabberTransform;
@@ -51,7 +50,7 @@ public class Inserter : FactorioPlatformBuilding
         FactorioGameObjectBase factorioResource = fpb?.TryBeGrab();
         if (factorioResource) {
             resource = factorioResource;
-            resource.transform.SetParent(transform, false);
+            resource.transform.SetParent(transform);
             return true;
         }
         return false;

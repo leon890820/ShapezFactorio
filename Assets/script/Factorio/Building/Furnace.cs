@@ -52,7 +52,7 @@ public class Furnace : FactorioPlatformBuilding {
                 FactorioPrefabBaseObject productPrefab = productPrefabPacket.factorioPrefab;
 
                 FactorioGameObjectBase factorioGameObject = Instantiate(productPrefab.object_prefab);
-                factorioGameObject.transform.SetParent(transform, false);
+                factorioGameObject.transform.SetParent(transform);
                 factorioGameObject.transform.localPosition = Vector3.zero;
                 factorioGameObject.SetSprite(productPrefab.info);
                 productBackpad.Add(factorioGameObject);

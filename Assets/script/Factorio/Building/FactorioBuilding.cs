@@ -4,50 +4,46 @@ using UnityEngine;
 
 public abstract class FactorioBuilding : FactorioGameObjectBase {
 
-    public Transform pivotTransform;
-
-    protected int rotation = 0;
+    public Transform pivotTransform;    
     public Vector3Int buildingSize = new Vector3Int(1, 1, 1);
+    public Material rimMaterial;
 
-    public Color[] tintColor;
 
     protected Dictionary<Renderer, Material[]> originalMaterials = new();
     protected Renderer[] meshRenderers;
     protected bool bluePrintMode = true;
+    protected int rotation = 0;
 
-
-    public Material rimMaterial;
+    
 
     protected Camera main_camera;
     protected BuildStatus buildStatus;
 
+    private Color[] tintColor;
+
     // Start is called before the first frame update
     protected override void Awake() {
-
-        base.Awake();
-
+        base.Awake();      
+        InitOrigonalRendererList();
         tintColor = new Color[] { new(0.0f, 1.0f, 0.85f), new(1.0f, 0.16f, 0.0f) };
+        main_camera = FindAnyObjectByType<Camera>();
+    }
 
+    private void InitOrigonalRendererList() {
         var rendererList = new List<Renderer>();
         rendererList.AddRange(GetComponentsInChildren<MeshRenderer>(true));
         rendererList.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>(true));
 
         meshRenderers = rendererList.ToArray();
-
-
         foreach (var renderer in meshRenderers) {
             originalMaterials[renderer] = renderer.materials;
         }
-        main_camera = GameObject.FindAnyObjectByType<Camera>();
-
     }
 
     protected override void Start() {
         base.Start();
-
     }
 
-    // Update is called once per frame
     protected override void Update() {
         base.Update();
         SetStatus();
@@ -55,23 +51,18 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
     }
 
 
-    public virtual void Run() {
-
-
-    }
+    public virtual void Run() {}
 
     public abstract bool UpdateAnchor();
     public abstract void UpdateBehavior();
     public abstract List<FactorioBuilding> GetMultiMuilding(List<Vector3> anchor);
     public abstract bool TryPutBuilding();
 
+    public virtual void InitBuilding() { }
 
     public void SetValidColor(int c) {
         rimMaterial.SetColor("_RimColor", tintColor[c]);
     }
-
-
-
 
     public virtual void SetRimMaterial() {
         foreach (var renderer in meshRenderers) {
