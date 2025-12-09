@@ -9,7 +9,6 @@ public class FactorioUIControlBase : MonoBehaviour{
         { "Gear", 1 }
     };
 
-
     public void SetActive(bool active) { 
         gameObject.SetActive(active);   
     }

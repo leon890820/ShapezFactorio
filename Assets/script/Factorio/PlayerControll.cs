@@ -5,29 +5,28 @@ using UnityEngine.EventSystems;
 
 public class PlayerControll : MonoBehaviour {
 
-    public static bool buildingMode = false;
-
-
-    [HideInInspector]
-    public static FactorioBuilding bluePrintBuilding;
-    [HideInInspector]
-    public Vector3 hitPosition = new Vector3();
-
-    public static List<FactorioBuilding> bluePrintBuildings;
-
+    public static PlayerControll Instance { get; private set; }
+    public List<FactorioBuilding> bluePrintBuildings;
     public Camera main_camera;
-    public RaycastHit hit;
-
     public GalaxyManager galaxyManager;
 
-    public static int BuildingLayer = 0;
-    public static int rotation = 0;
+    [HideInInspector] public int rotation = 0;
 
-    public FactorioPlatformBuilding selectedBuilding;
-    public static List<Vector3> anchor = new List<Vector3>();
+    private int buildingLayer = 0;
+    private List<Vector3> anchor = new List<Vector3>();
+    private FactorioBuilding bluePrintBuilding;
+
+    private void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
 
     // Start is called before the first frame update
-    void Start(){
+    void Start() {
         bluePrintBuildings = new List<FactorioBuilding>();
     }
 
@@ -38,60 +37,61 @@ public class PlayerControll : MonoBehaviour {
             SelectBuilding();
         }
 
-        if (CameraControl.galaxyMode) {
+        HandleLayerChangeInput();
+        if (EventSystem.current.IsPointerOverGameObject()) return;        
+        BluePrintBuildingUpdate();
+    }
 
-        } else {          
+    private void HandleLayerChangeInput() {
+        if (CameraControl.Instance.GalaxyMode) {
+
+        } else {
             if (Input.GetKeyDown(KeyCode.E)) {
-                BuildingLayer += 1;
-                BuildingLayer = Mathf.Min(10, BuildingLayer);
-                galaxyManager.SetGroundPlatformLlayer(BuildingLayer);
+                buildingLayer += 1;
+                buildingLayer = Mathf.Min(10, buildingLayer);
+                galaxyManager.SetGroundPlatformLlayer(buildingLayer);
             }
             if (Input.GetKeyDown(KeyCode.Q)) {
-                BuildingLayer -= 1;
-                BuildingLayer = Mathf.Max(0, BuildingLayer);
-                galaxyManager.SetGroundPlatformLlayer(BuildingLayer);
+                buildingLayer -= 1;
+                buildingLayer = Mathf.Max(0, buildingLayer);
+                galaxyManager.SetGroundPlatformLlayer(buildingLayer);
             }
         }
+    }
 
-
+    public void BluePrintBuildingUpdate() {
         if (bluePrintBuilding == null) return;
-        if (EventSystem.current.IsPointerOverGameObject()) {
-            return;
-        }
-      
 
         if (bluePrintBuilding.UpdateAnchor()) {
             ClearBuildings();
-            bluePrintBuildings.AddRange(bluePrintBuilding.GetMultiMuilding(anchor));
+            var buildings = bluePrintBuilding.GetMultiMuilding(anchor);
+            bluePrintBuildings.AddRange(buildings);
         }
         bluePrintBuilding.UpdateBehavior();
-
 
         if (Input.GetMouseButtonDown(1)) {
             DisableBlueprintBuilding();
         }
+
     }
 
     public void SelectBuilding() {
         Ray ray = main_camera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, float.MaxValue)) {
-
+        if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue)) {
             if (Input.GetMouseButtonDown(0)) {
-                FactorioGameObjectBase factorioObject = hit.collider.GetComponent<FactorioGameObjectBase>()
-                          ?? hit.collider.GetComponentInParent<FactorioGameObjectBase>();
+                FactorioGameObjectBase factorioObject = hit.collider.GetComponent<FactorioGameObjectBase>() ??
+                                                        hit.collider.GetComponentInParent<FactorioGameObjectBase>();
                 factorioObject?.SetUIEnable();
             }
         }
     }
 
 
-    public static void SpawnBuilding(FactorioPrefabBaseObject prefab) {
+    public void SpawnBuilding(FactorioPrefabBaseObject prefab) {
         if (bluePrintBuilding != null) {
             Destroy(bluePrintBuilding.gameObject);
         }
-
-
         bluePrintBuilding = Instantiate(prefab.object_prefab) as FactorioBuilding;
         bluePrintBuilding.gameObject.SetActive(false);     
     }
@@ -108,29 +108,50 @@ public class PlayerControll : MonoBehaviour {
 
     }
 
+    public List<FactorioBuilding> GetBluePrintBuildings() { 
+        return bluePrintBuildings;
+    }
 
-    public static void AddAnchor(Vector3 pos) {
+    public void SetRotation(int rot) { 
+        rotation = rot;
+    }
+    public int GetRotation() {
+        return rotation;
+    }
+
+    public int GetBuildingLayer() {
+        return buildingLayer;
+    }
+
+    public List<Vector3> GetAnchor() {
+        return anchor;
+    
+    }
+
+    public void AddAnchor(Vector3 pos) {
         anchor.Add(pos);
     }
 
-    public static void PopAnchor() {
+    public void PopAnchor() {
         if (anchor.Count == 0) return;
         anchor.RemoveAt(anchor.Count - 1);
     }
 
-    public static void ClearAnchor() { 
+    public void ClearAnchor() { 
         anchor.Clear();
     }
 
-    public static void ClearBuildings() {
+    public void ClearBuildings() {
         if (bluePrintBuildings == null) return;
-        foreach (FactorioBuilding fb in bluePrintBuildings) {
-            Destroy(fb.gameObject);
+        foreach (FactorioBuilding factorioBuilding in bluePrintBuildings) {
+            Destroy(factorioBuilding.gameObject);
         }
         bluePrintBuildings.Clear();
     }
 
-    public static void PutBuildings() {
+    
+
+    public void PutBuildings() {
         if (bluePrintBuildings == null) return;
         foreach (FactorioBuilding factorioBuilding in bluePrintBuildings) {
             if (!factorioBuilding.TryPutBuilding()) {

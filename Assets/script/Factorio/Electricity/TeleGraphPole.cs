@@ -52,10 +52,9 @@ public abstract class TeleGraphPole : PowerBuilding{
     }
 
     public void CreateWire() {
-        var neighborBuildings = GalaxyManager.FindSurroundPlatformBuildings<PowerBuilding>(this, connectionRange);
+        var neighborBuildings = GalaxyManager.FindSurroundPlatformBuildings<TeleGraphPole>(this, connectionRange);
         foreach (var building in neighborBuildings) {
-            if (building is not TeleGraphPole teleGraph) continue;
-            InitRope(teleGraph);
+            InitRope(building);
         }
     }
 
@@ -75,7 +74,7 @@ public abstract class TeleGraphPole : PowerBuilding{
         if (anchor.Count == 1) {
             TryGetPlatformUnderMouse(out var hit, out var pgp, anchor[0]);
             TeleGraphPole fb = Instantiate(Clone().object_prefab) as TeleGraphPole;
-            fb.SetRotation(PlayerControll.rotation);
+            fb.SetRotation(PlayerControll.Instance.rotation);
             fb.UpdateBlueprintState(anchor[0], pgp);
             fb.CreateWire();
             result.Add(fb);

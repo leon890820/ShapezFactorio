@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Video;
 
 
 public class Belt : FactorioPlatformBuilding {
@@ -191,9 +189,9 @@ public class Belt : FactorioPlatformBuilding {
         Vector3 pos = Floor(hit.point);
 
        
-        var anchor = PlayerControll.anchor;
+        var anchor = PlayerControll.Instance.GetAnchor();
         if (anchor.Count == 0) {
-            PlayerControll.AddAnchor(pos);
+            PlayerControll.Instance.AddAnchor(pos);
             return true;
         }
         
@@ -205,8 +203,8 @@ public class Belt : FactorioPlatformBuilding {
         if (!pgp0) return false;
         if(!pgp0.Equals(pgp)) return false;
 
-        PlayerControll.PopAnchor();
-        PlayerControll.AddAnchor(pos);
+        PlayerControll.Instance.PopAnchor();
+        PlayerControll.Instance.AddAnchor(pos);
         return true;
 
     }
@@ -217,7 +215,7 @@ public class Belt : FactorioPlatformBuilding {
 
         if (anchor.Count == 1) {           
             Belt fb = Instantiate(Clone().object_prefab).GetComponent<Belt>();
-            fb.SetRotation(PlayerControll.rotation);
+            fb.SetRotation(PlayerControll.Instance.rotation);
             fb.UpdateBlueprintState(anchor[0], pgp);
             if (fb.IsSender(pgp)) {
                 SenderBelt belt = fb.GetComponent<SenderBelt>();
@@ -234,7 +232,7 @@ public class Belt : FactorioPlatformBuilding {
                 StairBelt stair = Instantiate(Clone().object_prefab).GetComponent<StairBelt>();
                 stair.enabled = true;
                 stair.SetUpStair(anchor[1].y - anchor[0].y > 0);
-                stair.SetRotation(PlayerControll.rotation);
+                stair.SetRotation(PlayerControll.Instance.rotation);
                 stair.SetRotationSec(dirIndex);
                 stair.UpdateBlueprintState(anchor[0], pgp);
                 stair.SetBuildingType(pgp);
@@ -284,17 +282,17 @@ public class Belt : FactorioPlatformBuilding {
 
     public override void UpdateBehavior() {
         if (Input.GetMouseButtonDown(0)) {
-            Vector3 anchor = PlayerControll.anchor[0];
-            PlayerControll.AddAnchor(anchor);
+            Vector3 anchor = PlayerControll.Instance.GetAnchor()[0];
+            PlayerControll.Instance.AddAnchor(anchor);
         } else if (Input.GetMouseButtonUp(0)) {
-            PlayerControll.ClearAnchor();
-            PlayerControll.PutBuildings();
+            PlayerControll.Instance.ClearAnchor();
+            PlayerControll.Instance.PutBuildings();
         }
         if (Input.GetKeyDown(KeyCode.R)) {
-            PlayerControll.rotation += 1;
-            foreach (FactorioPlatformBuilding fb in PlayerControll.bluePrintBuildings) {
+            PlayerControll.Instance.rotation += 1;
+            foreach (FactorioPlatformBuilding fb in PlayerControll.Instance.bluePrintBuildings) {
                 fb.TryGetPlatformUnderMouse(out var hit, out var pgp, fb.transform.position);
-                fb.SetRotation(PlayerControll.rotation);
+                fb.SetRotation(PlayerControll.Instance.rotation);
                 fb.SetBuildingType(pgp);
             }
         }
@@ -359,7 +357,7 @@ public class Belt : FactorioPlatformBuilding {
 
     public override void AddRotation() {
         rotation = (rotation + 1) % 4;
-        PlayerControll.rotation = rotation;
+        PlayerControll.Instance.rotation = rotation;
         pivotTransform.rotation = Quaternion.Euler(0.0f, (rotation + bias_rotation) * 90.0f, 0.0f);
     }
 

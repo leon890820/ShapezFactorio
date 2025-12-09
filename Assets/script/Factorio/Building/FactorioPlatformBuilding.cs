@@ -7,12 +7,7 @@ public class FactorioPlatformBuilding : FactorioBuilding{
 
     protected List<FactorioGameObjectBase> backpad = new List<FactorioGameObjectBase>();
     protected int backpadMax = 1;
-
-    [HideInInspector]
-    public PlayGroundPlatform playGroundPlatform;
-
-
-    private bool beSelected = false;
+    protected PlayGroundPlatform playGroundPlatform;
 
     // Start is called before the first frame update
 
@@ -20,36 +15,29 @@ public class FactorioPlatformBuilding : FactorioBuilding{
         base.Awake();
         
     }
-
     protected override void Start() {
         base.Start();
     }
-
     protected override void Update() {
         base.Update();
         
     }
 
-
-
-    public void SetSelect(bool b) { 
-        beSelected = b;        
-    }
-
-
     public override bool UpdateAnchor() {
         if (!TryGetPlatformUnderMouse(out var hit, out var pgp)) return false;
+
+        var anchor = PlayerControll.Instance.GetAnchor();
         Vector3 pos = Floor(hit.point);
-        if (PlayerControll.anchor.Count == 0) {
-            PlayerControll.AddAnchor(pos);
+        if (anchor.Count == 0) {
+            PlayerControll.Instance.AddAnchor(pos);
             return true;
         }
-        if (PlayerControll.anchor[0].Equals(pos)) {
+        if (anchor[0].Equals(pos)) {
             return false;
         }
 
-        PlayerControll.ClearAnchor();
-        PlayerControll.AddAnchor(pos);
+        PlayerControll.Instance.ClearAnchor();
+        PlayerControll.Instance.AddAnchor(pos);
         return true;
 
     }
@@ -60,7 +48,7 @@ public class FactorioPlatformBuilding : FactorioBuilding{
         if (anchor.Count == 1) {
             TryGetPlatformUnderMouse(out var hit, out var pgp, anchor[0]);
             FactorioPlatformBuilding fb = Instantiate(Clone().object_prefab) as FactorioPlatformBuilding;
-            fb.SetRotation(PlayerControll.rotation);
+            fb.SetRotation(PlayerControll.Instance.rotation);
             fb.UpdateBlueprintState(anchor[0], pgp);                  
             result.Add(fb);
         }
@@ -69,57 +57,56 @@ public class FactorioPlatformBuilding : FactorioBuilding{
 
     public override void UpdateBehavior() {
         if (Input.GetMouseButtonDown(0)) {
-            PlayerControll.PutBuildings();
+            PlayerControll.Instance.PutBuildings();
         }
         if (Input.GetKeyDown(KeyCode.R)) {
-            PlayerControll.rotation += 1;
-            foreach (FactorioPlatformBuilding fb in PlayerControll.bluePrintBuildings) {
+            PlayerControll.Instance.rotation += 1;
+            foreach (FactorioPlatformBuilding fb in PlayerControll.Instance.GetBluePrintBuildings()) {
                 fb.TryGetPlatformUnderMouse(out var hit, out var pgp, fb.transform.position);
-                fb.SetRotation(PlayerControll.rotation);
+                fb.SetRotation(PlayerControll.Instance.GetRotation());
                 fb.SetBuildingType(pgp);
             }
         }
     }
 
     public override bool TryPutBuilding() {
-        TryGetPlatformUnderMouse(out var hit, out var pgp, transform.position);
-        return pgp.SetBulding(this);
+        bool hasPlatform = TryGetPlatformUnderMouse(out var hit, out var playGroundPlatform, transform.position);
+        return hasPlatform && playGroundPlatform.SetBulding(this);
     }
 
-    public bool TryGetPlatformUnderMouse(out RaycastHit hit, out PlayGroundPlatform pgp) {
+    public bool TryGetPlatformUnderMouse(out RaycastHit hit, out PlayGroundPlatform playGroundPlatform) {
         int mask = LayerMask.GetMask("playground");
         Ray ray = main_camera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit, float.MaxValue, mask)) {
-            pgp = hit.collider.transform.parent.GetComponent<PlayGroundPlatform>();
-            return pgp != null;
+            playGroundPlatform = hit.collider.transform.parent.GetComponent<PlayGroundPlatform>();
+            return playGroundPlatform != null;
         }
 
-        pgp = null;
+        playGroundPlatform = null;
         return false;
     }
 
-    public bool TryGetPlatformUnderMouse(out RaycastHit hit, out PlayGroundPlatform pgp, Vector3 point) {
+    public bool TryGetPlatformUnderMouse(out RaycastHit hit, out PlayGroundPlatform playGroundPlatform, Vector3 point) {
         int mask = LayerMask.GetMask("playground");
         Ray ray = new Ray(main_camera.transform.position, (point - main_camera.transform.position).normalized);
 
         if (Physics.Raycast(ray, out hit, float.MaxValue, mask)) {
-            pgp = hit.collider.transform.parent.GetComponent<PlayGroundPlatform>();
-            return pgp != null;
+            playGroundPlatform = hit.collider.transform.parent.GetComponent<PlayGroundPlatform>();
+            return playGroundPlatform != null;
         }
 
-        pgp = null;
+        playGroundPlatform = null;
         return false;
     }
 
-    public virtual void UpdateBlueprintState(Vector3 hitPoint, PlayGroundPlatform pgp) {
+    public virtual void UpdateBlueprintState(Vector3 hitPoint, PlayGroundPlatform playGroundPlatform) {
         SetRimMaterial();
         SetPosition(hitPoint);
-        SetValidColor(pgp.IsValid(this) ? 1 : 0);
-        SetBuildingType(pgp);
-        playGroundPlatform = pgp;
+        SetValidColor(playGroundPlatform.IsValid(this) ? 1 : 0);
+        SetBuildingType(playGroundPlatform);
+        this.playGroundPlatform = playGroundPlatform;
     }
-
 
     public virtual bool TryInput(FactorioGameObjectBase factorioResource,Vector3Int pos, int i,bool mid = false) {
         return false;
@@ -147,10 +134,6 @@ public class FactorioPlatformBuilding : FactorioBuilding{
 
 }
 
-
-
-
-
 public static class FactorioGameObjectUIManager {
     public static List<FactorioUIControlBase> UIList = new List<FactorioUIControlBase>();
 
@@ -161,10 +144,10 @@ public static class FactorioGameObjectUIManager {
         UIList.Clear();
     }
 
-    public static void AddUI(FactorioUIControlBase fui) {
+    public static void AddUI(FactorioUIControlBase factorioUIControlBase) {
         ClearAllUI();
-        UIList.Add(fui);
-        fui.SetActive(true);
+        UIList.Add(factorioUIControlBase);
+        factorioUIControlBase.SetActive(true);
     }
 
 }

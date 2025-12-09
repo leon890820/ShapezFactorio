@@ -8,14 +8,10 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
     public Vector3Int buildingSize = new Vector3Int(1, 1, 1);
     public Material rimMaterial;
 
-
     protected Dictionary<Renderer, Material[]> originalMaterials = new();
     protected Renderer[] meshRenderers;
     protected bool bluePrintMode = true;
-    protected int rotation = 0;
-
-    
-
+    protected int rotation = 0;    
     protected Camera main_camera;
     protected BuildStatus buildStatus;
 
@@ -25,7 +21,7 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
     protected override void Awake() {
         base.Awake();      
         InitOrigonalRendererList();
-        tintColor = new Color[] { new(0.0f, 1.0f, 0.85f), new(1.0f, 0.16f, 0.0f) };
+        tintColor = new Color[] { new(0.0f, 1.0f, 0.85f), new(1.0f, 0.16f, 0.0f) };        
         main_camera = FindAnyObjectByType<Camera>();
     }
 
@@ -80,11 +76,9 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
         }
     }
 
-
-
     public virtual void AddRotation() {
         rotation = (rotation + 1) % 4;
-        PlayerControll.rotation = rotation;
+        PlayerControll.Instance.SetRotation(rotation);
         pivotTransform.rotation = Quaternion.Euler(0.0f, rotation * 90.0f, 0.0f);
     }
 
@@ -97,7 +91,6 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
         bluePrintMode = b;
     }
 
-
     public virtual void SetPosition(Vector3 pos) {
         pivotTransform.position = Floor(pos);
     }
@@ -106,8 +99,6 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
     public virtual void SetStatus() { 
         
     }
-
-
 
     public static Vector3 Floor(Vector3 v) {
         return new Vector3(
@@ -128,6 +119,6 @@ public enum BuildStatus {
     NoRecipe,         // 沒有設定配方 (NotConfigured)
     NoInput,          // 缺少原料 (Starved)
     OutputFull,       // 背包/輸出滿了 (Blocked/Jammed)
-    FalseInput,        // 錯誤輸入
-    NoSelected
+    FalseInput,       // 錯誤輸入
+    NoSelected        // 未選擇產品
 }

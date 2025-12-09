@@ -7,12 +7,12 @@ public class MiningDrill : FactorioPlatformBuilding {
     public Animator animator1;
     public Animator animator2;
 
-    float mining_time = 8f;
-    float mining_speed = 1f;
-    float mining_count = 0f;
+    private float mining_time = 8f;
+    private float mining_speed = 1f;
+    private float mining_count = 0f;
 
-    MiningUIControl miningUIControl;
-    FactorioPrefabBaseObject miningResource;
+    private MiningUIControl miningUIControl;
+    private FactorioPrefabBaseObject miningResource;
 
     protected override void Awake() {
         base.Awake();        
@@ -80,14 +80,11 @@ public class MiningDrill : FactorioPlatformBuilding {
     public void TryMining() {
         if (backpad.Count >= backpadMax) return;
 
-
         FactorioGameObjectBase factorioGameObjectBase = Instantiate(miningResource.object_prefab);
-
         factorioGameObjectBase.transform.SetParent(transform);
         factorioGameObjectBase.transform.localPosition = Vector3.zero;        
         factorioGameObjectBase.SetSprite(miningResource.info);
-        backpad.Add(factorioGameObjectBase);
-    
+        backpad.Add(factorioGameObjectBase);    
     }
 
 
@@ -95,8 +92,6 @@ public class MiningDrill : FactorioPlatformBuilding {
         if (backpad.Count <= 0) return;
         Vector3Int dir = FactorioData.direction[(rotation + 1) % 4] * 2;
         FactorioPlatformBuilding factorioPlatformBuilding = playGroundPlatform.GetBuilding(this , dir);
-
-        //Debug.Log(factorioPlatformBuilding + " " + FactorioData.direction[(rotation + 1) % 4] * 2);
         if (!factorioPlatformBuilding) return;
 
         FactorioGameObjectBase factorioResource = backpad[backpad.Count - 1];
@@ -109,8 +104,6 @@ public class MiningDrill : FactorioPlatformBuilding {
 
     }
 
-
-    //
     public override bool TryInput(FactorioGameObjectBase factorioResource, Vector3Int pos , int i, bool mid) {
         return false;
     }
@@ -131,7 +124,6 @@ public class MiningDrill : FactorioPlatformBuilding {
         }
     
     }
-
 
     public void ResetAnimation() {
         animator1.Play("CINEMA_4D_Main", 0, 0f);

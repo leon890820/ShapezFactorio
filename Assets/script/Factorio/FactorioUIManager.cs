@@ -9,19 +9,11 @@ public class FactorioUIManager : MonoBehaviour{
 
 
     private void Update() {
-
-
-        if (CameraControl.galaxy) {
-            bool galaxy = CameraControl.galaxyMode;
-
+        if (CameraControl.Instance.galaxy) {
+            bool galaxy = CameraControl.Instance.GalaxyMode;
             normalUI.SetActive(!galaxy);
             galaxyUI.SetActive(galaxy);
-
-            CameraControl.galaxy = false;
+            CameraControl.Instance.galaxy = false;
         }
-
-
     }
-
-
 }

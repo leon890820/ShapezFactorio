@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FactorioPrimitiveUI : MonoBehaviour{
-    
+public class FactorioPrimitiveUI : MonoBehaviour{   
     public SwitchButton[] switchButtons;
-
-
-
     // Start is called before the first frame update
     void Start() {
         foreach (var switchButton in switchButtons) {
@@ -19,15 +15,11 @@ public class FactorioPrimitiveUI : MonoBehaviour{
     void SetGameObjectInActive() {
         foreach (SwitchButton button in switchButtons) { 
             button.SetGameObjectInActive();
-        }
-    
+        }    
     }
 
     public void SetActive(bool active) { 
         SetGameObjectInActive();
         gameObject.SetActive(active);
     }
-
-
-
 }

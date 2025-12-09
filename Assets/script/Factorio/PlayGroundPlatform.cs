@@ -8,19 +8,7 @@ using static UnityEngine.UI.Image;
 public class PlayGroundPlatform : FactorioBuilding {
 
     public Vector2Int platformSize = new Vector2Int(1, 1);
-
     public int platformLayer = 10;
-
-
-    FactorioPlatformBuilding[,,] buildings;
-    FactorioPlatformBuilding[,,] scaffoldings;
-
-    MeshFilter meshFilter;
-
-    GameObject colliderGameObject;
-
-    Vector2Int scale;
-
     public Transform wallTransform;
     public GameObject notch;
     public GameObject corner;
@@ -29,17 +17,25 @@ public class PlayGroundPlatform : FactorioBuilding {
 
     static readonly Plane GroundPlane = new Plane(Vector3.up, Vector3.zero);
 
+
+    private FactorioPlatformBuilding[,,] buildings;
+    private FactorioPlatformBuilding[,,] scaffoldings;
+    private MeshFilter meshFilter;
+    private GameObject colliderGameObject;
+    private Vector2Int scale;
+
     // Start is called before the first frame update
 
     protected override void Awake() {
-        //gameObject.layer = 6;
-        InitPlatformMesh();
-        InitNotch();
-        InitWall();
+        InitBuildingAppearance();
         base.Awake();
     }
 
-
+    void InitBuildingAppearance() {
+        InitPlatformMesh();
+        InitNotch();
+        InitWall();
+    }
 
 
     protected override void Start(){
@@ -51,17 +47,18 @@ public class PlayGroundPlatform : FactorioBuilding {
 
     public override bool UpdateAnchor() {
         if (!TryGetGroundHit(out var hit)) return false;
+        var anchor = PlayerControll.Instance.GetAnchor();
         Vector3 pos = GetPosition(hit);
-        if (PlayerControll.anchor.Count == 0) {
-            PlayerControll.AddAnchor(pos);
+        if (anchor.Count == 0) {
+            PlayerControll.Instance.AddAnchor(pos);
             return true;
         }
-        if (PlayerControll.anchor[0].Equals(pos)) {
+        if (anchor.Equals(pos)) {
             return false;
         }
 
-        PlayerControll.ClearAnchor();
-        PlayerControll.AddAnchor(pos);
+        PlayerControll.Instance.ClearAnchor();
+        PlayerControll.Instance.AddAnchor(pos);
         return true;
 
     }
@@ -83,7 +80,7 @@ public class PlayGroundPlatform : FactorioBuilding {
 
     public override void UpdateBehavior() {
         if (Input.GetMouseButtonDown(0)) {
-            PlayerControll.PutBuildings();
+            PlayerControll.Instance.PutBuildings();
         }
     }
 

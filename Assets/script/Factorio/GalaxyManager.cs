@@ -10,16 +10,11 @@ public class GalaxyManager : MonoBehaviour{
     public static Dictionary<ChunkCoord, PlayGroundPlatform> playgrounds;
     public static Dictionary<ChunkCoord, FactorioPlanet> planets;
 
-    // Start is called before the first frame update
     void Awake(){
         playgrounds = new Dictionary<ChunkCoord, PlayGroundPlatform>();
         planets = new Dictionary<ChunkCoord, FactorioPlanet>();
     }
 
-    // Update is called once per frame
-    void Update(){
-        
-    }
 
     public static HashSet<FactorioPlatformBuilding> FindSurroundPlatformBuildings(FactorioPlatformBuilding building , int radius) {
         return FindSurroundPlatformBuildings<FactorioPlatformBuilding>(building, radius);
@@ -27,9 +22,8 @@ public class GalaxyManager : MonoBehaviour{
 
     public static HashSet<T> FindSurroundPlatformBuildings<T>(FactorioPlatformBuilding building, int radius) where T : FactorioPlatformBuilding {
         HashSet<T> result = new();
-        Vector3 offset =
-           - FactorioData.direction[0] * Mathf.FloorToInt(building.buildingSize.x / 2f) +
-           - FactorioData.direction[3] * Mathf.FloorToInt(building.buildingSize.z / 2f);
+        Vector3 offset = - FactorioData.direction[0] * Mathf.FloorToInt(building.buildingSize.x / 2f) +
+                         - FactorioData.direction[3] * Mathf.FloorToInt(building.buildingSize.z / 2f);
         Vector3 startPos = building.transform.position + offset - new Vector3(radius, 0, radius);
         for (int z = 0; z < radius * 2 + building.buildingSize.z; z++) {
             for (int x = 0; x < radius * 2 + building.buildingSize.x; x++) {
@@ -41,7 +35,6 @@ public class GalaxyManager : MonoBehaviour{
                 }
             }
         }
-
         return result;
     }
 

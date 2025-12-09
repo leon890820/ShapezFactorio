@@ -10,10 +10,6 @@ public class Inserter : PowerCosumeBulding {
 
     private FactorioGameObjectBase resource;
     bool isAniamted = false;
-    // Start is called before the first frame update
-
-
-    // Update is called once per frame
     protected override void Update()
     {
         base.Update();
@@ -32,10 +28,7 @@ public class Inserter : PowerCosumeBulding {
                 isAniamted = true;
                 PlayHalfThenStop();
             }
-
-
-        } else {
-            
+        } else {            
             if (TryInsert()) {
                 isAniamted = true;
                 PlayFromTime("CINEMA_4D_Main", 1f);

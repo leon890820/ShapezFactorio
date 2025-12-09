@@ -6,13 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FurnaceUIControl : FactorioUIControlBase {
-    public Image backpadImage;
-    public Image productImage;
+    [SerializeField] private Image backpadImage;
+    [SerializeField] private Image productImage;
 
-    public TextMeshProUGUI backpadText;
-    public TextMeshProUGUI productText;
+    [SerializeField] private TextMeshProUGUI backpadText;
+    [SerializeField] private TextMeshProUGUI productText;
 
-    public Slider progress;
+    [SerializeField] private Slider progress;
 
 
 

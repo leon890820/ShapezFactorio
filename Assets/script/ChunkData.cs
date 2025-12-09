@@ -60,11 +60,5 @@ static public class FactorioData {
 
     public static readonly int platformTexelSize = 20;
     public static readonly int platformHalfTexelSize = platformTexelSize / 2;
-
     public static readonly int galaxyGridSize = 10;
-
-}
-
-public enum BaseResource { 
-    Iron,Copper
 }

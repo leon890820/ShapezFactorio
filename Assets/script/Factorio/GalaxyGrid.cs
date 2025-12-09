@@ -34,7 +34,6 @@ public class GalaxyGrid : MonoBehaviour {
     private void OnRenderImage(RenderTexture source, RenderTexture destination) {
         if (!mat) {
             mat = new Material(gridShader);
-
         }
         Graphics.Blit(source, destination, mat);
     }

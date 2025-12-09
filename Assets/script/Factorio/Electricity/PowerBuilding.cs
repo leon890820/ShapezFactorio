@@ -10,11 +10,6 @@ public abstract class PowerBuilding : FactorioPlatformBuilding{
     [HideInInspector]
     public bool through = false;
 
-
-    
-
-
-
     public void AddConnectPowerBuilding(PowerBuilding powerBuilding) { 
         connectPowerBuildings.Add(powerBuilding);
     }

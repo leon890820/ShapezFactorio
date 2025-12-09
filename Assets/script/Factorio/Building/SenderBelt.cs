@@ -188,7 +188,7 @@ public class SenderBelt : Belt
         belt.UpdateBlueprintState(pos, neibor);
         belt.SetBuildingTypeReceiver(rot);
         receiverBelt = belt;
-        PlayerControll.bluePrintBuildings.Add(belt);
+        PlayerControll.Instance.bluePrintBuildings.Add(belt);
     }
 
     public override bool TryPutBuilding() {

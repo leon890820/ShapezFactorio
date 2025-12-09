@@ -19,22 +19,20 @@ public class LayerGrid : MonoBehaviour{
         if (!material) { 
             material = new Material(shader);
         }
-
-        
-
-        material.SetFloat("layer", PlayerControll.BuildingLayer);
+       
+        material.SetFloat("layer", PlayerControll.Instance.GetBuildingLayer());
         material.SetVector("backgroundColor", backgroundColor);
         material.SetVector("lineColor", lineColor);
-        if(PlayerControll.anchor.Count > 0) material.SetVector("hitPosition", PlayerControll.anchor[PlayerControll.anchor.Count - 1]);
+
+        var anchor = PlayerControll.Instance.GetAnchor();
+        if (anchor.Count > 0) material.SetVector("hitPosition", anchor[^1]);
 
         Vector3 size = new Vector3(FactorioData.platformHalfTexelSize - 1, FactorioData.platformHalfTexelSize - 1, FactorioData.platformHalfTexelSize - 1);
 
-        if (PlayerControll.anchor.Count > 0) {
-            material.SetVector("boundMin", PlayerControll.anchor[PlayerControll.anchor.Count - 1] - size);
-            material.SetVector("boundMax", PlayerControll.anchor[PlayerControll.anchor.Count - 1] + size);
+        if (anchor.Count > 0) {
+            material.SetVector("boundMin", anchor[^1] - size);
+            material.SetVector("boundMax", anchor[^1] + size);
         }
-
-
 
         Graphics.Blit(source, destination, material);
     }

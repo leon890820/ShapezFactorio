@@ -3,11 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 abstract public class FactorioButton<T> : FactorioButtonBase {
-
-
     protected new Action<T> OnButtonClick;
-
-
     // Start is called before the first frame update
     protected override void Start() {
         image = GetComponent<Image>();
@@ -17,12 +13,9 @@ abstract public class FactorioButton<T> : FactorioButtonBase {
 
     }
 
-
     public virtual void OnClick(T value) {
-
         OnButtonClick?.Invoke(value);
     }
-
 
     public void AddAction(Action<T> action) {
         OnButtonClick += action;

@@ -41,7 +41,7 @@ public class Furnace : FactorioPlatformBuilding {
         if (productBackpad.Count >= completeMax) return;
         if (backpad.Count == 0) return;
 
-        FactorioGameObjectBase lastObject = backpad[backpad.Count - 1];
+        FactorioGameObjectBase lastObject = backpad[^1];
 
         if (lastObject is IBurnable burnable) {
             furnaceCount += Time.deltaTime * furnaceSpeed;
@@ -57,7 +57,7 @@ public class Furnace : FactorioPlatformBuilding {
                 factorioGameObject.SetSprite(productPrefab.info);
                 productBackpad.Add(factorioGameObject);
 
-                backpad.Remove(lastObject);
+                backpad.RemoveAt(backpad.Count - 1);
                 Destroy(lastObject.gameObject);
 
             }
@@ -70,7 +70,7 @@ public class Furnace : FactorioPlatformBuilding {
             buildStatus = BuildStatus.Idle;
             return;
         }
-        FactorioGameObjectBase lastObject = backpad[backpad.Count - 1];
+        FactorioGameObjectBase lastObject = backpad[^1];
         if (lastObject is IBurnable) {
             buildStatus = BuildStatus.Working;
         } else { 
@@ -81,10 +81,8 @@ public class Furnace : FactorioPlatformBuilding {
 
     public override bool TryInput(FactorioGameObjectBase factorioResource,Vector3Int pos, int i, bool mid = false) {
 
-        if (backpad.Count == 0) { 
-            backpad.Add(factorioResource);
-            factorioResource.transform.SetParent(transform);
-            factorioResource.transform.localPosition = Vector3.zero;
+        if (backpad.Count == 0) {
+            PutResourceToBackpad(factorioResource);
             return true;
         }
 
@@ -92,30 +90,31 @@ public class Furnace : FactorioPlatformBuilding {
             return false;
         }
 
-
         if (backpad[0].GetType() != factorioResource.GetType()) {
             return false;
-        } else {
-            backpad.Add(factorioResource);
-            factorioResource.transform.SetParent(transform);
-            return true;
-        }
+        }  
+        
+        PutResourceToBackpad(factorioResource);
+        return true;
+        
+    }
+
+    void PutResourceToBackpad(FactorioGameObjectBase factorioResource) {
+        backpad.Add(factorioResource);
+        factorioResource.transform.SetParent(transform);
+        factorioResource.transform.localPosition = Vector3.zero;
     }
 
     public override FactorioGameObjectBase TryBeGrab() {
-
         if (productBackpad.Count == 0) return null;
-        var fgo = productBackpad[productBackpad.Count - 1];
+        var resource = productBackpad[^1];
         productBackpad.RemoveAt(productBackpad.Count - 1);
-        fgo.transform.SetParent(null);
-        return fgo;
+        resource.transform.SetParent(null);
+        return resource;
     }
 
     public override FactorioPrefabBaseObject Clone() {
         return PrefabManager.Instance.GetPrefab("Furnace");
     }
-
-
-
 
 }

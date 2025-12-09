@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEngine;
 
 public class PowerGrid{
-    HashSet<PowerStation> powerStations = new HashSet<PowerStation>();
-    HashSet<TeleGraphPole> teleGraphPoles = new HashSet<TeleGraphPole>();
-    HashSet<PowerCosumeBulding> powerCosumeBulding = new HashSet<PowerCosumeBulding>();
+    private HashSet<PowerStation> powerStations = new();
+    private HashSet<TeleGraphPole> teleGraphPoles = new();
+    private HashSet<PowerCosumeBulding> powerCosumeBulding = new();
     public PowerGrid() { 
     
     }

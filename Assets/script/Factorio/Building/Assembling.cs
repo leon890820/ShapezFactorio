@@ -7,19 +7,19 @@ public class Assembling : PowerCosumeBulding {
     public Animator animator;
 
 
-    List<FactorioGameObjectBase> inputBackpad1 = new List<FactorioGameObjectBase>();
-    List<FactorioGameObjectBase> inputBackpad2 = new List<FactorioGameObjectBase>();
-    List<FactorioGameObjectBase> productBackpad1 = new List<FactorioGameObjectBase>();
+    private List<FactorioGameObjectBase> inputBackpad1 = new();
+    private List<FactorioGameObjectBase> inputBackpad2 = new();
+    private List<FactorioGameObjectBase> productBackpad1 = new();
 
-    FactorioGameObjectBasePacket productMaterial1;
-    FactorioGameObjectBasePacket productMaterial2;
-    FactorioGameObjectBasePacket product;
+    private FactorioGameObjectBasePacket productMaterial1;
+    private FactorioGameObjectBasePacket productMaterial2;
+    private FactorioGameObjectBasePacket product;
 
-    AssemblingUIControll assemblingUIControl;
+    private AssemblingUIControll assemblingUIControl;
 
-    float assembling_time = 1f;
-    float assembling_speed = 1f;
-    float assembling_count = 0f;
+    private float assembling_time = 1f;
+    private float assembling_speed = 1f;
+    private float assembling_count = 0f;
 
 
     protected override void Start() {
