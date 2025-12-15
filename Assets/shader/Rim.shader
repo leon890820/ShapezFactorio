@@ -61,7 +61,7 @@ Shader "edge_rim_ver5" {
 
 					fixed3 grabpass_color = tex2D(GrabPassTexture, i.scrPos.xy / i.scrPos.w).rgb;
 
-					return fixed4(grabpass_color + emission * _RimScale * _des, 1.0);
+					return fixed4(emission * _RimScale * _des, 1.0);
 					}
 
 				ENDCG

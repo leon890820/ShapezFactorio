@@ -41,6 +41,9 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
     }
 
     protected override void Update() {
+        if (bluePrintMode) {
+            return;
+        }
         base.Update();
         SetStatus();
         Run();        

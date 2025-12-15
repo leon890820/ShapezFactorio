@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class MiningDrill : FactorioPlatformBuilding {
+public class MiningDrill : PowerCosumeBulding {
 
     public Animator animator1;
     public Animator animator2;
@@ -44,8 +45,22 @@ public class MiningDrill : FactorioPlatformBuilding {
     }
 
     public override void SetStatus() {
-        if(miningResource == null) buildStatus = BuildStatus.NoInput;
-        else buildStatus = BuildStatus.Working;
+        if (miningResource == null) {
+            buildStatus = BuildStatus.NoRecipe;
+        } else if (!powerGrid.GetAffordPower()) {
+            buildStatus = BuildStatus.NoPower;
+        } else {
+            buildStatus = BuildStatus.Working;
+        }
+        buildingStatusController?.SetAlertIcon(buildStatus);
+    }
+
+    public override BuildStatus EvaluateStatusWithoutPower() {
+        if (miningResource == null) {
+            return BuildStatus.NoRecipe;
+        } 
+        return BuildStatus.Working;
+        
     }
 
 
@@ -53,13 +68,15 @@ public class MiningDrill : FactorioPlatformBuilding {
         miningUIControl.SetbackpadImage(backpad.Count > 0 ? backpad[0].factorioSprite : null, backpad.Count);
         miningUIControl.SetValue(mining_count / mining_time);
 
-        if (buildStatus == BuildStatus.Working) {
-            miningUIControl.SetWorking(true);
-        } else if (buildStatus == BuildStatus.NoInput) {
+        if (buildStatus == BuildStatus.NoRecipe) {
             miningUIControl.SetWorking(false);
+        }else {
+            miningUIControl.SetWorking(true);
         }
 
     }
+
+
 
     public override void Run() {
         if (bluePrintMode) return;
@@ -114,15 +131,14 @@ public class MiningDrill : FactorioPlatformBuilding {
     }
 
 
-    public void SetAnimation() {
-        if (bluePrintMode || buildStatus == BuildStatus.NoInput) {
+    public void SetAnimation() {       
+        if (bluePrintMode || buildStatus != BuildStatus.Working) {
             animator1.SetBool("Mining", false);
             animator2.SetBool("Mining", false);
         } else {
             animator1.SetBool("Mining", true);
             animator2.SetBool("Mining", true);
-        }
-    
+        }    
     }
 
     public void ResetAnimation() {

@@ -91,7 +91,7 @@ public class Assembling : PowerCosumeBulding {
 
         assemblingUIControl.SetValue(assembling_count);
 
-        if (buildStatus == BuildStatus.NoSelected) {
+        if (buildStatus == BuildStatus.NoRecipe) {
             assemblingUIControl.SetWorking(false);
         } else {
             assemblingUIControl.SetWorking(true);
@@ -107,13 +107,20 @@ public class Assembling : PowerCosumeBulding {
         }
     }
 
-    public override void SetStatus() {
-        if (product == null) buildStatus = BuildStatus.NoSelected;
-        else if ((productMaterial1 != null && inputBackpad1.Count < productMaterial1.number) || (productMaterial2 != null && inputBackpad2.Count < productMaterial2.number)) {
-            buildStatus = BuildStatus.NoInput;
+
+    public override BuildStatus EvaluateStatusWithoutPower() {
+        if (product == null) {
+             return BuildStatus.NoRecipe;
+        } else if ((productMaterial1 != null && inputBackpad1.Count < productMaterial1.number) || (productMaterial2 != null && inputBackpad2.Count < productMaterial2.number)) {
+             return BuildStatus.NoInput;
         } else if (productBackpad1.Count >= backpadMax) {
-            buildStatus = BuildStatus.OutputFull;
-        } else buildStatus = BuildStatus.Working;
+            return BuildStatus.OutputFull;
+        } 
+        return BuildStatus.Working;
+    }
+
+    public override float GetCosumePower() {
+        return cosumePower;
     }
 
     public override FactorioPrefabBaseObject Clone() {

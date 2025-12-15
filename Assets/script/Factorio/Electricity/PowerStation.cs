@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class PowerStation : PowerBuilding {
-    public int capacity;
+    public float capacity;
 
     protected override void Start() {
         base.Start();

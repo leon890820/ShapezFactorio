@@ -8,7 +8,7 @@ Shader "edge_rim_ver_belt" {
 		  _des("des", Range(0, 1)) = 1
 		}
 		SubShader{
-			Tags{ "Queue" = "Transparent" "RenderType" = "Opaque" }
+			Tags{ "Queue" = "Geometry" "RenderType" = "Opaque" }
 			GrabPass{ "GrabPassTexture" }
 		Pass{
 			Tags{ "LightMode" = "ForwardBase" }
@@ -65,7 +65,7 @@ Shader "edge_rim_ver_belt" {
 				fixed3 grabpass_color = tex2D(GrabPassTexture, i.scrPos.xy / i.scrPos.w).rgb;
 				fixed3 main_color = tex2D(_MainTex, i.texcoord).rgb;
 
-				fixed3 final_color = main_color * 0.8 + grabpass_color + emission * _RimScale * _des;
+				fixed3 final_color = main_color * 0.8 + emission * _RimScale * _des;
 
 				return fixed4(final_color,1.0);
 				//return fixed4(grabpass_color + emission * _RimScale * _des, 1.0);

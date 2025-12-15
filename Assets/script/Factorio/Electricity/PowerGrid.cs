@@ -69,13 +69,24 @@ public class PowerGrid{
             cosume.through = false;
     }
 
-
-    public int GetPowerCapacity() {
-        int count = 0;
+    public float GetPowerCapacity() {
+        float count = 0;
         foreach (var building in powerStations) { 
             count += building.capacity;
         }
         return count;
+    }
+
+    public float GetCosumePower() {
+        float count = 0;
+        foreach (var building in powerCosumeBulding) {
+            count += building.GetCosumePower();
+        }
+        return count;
+    }
+
+    public bool GetAffordPower() {
+        return GetPowerCapacity() >= GetCosumePower();
     }
 
 }

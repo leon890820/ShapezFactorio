@@ -5,9 +5,11 @@ using UnityEngine.EventSystems;
 
 public class FactorioPlatformBuilding : FactorioBuilding{
 
+    public BuildingStatusController buildingStatusController;
     protected List<FactorioGameObjectBase> backpad = new List<FactorioGameObjectBase>();
     protected int backpadMax = 1;
     protected PlayGroundPlatform playGroundPlatform;
+    
 
     // Start is called before the first frame update
 
