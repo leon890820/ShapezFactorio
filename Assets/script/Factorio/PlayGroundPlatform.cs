@@ -70,7 +70,7 @@ public class PlayGroundPlatform : FactorioBuilding {
             PlayGroundPlatform fb = Instantiate(Clone().object_prefab) as PlayGroundPlatform;
             fb.SetPosition(anchor[0]);
             fb.SetRimMaterial();
-            fb.SetValidColor(GalaxyManager.IsValid(fb) ? 1 : 0);
+            fb.SetValidColor(GalaxyManager.Instance.IsValid(fb) ? 1 : 0);
             result.Add(fb);
         }
 
@@ -85,7 +85,7 @@ public class PlayGroundPlatform : FactorioBuilding {
     }
 
     public override bool TryPutBuilding() {
-        return GalaxyManager.AddPlayground(this);
+        return GalaxyManager.Instance.AddPlayground(this);
  
     }
 
@@ -101,7 +101,7 @@ public class PlayGroundPlatform : FactorioBuilding {
     }
 
     public ChunkCoord GetChunkCoord() { 
-        return GalaxyManager.GetPlatFormCoordPosition(this);
+        return GalaxyManager.Instance.GetPlatFormCoordPosition(this);
     }
 
 

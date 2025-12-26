@@ -27,8 +27,8 @@ public abstract class TeleGraphPole : PowerBuilding{
 
     private void CreatePowerGrid() {
         HashSet<PowerGrid> powerGrids = new HashSet<PowerGrid>();
-        var connectionNeighbor = GalaxyManager.FindSurroundPlatformBuildings<TeleGraphPole>(this, connectionRange);
-        var powerNeighbor = GalaxyManager.FindSurroundPlatformBuildings<PowerBuilding>(this, powerRange);
+        var connectionNeighbor = GalaxyManager.Instance.FindSurroundPlatformBuildings<TeleGraphPole>(this, connectionRange);
+        var powerNeighbor = GalaxyManager.Instance.FindSurroundPlatformBuildings<PowerBuilding>(this, powerRange);
 
         AddPowerBuildingInPowerGrid(powerGrids, connectionNeighbor);
         AddPowerBuildingInPowerGrid(powerGrids, powerNeighbor);
@@ -37,7 +37,7 @@ public abstract class TeleGraphPole : PowerBuilding{
 
     public void ReBuildPowerGrid() {
         HashSet<PowerGrid> powerGrids = new HashSet<PowerGrid> {powerGrid};
-        var powerNeighbor = GalaxyManager.FindSurroundPlatformBuildings<PowerBuilding>(this, powerRange);
+        var powerNeighbor = GalaxyManager.Instance.FindSurroundPlatformBuildings<PowerBuilding>(this, powerRange);
         AddPowerBuildingInPowerGrid(powerGrids, powerNeighbor);
         PowerGridManager.Instance.MergePowerGrid(powerGrids);
     }
@@ -52,7 +52,7 @@ public abstract class TeleGraphPole : PowerBuilding{
     }
 
     public void CreateWire() {
-        var neighborBuildings = GalaxyManager.FindSurroundPlatformBuildings<TeleGraphPole>(this, connectionRange);
+        var neighborBuildings = GalaxyManager.Instance.FindSurroundPlatformBuildings<TeleGraphPole>(this, connectionRange);
         foreach (var building in neighborBuildings) {
             InitRope(building);
         }

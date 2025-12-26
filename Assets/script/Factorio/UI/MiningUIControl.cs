@@ -18,7 +18,7 @@ public class MiningUIControl : FactorioUIControlBase {
     private MiningDrill minedrill;
 
     public void InitItemUI(MiningDrill md,ChunkCoord cc) { 
-        FactorioPlanet planet = GalaxyManager.GetFactorioPlanet(cc);
+        FactorioPlanet planet = GalaxyManager.Instance.GetFactorioPlanet(cc);
         minedrill = md;
         if (!planet) return;
         float space = 60f;

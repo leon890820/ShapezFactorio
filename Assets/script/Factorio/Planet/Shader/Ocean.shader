@@ -48,6 +48,9 @@ Shader "Hidden/Ocean"
             float depthMutiplier;
             float alphaMutiplier;
 
+            float3 pos;
+            float radius;
+
             float2 raySphereDst(float3 sphereCenter, float sphereRadius, float3 rayOrigin, float3 rayDir){
                 float3 offset = rayOrigin - sphereCenter;
                 float a = dot(rayDir, rayDir); // 可省略（若 rayDir 已經 normalize 為 1）
@@ -113,7 +116,7 @@ Shader "Hidden/Ocean"
                 float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
                 float depth = LinearEyeDepth(nonlin_depth) * viewLength;
 
-                float2 sphereInfo = raySphereDst(float3(0,0,0), 1, rayPos, rayDir);
+                float2 sphereInfo = raySphereDst(pos, radius, rayPos, rayDir);
                 
                 float4 col = tex2D(_MainTex, i.uv);
 

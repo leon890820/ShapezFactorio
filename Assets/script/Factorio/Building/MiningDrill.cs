@@ -24,7 +24,7 @@ public class MiningDrill : PowerCosumeBulding {
         base.Start();
         backpadMax = 50;
         miningUIControl = factorioUIControlBase as MiningUIControl;
-        miningUIControl.InitItemUI(this, GalaxyManager.PositionToChunkCoord(transform.position));
+        miningUIControl.InitItemUI(this, GalaxyManager.Instance.PositionToChunkCoord(transform.position));
     }
 
     // Update is called once per frame

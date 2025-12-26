@@ -168,7 +168,7 @@ public class SenderBelt : Belt
     }
 
     public bool TrySpawnSender(int rot, int num) {
-        PlayGroundPlatform neibor = GalaxyManager.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
+        PlayGroundPlatform neibor = GalaxyManager.Instance.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
         if (!neibor) return true;
         Vector3 pos = transform.position + FactorioData.direction[rot] * 3;
         SenderBelt nbelt = neibor.GetBuilding(pos)?.GetComponent<SenderBelt>();
@@ -180,7 +180,7 @@ public class SenderBelt : Belt
     }
 
     public void TrySpawnReceiver(int rot, int num) {
-        PlayGroundPlatform neibor = GalaxyManager.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
+        PlayGroundPlatform neibor = GalaxyManager.Instance.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
         if (!neibor) return;
         Vector3 pos = transform.position + FactorioData.direction[rot] * 3;
         SenderBelt belt = Instantiate(Clone().object_prefab).GetComponent<SenderBelt>();
@@ -197,7 +197,7 @@ public class SenderBelt : Belt
         if (type == BeltType.RECEIVER) {
             Vector3Int localPos = pgp.GetBuildingLocalPosition(this);            
             (int rot, int num) = pgp.IsExits(localPos);
-            PlayGroundPlatform neibor = GalaxyManager.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);            
+            PlayGroundPlatform neibor = GalaxyManager.Instance.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);            
             Vector3 pos = transform.position + FactorioData.direction[rot] * 3;
             SenderBelt nbelt = neibor.GetBuilding(pos)?.GetComponent<SenderBelt>();
             if(nbelt) nbelt.receiverBelt = this;            

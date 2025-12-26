@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPlanets: 1
-  EarthPrefab: {fileID: 1135548720101691057, guid: 2870dd568c0875445a1b364641f6e086, type: 3}
+  EarthPrefab: {fileID: 8448147640872553384, guid: 2870dd568c0875445a1b364641f6e086, type: 3}
 --- !u!1 &897756709
 GameObject:
   m_ObjectHideFlags: 0

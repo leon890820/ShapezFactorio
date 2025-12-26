@@ -3,6 +3,7 @@ Shader "Custom/InfiniteGridTransparentOffsetAA"
     Properties
     {
         _LineColor("Line Color", Color) = (1,1,1,1)
+        _GridFillColor("GridFill Color", Color) = (1,1,1,1)
         _GridSize("Grid Size", Float) = 1
         _LineWidth("Line Width", Float) = 0.02
         _Offset("Grid Offset (XYZ)", Vector) = (0,0,0,0)
@@ -30,6 +31,7 @@ Shader "Custom/InfiniteGridTransparentOffsetAA"
             float  _GridSize;
             float  _LineWidth;
             float4 _Offset;
+            float4 _GridFillColor;
 
             struct appdata
             {
@@ -59,22 +61,34 @@ Shader "Custom/InfiniteGridTransparentOffsetAA"
                 // distance to nearest grid center line in each axis (0..0.5)
                 float2 cell = abs(frac(coord) - 0.5);
 
-                // distance to closest line (either X or Z line)
+                // distance to closest line
                 float distToLine = min(cell.x, cell.y);
 
                 // screen-space derivative for anti-aliasing
                 float aa = fwidth(distToLine) * 1.5;
 
-                // anti-aliased line mask
-                float lineMask = 1.0 - smoothstep(_LineWidth - aa, _LineWidth + aa, distToLine);
+                // anti-aliased line mask (1 = line, 0 = background)
+                float lineMask = 1.0 - smoothstep(
+                    _LineWidth - aa,
+                    _LineWidth + aa,
+                    distToLine
+                );
                 lineMask = saturate(lineMask);
 
-                // optional: fade out very dense grid far away
-                // float density = max(fwidth(coord.x), fwidth(coord.y));
-                // float densityFade = saturate(1.0 / (density * 2.0));
-                // lineMask *= densityFade;
+                // ===== 新增：用 lineMask 混合顏色 =====
+                float3 color = lerp(
+                    _GridFillColor.rgb,   // 格線中間顏色
+                    _LineColor.rgb,       // 線條顏色
+                    lineMask
+                );
 
-                return float4(_LineColor.rgb, lineMask * _LineColor.a);
+                float alpha = lerp(
+                    _GridFillColor.a,
+                    _LineColor.a,
+                    lineMask
+                );
+
+                return float4(color, alpha);
             }
             ENDCG
         }
