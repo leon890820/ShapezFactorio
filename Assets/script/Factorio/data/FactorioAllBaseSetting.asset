@@ -73,6 +73,11 @@ MonoBehaviour:
       name: SmallTelePole
       object_prefab: {fileID: 5631043936192904428, guid: ca57db3f9fbea7d419b22e12f532e338, type: 3}
       info: {fileID: 21300000, guid: a4a2d87dee89d0149990cedea09be108, type: 3}
+  - key: IronChest
+    prefab:
+      name: IronChest
+      object_prefab: {fileID: 1613856145474230075, guid: b8188c5192bcef445aed1f7e5dd0aa33, type: 3}
+      info: {fileID: 21300000, guid: 2427e72b7cc2ef443922eb5e64261a05, type: 3}
   - key: PlayerGround1x1
     prefab:
       name: PlayerGround1x1

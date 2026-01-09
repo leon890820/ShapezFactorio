@@ -119,7 +119,7 @@ public class FactorioPlatformBuilding : FactorioBuilding{
     }
 
     public override FactorioPrefabBaseObject Clone() {
-        return null;
+        return PrefabManager.Instance.GetPrefab(GetType().Name);
     }
 
     public virtual void SetBuildingType(PlayGroundPlatform pgp) { }
