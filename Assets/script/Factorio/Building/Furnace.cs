@@ -39,31 +39,33 @@ public class Furnace : FactorioPlatformBuilding {
 
     public override void Run() {
         if (productBackpad.Count >= completeMax) return;
-        if (backpad.Count == 0) return;
-
-        FactorioGameObjectBase lastObject = backpad[^1];
-
-        if (lastObject is IBurnable burnable) {
-            furnaceCount += Time.deltaTime * furnaceSpeed;
-
-            if (furnaceCount > 1f) {
-                furnaceCount = 0f;
-                FactorioGameObjectBasePacket productPrefabPacket = burnable.GetBurnProduct();
-                FactorioPrefabBaseObject productPrefab = productPrefabPacket.factorioPrefab;
-
-                FactorioGameObjectBase factorioGameObject = Instantiate(productPrefab.object_prefab);
-                factorioGameObject.transform.SetParent(transform);
-                factorioGameObject.transform.localPosition = Vector3.zero;
-                factorioGameObject.SetSprite(productPrefab.info);
-                productBackpad.Add(factorioGameObject);
-
-                backpad.RemoveAt(backpad.Count - 1);
-                Destroy(lastObject.gameObject);
-
-            }
-        }
-
+        if (backpad.Count == 0) return;        
+        furnaceCount += Time.deltaTime * furnaceSpeed;
+        if (furnaceCount <= 1f) return;
+        TryProduct();
     }
+
+    private bool TryProduct() {
+        FactorioGameObjectBase lastObject = backpad[^1];
+        if (lastObject is not IBurnable burnable) return false;
+        
+        FactorioGameObjectBasePacket productPrefabPacket = burnable.GetBurnProduct();
+        FactorioPrefabBaseObject productPrefab = productPrefabPacket.factorioPrefab;
+        FactorioGameObjectBase factorioGameObject = Instantiate(productPrefab.object_prefab);
+        GameStats.Instance.IncrementStat(factorioGameObject.GetType().Name, 1);
+
+        factorioGameObject.transform.SetParent(transform);
+        factorioGameObject.transform.localPosition = Vector3.zero;
+        factorioGameObject.SetSprite(productPrefab.info);
+        productBackpad.Add(factorioGameObject);
+        backpad.RemoveAt(backpad.Count - 1);
+        Destroy(lastObject.gameObject);
+
+        furnaceCount = 0f;
+        return true;
+    }
+
+
 
     public override void SetStatus() {
         if (backpad.Count == 0) {

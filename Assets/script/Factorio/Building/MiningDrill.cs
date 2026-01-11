@@ -101,6 +101,7 @@ public class MiningDrill : PowerCosumeBulding {
         factorioGameObjectBase.transform.SetParent(transform);
         factorioGameObjectBase.transform.localPosition = Vector3.zero;        
         factorioGameObjectBase.SetSprite(miningResource.info);
+        GameStats.Instance.IncrementStat(factorioGameObjectBase.GetType().Name, 1);
         backpad.Add(factorioGameObjectBase);    
     }
 
