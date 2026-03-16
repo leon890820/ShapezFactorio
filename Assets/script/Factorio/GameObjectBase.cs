@@ -19,8 +19,8 @@ public abstract class FactorioGameObjectBase : MonoBehaviour,IAssembled{
         }
     }
 
-    protected virtual void Start() { 
-    
+    protected virtual void Start() {        
+        factorioUIControlBase?.InitItemUI(this);
     }
 
     // Update is called once per frame
@@ -49,7 +49,9 @@ public abstract class FactorioGameObjectBase : MonoBehaviour,IAssembled{
         
     }
 
-    public virtual void UpdateUI() {}
+    public virtual void UpdateUI() {
+        factorioUIControlBase?.UpdateUI();
+    }
 }
 
 public class FactorioGameObjectBasePacket {
@@ -59,5 +61,9 @@ public class FactorioGameObjectBasePacket {
     public FactorioGameObjectBasePacket(FactorioPrefabBaseObject factorioPrefab, int number) { 
         this.factorioPrefab = factorioPrefab;
         this.number = number;
+    }
+
+    public Sprite GetSprite() {
+        return factorioPrefab?.info;
     }
 }

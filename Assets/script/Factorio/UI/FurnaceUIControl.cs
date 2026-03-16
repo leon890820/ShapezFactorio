@@ -6,30 +6,23 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FurnaceUIControl : FactorioUIControlBase {
-    [SerializeField] private Image backpadImage;
-    [SerializeField] private Image productImage;
+    [SerializeField] private FactorioBackpadUIManager backpadUIManager;
+    [SerializeField] private FactorioBackpadUIManager productUIManager;
 
-    [SerializeField] private TextMeshProUGUI backpadText;
-    [SerializeField] private TextMeshProUGUI productText;
+    private FactorioBackpad backpad;
+    private FactorioBackpad product;
 
-    [SerializeField] private Slider progress;
-
-
-
-    public void SetValue(float value) {
-        progress.value = value;
+    public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) {
+        var furnace = factorioGameObjectBase as Furnace;
+        backpad = furnace.backpad;
+        product = furnace.productBackpad;
     }
 
-    public void SetProductImage(Sprite sprite, int number) {
-        productImage.sprite = sprite ?? basic;
-        productText.text = number.ToString();
-        productText.gameObject.SetActive(number > 0);
-    }
-
-    public void SetbackpadImage(Sprite sprite, int number) {
-        backpadImage.sprite = sprite ?? basic;
-        backpadText.text = number.ToString();
-        backpadText.gameObject.SetActive(number > 0);
+    public override void UpdateUI() {
+        var (backpadObj, backpadCount) = backpad.GetBackpadIndexInfo(0);
+        var (productObj, productCount) = product.GetBackpadIndexInfo(0);
+        backpadUIManager.SetbackpadImage(backpadObj?.factorioSprite ?? basic, backpadCount);
+        productUIManager.SetbackpadImage(productObj?.factorioSprite ?? basic, productCount);
     }
 
 }

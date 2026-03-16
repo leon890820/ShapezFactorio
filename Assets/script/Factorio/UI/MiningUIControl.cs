@@ -6,47 +6,42 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MiningUIControl : FactorioUIControlBase {
-    public Image backpadImage;
-    public TextMeshProUGUI backpadText;
-
-    public Slider progress;
+    public FactorioBackpadUIManager product;    
 
     public GameObject workingUI;
     public GameObject ItemUI;
 
-    public GameObject buttonPrefab;
-    private MiningDrill minedrill;
+    public ButtonController buttonPrefab;
 
-    public void InitItemUI(MiningDrill md,ChunkCoord cc) { 
+    private MiningDrill minedrill;
+    private FactorioBackpad backpad;
+
+    public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) {
+        minedrill = factorioGameObjectBase as MiningDrill;
+        var cc = minedrill.GetChunkCoord();
         FactorioPlanet planet = GalaxyManager.Instance.GetFactorioPlanet(cc);
-        minedrill = md;
         if (!planet) return;
         float space = 60f;
         int resourceCount = planet.minableResource.Count;
         float startX = -(resourceCount * 0.5f * space) + (space * 0.5f);
 
-        for (int i = 0; i < planet.minableResource.Count; i++) { 
-            GameObject buttonUI = Instantiate(buttonPrefab);
-            buttonUI.transform.SetParent(ItemUI.transform, false);
-            buttonUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(startX, 0);
+        for (int i = 0; i < planet.minableResource.Count; i++) {
+            ButtonController button = Instantiate(buttonPrefab);
+            button.transform.SetParent(ItemUI.transform, false);
+            button.GetComponent<RectTransform>().anchoredPosition = new Vector2(startX, 0);
             startX += space;
 
-            Image image = buttonUI.GetComponent<Image>();
-            image.sprite = PrefabManager.Instance.GetSprite(planet.minableResource[i]);
-
-            Button button = buttonUI.GetComponent<Button>();
+            button.SetImage(PrefabManager.Instance.GetSprite(planet.minableResource[i]));            
             string resourceName = planet.minableResource[i];
-            button.onClick.AddListener(() => SetMiningResource(resourceName));
+            button.AddListener(() => SetMiningResource(resourceName));
         }
+
+        backpad = minedrill.backpad;
     }
 
     public void SetMiningResource(string name) {
         FactorioPrefabBaseObject fgob = PrefabManager.Instance.GetPrefab(name);
         minedrill.SetResource(fgob);
-    }
-
-    public void SetValue(float value) { 
-        progress.value = value;
     }
 
     public void SetWorking(bool work) { 
@@ -59,14 +54,18 @@ public class MiningUIControl : FactorioUIControlBase {
         minedrill.ResetBuilding();
     }
 
-    public void Close() { 
-        this.gameObject.SetActive(false);
+    public override void UpdateUI() {
+        var (backpadObj, backpadCount) = backpad.GetBackpadIndexInfo(0);
+        SetbackpadImage(backpadObj?.factorioSprite, backpadCount);
+        if (minedrill.buildStatus == BuildStatus.NoRecipe) {
+            SetWorking(false);
+        } else {
+            SetWorking(true);
+        }
     }
 
     public void SetbackpadImage(Sprite sprite, int number) {
-        backpadImage.sprite = sprite ?? basic;
-        backpadText.text = number.ToString();
-        backpadText.gameObject.SetActive(number > 0);
+        product.SetbackpadImage(sprite ?? basic, number);
     }
 
 }

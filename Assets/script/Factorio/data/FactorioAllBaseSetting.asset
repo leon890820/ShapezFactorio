@@ -78,6 +78,21 @@ MonoBehaviour:
       name: IronChest
       object_prefab: {fileID: 1613856145474230075, guid: b8188c5192bcef445aed1f7e5dd0aa33, type: 3}
       info: {fileID: 21300000, guid: 2427e72b7cc2ef443922eb5e64261a05, type: 3}
+  - key: Lab
+    prefab:
+      name: Lab
+      object_prefab: {fileID: 2081726020065542569, guid: bd0b8c1df7d1bd74ab38661e1c680727, type: 3}
+      info: {fileID: 21300000, guid: 72cf87187eb958749a5047a582faabe1, type: 3}
+  - key: RedSciencePack
+    prefab:
+      name: RedSciencePack
+      object_prefab: {fileID: 5144405753172528200, guid: 27200c413f22b5549a0197a4550d6a92, type: 3}
+      info: {fileID: 21300000, guid: c5a552b7c52e6384abbf6918bea1dccc, type: 3}
+  - key: DebugChest
+    prefab:
+      name: DebugChest
+      object_prefab: {fileID: 1394356217255512443, guid: ff2c57c11780fc5499394ea649c4c583, type: 3}
+      info: {fileID: 21300000, guid: 2427e72b7cc2ef443922eb5e64261a05, type: 3}
   - key: PlayerGround1x1
     prefab:
       name: PlayerGround1x1

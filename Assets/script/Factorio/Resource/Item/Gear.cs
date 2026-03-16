@@ -8,8 +8,7 @@ public class Gear : FactorioItem{
     }
     public override List<FactorioGameObjectBasePacket> GetItemMaterial() {
         return new List<FactorioGameObjectBasePacket>() {
-            new FactorioGameObjectBasePacket(PrefabManager.Instance.GetPrefab("IronPlate"), 2),
-            null,
+            new FactorioGameObjectBasePacket(PrefabManager.Instance.GetPrefab("IronPlate"), 2)            
         };
     }
 

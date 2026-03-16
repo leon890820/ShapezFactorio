@@ -53,6 +53,7 @@ MonoBehaviour:
   pivotTransform: {fileID: 3753924970643278297}
   buildingSize: {x: 3, y: 1, z: 3}
   rimMaterial: {fileID: 2100000, guid: 0e0fc7f64db4a7149bc04c0ef52d44ed, type: 2}
+  buildStatus: 0
   buildingStatusController: {fileID: 7869823394225408475}
   through: 0
   cosumePower: 10

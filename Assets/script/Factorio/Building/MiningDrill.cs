@@ -11,20 +11,17 @@ public class MiningDrill : PowerCosumeBulding {
     private float mining_time = 8f;
     private float mining_speed = 1f;
     private float mining_count = 0f;
-
-    private MiningUIControl miningUIControl;
     private FactorioPrefabBaseObject miningResource;
 
     protected override void Awake() {
-        base.Awake();        
+        base.Awake();
+        backpadMax = 50;
+        backpad = new FactorioBackpad(1, backpadMax);
     }
 
     // Start is called before the first frame update
     protected override void Start(){
-        base.Start();
-        backpadMax = 50;
-        miningUIControl = factorioUIControlBase as MiningUIControl;
-        miningUIControl.InitItemUI(this, GalaxyManager.Instance.PositionToChunkCoord(transform.position));
+        base.Start();        
     }
 
     // Update is called once per frame
@@ -32,6 +29,10 @@ public class MiningDrill : PowerCosumeBulding {
     protected override void Update() {
         base.Update();
         SetAnimation();        
+    }
+
+    public ChunkCoord GetChunkCoord() {
+        return GalaxyManager.Instance.PositionToChunkCoord(transform.position);
     }
 
     public void SetResource(FactorioPrefabBaseObject resource) { 
@@ -65,15 +66,8 @@ public class MiningDrill : PowerCosumeBulding {
 
 
     public override void UpdateUI() {
-        miningUIControl.SetbackpadImage(backpad.Count > 0 ? backpad[0].factorioSprite : null, backpad.Count);
-        miningUIControl.SetValue(mining_count / mining_time);
-
-        if (buildStatus == BuildStatus.NoRecipe) {
-            miningUIControl.SetWorking(false);
-        }else {
-            miningUIControl.SetWorking(true);
-        }
-
+        base.UpdateUI();
+        factorioUIControlBase.SetValue(mining_count / mining_time);
     }
 
 
@@ -84,10 +78,8 @@ public class MiningDrill : PowerCosumeBulding {
         if (buildStatus != BuildStatus.Working) return;
         TryOutput();
 
-        if (mining_count > mining_time) {
-            mining_count = 0;
-            TryMining();
-            ResetAnimation();
+        if (mining_count > mining_time) {            
+            TryMining();            
         }
 
 
@@ -95,29 +87,31 @@ public class MiningDrill : PowerCosumeBulding {
     }
 
     public void TryMining() {
-        if (backpad.Count >= backpadMax) return;
+        if (backpad.IsFull()) return;
 
         FactorioGameObjectBase factorioGameObjectBase = Instantiate(miningResource.object_prefab);
         factorioGameObjectBase.transform.SetParent(transform);
         factorioGameObjectBase.transform.localPosition = Vector3.zero;        
         factorioGameObjectBase.SetSprite(miningResource.info);
         GameStats.Instance.IncrementStat(factorioGameObjectBase.GetType().Name, 1);
-        backpad.Add(factorioGameObjectBase);    
+        backpad.TryInput(factorioGameObjectBase);
+        mining_count = 0;
+        ResetAnimation();
     }
 
 
     public void TryOutput() {
-        if (backpad.Count <= 0) return;
+        if (backpad.IsEmpty()) return;
         Vector3Int dir = FactorioData.direction[(rotation + 1) % 4] * 2;
         FactorioPlatformBuilding factorioPlatformBuilding = playGroundPlatform.GetBuilding(this , dir);
         if (!factorioPlatformBuilding) return;
 
-        FactorioGameObjectBase factorioResource = backpad[backpad.Count - 1];
+        FactorioGameObjectBase factorioResource = backpad.Peak();
         Vector3Int pos = playGroundPlatform.GetLocalPositions(transform.position) + dir;
 
 
         if (factorioPlatformBuilding.TryInput(factorioResource , pos, 0, true)) {
-            backpad.Remove(factorioResource);
+            backpad.Pop();
         }
 
     }

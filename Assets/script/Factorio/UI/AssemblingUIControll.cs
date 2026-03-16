@@ -6,31 +6,24 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AssemblingUIControll : FactorioUIControlBase {
-    public Image backpadImage;
-    public TextMeshProUGUI backpadText;
-    public Image backpad2Image;
-    public TextMeshProUGUI backpad2Text;
-                                
-    public Image productImage;
-    public TextMeshProUGUI productText;
-
-    public Slider progress;
+    public FactorioBackpadUIManager[] backpadUIManager;
+    public FactorioBackpadUIManager productBackpadUIManager;
 
     public GameObject workingUI;
-    public GameObject ItemUI;
+    public GameObject itemUI;
 
     public GameObject buttonPrefab;
 
     Assembling assembling;
 
-    public void InitItemUI(Assembling ab) {
-        assembling = ab;
+    public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) {
+        assembling = factorioGameObjectBase as Assembling;
         Vector3 origin = new Vector3(-350, 80, 0);
 
         int index = 0;
         foreach (var pair in productPair) {
             GameObject buttonObject = Instantiate(buttonPrefab);
-            buttonObject.transform.SetParent(ItemUI.transform, false);
+            buttonObject.transform.SetParent(itemUI.transform, false);
             buttonObject.GetComponent<RectTransform>().localPosition = origin + new Vector3(60 * index, 0, 0);
 
             Image image = buttonObject.GetComponent<Image>();
@@ -46,8 +39,18 @@ public class AssemblingUIControll : FactorioUIControlBase {
 
     }
 
-    public void SetValue(float value) {
-        progress.value = value;
+    public override void UpdateUI() {
+        for (int i = 0; i < backpadUIManager.Length; i++) {
+            var ingredient = i < assembling.productIngredient?.Count ? assembling.productIngredient[i]: null;
+            backpadUIManager[i].SetbackpadImage(ingredient?.GetSprite() ?? basic, assembling.backpad.GetBackpadCount(i));
+        }
+        productBackpadUIManager.SetbackpadImage(assembling.product?.GetSprite() ?? basic, assembling.productBackpad.GetBackpadCount(0));
+       
+        if (assembling.buildStatus == BuildStatus.NoRecipe) {
+            SetWorking(false);
+        } else {
+            SetWorking(true);
+        }
     }
 
     private void SetAssemblingProduct(string product, int number) {
@@ -55,32 +58,10 @@ public class AssemblingUIControll : FactorioUIControlBase {
         assembling.SetProduct(new FactorioGameObjectBasePacket(fpbo, number));
     }
 
-    public void SetbackpadImage1(Sprite sprite, int number) {
-        backpadImage.sprite = sprite ?? basic;
-        backpadImage.color = number > 0 ? Color.white : sprite ? Color.gray : new Color(1, 1, 1, 0);
-        backpadText.text = number.ToString();
-        backpadText.gameObject.SetActive(number > 0);
-    }
-
-    public void SetbackpadImage2(Sprite sprite, int number) {
-        backpad2Image.sprite = sprite ?? basic;
-        backpad2Image.color = number > 0 ? Color.white : sprite ? Color.gray : new Color(1, 1, 1, 0);
-        backpad2Text.text = number.ToString();
-        backpad2Text.gameObject.SetActive(number > 0);
-    }
-
-    public void SetProductImage(Sprite sprite, int number) {
-
-        productImage.sprite = sprite ?? basic;
-        productImage.color = number > 0 ? Color.white : sprite ? Color.gray : new Color(1, 1, 1, 0);
-        productText.text = number.ToString();
-        productText.gameObject.SetActive(number > 0);
-    }
-
 
     public void SetWorking(bool work) {
         workingUI.SetActive(work);
-        ItemUI.SetActive(!work);
+        itemUI.SetActive(!work);
     }
 
     public void SetItem() {
@@ -88,7 +69,5 @@ public class AssemblingUIControll : FactorioUIControlBase {
         assembling.ResetProduct();
     }
 
-    public void Close() {
-        this.gameObject.SetActive(false);
-    }
+    
 }

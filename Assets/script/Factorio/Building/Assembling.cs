@@ -6,27 +6,23 @@ using UnityEngine;
 public class Assembling : PowerCosumeBulding {
     public Animator animator;
 
+    public FactorioBackpad productBackpad;
 
-    private List<FactorioGameObjectBase> inputBackpad1 = new();
-    private List<FactorioGameObjectBase> inputBackpad2 = new();
-    private List<FactorioGameObjectBase> productBackpad1 = new();
-
-    private FactorioGameObjectBasePacket productMaterial1;
-    private FactorioGameObjectBasePacket productMaterial2;
-    private FactorioGameObjectBasePacket product;
-
-    private AssemblingUIControll assemblingUIControl;
+    public List<FactorioGameObjectBasePacket> productIngredient;
+    public FactorioGameObjectBasePacket product;
 
     private float assembling_time = 1f;
     private float assembling_speed = 1f;
     private float assembling_count = 0f;
 
-
+    protected override void Awake() {
+        base.Awake();
+        backpadMax = 50;
+        backpad = new FactorioBackpad(2, backpadMax);
+        productBackpad = new FactorioBackpad(1, backpadMax);
+    }
     protected override void Start() {
         base.Start();
-        assemblingUIControl = factorioUIControlBase as AssemblingUIControll;
-        assemblingUIControl.InitItemUI(this);
-        backpadMax = 50;
     }
 
     protected override void Update() {
@@ -44,16 +40,11 @@ public class Assembling : PowerCosumeBulding {
     }
 
     private void TryAssembling() {
-        if (productBackpad1.Count >= backpadMax) return;
-        for (int i = 0; i < (productMaterial1?.number ?? 0); i++) {
-            FactorioGameObjectBase lastObject = inputBackpad1[^1];
-            inputBackpad1.Remove(lastObject);
-            Destroy(lastObject);
-        }
-        for (int i = 0; i < (productMaterial2?.number ?? 0); i++) {
-            FactorioGameObjectBase lastObject = inputBackpad2[^1];
-            inputBackpad2.Remove(lastObject);
-            Destroy(lastObject);
+        for (int i = 0; i < productIngredient.Count; i++) {
+            for (int count = 0; count < productIngredient[i].number; count++) {
+                FactorioGameObjectBase lastObject = backpad.Pop(count);
+                Destroy(lastObject.gameObject);
+            }
         }
 
         for (int i = 0; i < product.number; i++) {
@@ -62,7 +53,7 @@ public class Assembling : PowerCosumeBulding {
             factorioGameObject.transform.SetParent(transform);
             factorioGameObject.transform.localPosition = Vector3.zero;
 
-            productBackpad1.Add(factorioGameObject);
+            productBackpad.TryInput(factorioGameObject);
         }
 
         assembling_count = 0f;
@@ -70,34 +61,20 @@ public class Assembling : PowerCosumeBulding {
 
     public void SetProduct(FactorioGameObjectBasePacket product) {
         IAssembled assembled = product.factorioPrefab.object_prefab.GetComponent<IAssembled>();
-        List<FactorioGameObjectBasePacket> materials = assembled.GetItemMaterial();
-        productMaterial1 = materials[0];
-        productMaterial2 = materials[1];
+        productIngredient = assembled.GetItemMaterial();
         this.product = product;
     }
 
     public void ResetProduct() {
-        productMaterial1 = null;
-        productMaterial2 = null;
+        productIngredient = null;
         product = null;
-        inputBackpad1.Clear();
-        inputBackpad2.Clear();
-        productBackpad1.Clear();
+        backpad.Clear();
+        productBackpad.Clear();
     }
 
     public override void UpdateUI() {
-        assemblingUIControl.SetbackpadImage1(productMaterial1?.factorioPrefab.info, inputBackpad1.Count);
-        assemblingUIControl.SetbackpadImage2(productMaterial2?.factorioPrefab.info, inputBackpad2.Count);
-        assemblingUIControl.SetProductImage(product?.factorioPrefab.info, productBackpad1.Count);
-
-        assemblingUIControl.SetValue(assembling_count);
-
-        if (buildStatus == BuildStatus.NoRecipe) {
-            assemblingUIControl.SetWorking(false);
-        } else {
-            assemblingUIControl.SetWorking(true);
-        }
-
+        base.UpdateUI();
+        factorioUIControlBase.SetValue(assembling_count);
     }
 
     public void SetAnimation() {
@@ -112,12 +89,20 @@ public class Assembling : PowerCosumeBulding {
     public override BuildStatus EvaluateStatusWithoutPower() {
         if (product == null) {
              return BuildStatus.NoRecipe;
-        } else if ((productMaterial1 != null && inputBackpad1.Count < productMaterial1.number) || (productMaterial2 != null && inputBackpad2.Count < productMaterial2.number)) {
-             return BuildStatus.NoInput;
-        } else if (productBackpad1.Count >= backpadMax) {
+        } else if (productBackpad.IsFull()) {
             return BuildStatus.OutputFull;
-        } 
+        } else if (CanAssemble()) {
+             return BuildStatus.NoInput;
+        }  
         return BuildStatus.Working;
+    }
+
+    private bool CanAssemble() {
+        for (int i = 0; i < productIngredient.Count; i++) {
+            if (productIngredient[i] == null) return false;
+            if (backpad.backpad[i].Count < productIngredient[i].number) return false;
+        }
+        return true;
     }
 
     public override float GetCosumePower() {
@@ -135,27 +120,23 @@ public class Assembling : PowerCosumeBulding {
     }
 
     public override bool TryInput(FactorioGameObjectBase factorioResource, Vector3Int pos, int i, bool mid = false) {
-        FactorioGameObjectBase material1 = productMaterial1?.factorioPrefab.object_prefab;
-        FactorioGameObjectBase material2 = productMaterial2?.factorioPrefab.object_prefab;
-        if (material1 != null && material1.GetType() == factorioResource.GetType()) {
-            inputBackpad1.Add(factorioResource);
-            factorioResource.transform.SetParent(transform);
-            factorioResource.transform.localPosition = Vector3.zero;
-            return true;
-        } else if (material2 != null && material2.GetType() == factorioResource.GetType()) {
-            inputBackpad2.Add(factorioResource);
-            factorioResource.transform.SetParent(transform);
-            factorioResource.transform.localPosition = Vector3.zero;
-            return true;
+        for (int index = 0; index < productIngredient.Count; index++) {
+            FactorioGameObjectBase ingredient = productIngredient[i].factorioPrefab.object_prefab;
+            if (ingredient.GetType() == factorioResource.GetType()) {
+                backpad.TryInput(factorioResource, index);
+                factorioResource.transform.SetParent(transform);
+                factorioResource.transform.localPosition = Vector3.zero;
+                return true;
+            }
         }
 
         return false;
     }
 
     public override FactorioGameObjectBase TryBeGrab() {
-        if(productBackpad1.Count <= 0) return null;
-        FactorioGameObjectBase lastObject = productBackpad1[^1];
-        productBackpad1.Remove(lastObject);
+        if(productBackpad.IsEmpty()) return null;
+        FactorioGameObjectBase lastObject = productBackpad.Pop();
+        lastObject.transform.SetParent(null);
         return lastObject;
     }
 }

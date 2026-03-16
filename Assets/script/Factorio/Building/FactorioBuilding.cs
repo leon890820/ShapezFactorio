@@ -13,7 +13,7 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
     protected bool bluePrintMode = true;
     protected int rotation = 0;    
     protected Camera main_camera;
-    protected BuildStatus buildStatus;
+    public BuildStatus buildStatus;
 
     private Color[] tintColor;
 

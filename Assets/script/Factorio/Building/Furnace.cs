@@ -6,9 +6,8 @@ using UnityEngine.EventSystems;
 
 public class Furnace : FactorioPlatformBuilding {
 
-    FurnaceUIControl furnaceUIControl;
-    List<FactorioGameObjectBase> productBackpad = new List<FactorioGameObjectBase>();
-    int completeMax = 5;
+    public FactorioBackpad productBackpad;   
+    int productMax = 5;
 
     public float furnaceSpeed = 1f;
     public float furnaceCount = 0f;
@@ -16,12 +15,13 @@ public class Furnace : FactorioPlatformBuilding {
     // Start is called before the first frame update
     protected override void Awake(){
         base.Awake();
+        backpadMax = 50;
+        backpad = new FactorioBackpad(1, backpadMax);
+        productBackpad = new FactorioBackpad(1, productMax);
     }
 
     protected override void Start() {
-        base.Start();
-        backpadMax = 50;
-        furnaceUIControl = factorioUIControlBase as FurnaceUIControl;
+        base.Start();        
     }
 
     // Update is called once per frame
@@ -29,26 +29,23 @@ public class Furnace : FactorioPlatformBuilding {
         base.Update();        
     }
 
-    public override void UpdateUI() {
-      
-        furnaceUIControl.SetProductImage(productBackpad.Count > 0 ? productBackpad[0].factorioSprite : null, productBackpad.Count);
-        furnaceUIControl.SetbackpadImage(backpad.Count > 0 ? backpad[0].factorioSprite : null , backpad.Count);
-        furnaceUIControl.SetValue(furnaceCount);
-
+    public override void UpdateUI() {      
+        base.UpdateUI();
+        factorioUIControlBase.SetValue(furnaceCount);
     }
 
     public override void Run() {
-        if (productBackpad.Count >= completeMax) return;
-        if (backpad.Count == 0) return;        
+        if (productBackpad.IsFull()) return;
+        if (backpad.IsEmpty()) return;
+        if (!backpad.IsSomeType<IBurnable>()) return;
         furnaceCount += Time.deltaTime * furnaceSpeed;
         if (furnaceCount <= 1f) return;
         TryProduct();
     }
 
     private bool TryProduct() {
-        FactorioGameObjectBase lastObject = backpad[^1];
-        if (lastObject is not IBurnable burnable) return false;
-        
+        FactorioGameObjectBase lastObject = backpad.Pop();
+        IBurnable burnable = lastObject as IBurnable;
         FactorioGameObjectBasePacket productPrefabPacket = burnable.GetBurnProduct();
         FactorioPrefabBaseObject productPrefab = productPrefabPacket.factorioPrefab;
         FactorioGameObjectBase factorioGameObject = Instantiate(productPrefab.object_prefab);
@@ -57,8 +54,7 @@ public class Furnace : FactorioPlatformBuilding {
         factorioGameObject.transform.SetParent(transform);
         factorioGameObject.transform.localPosition = Vector3.zero;
         factorioGameObject.SetSprite(productPrefab.info);
-        productBackpad.Add(factorioGameObject);
-        backpad.RemoveAt(backpad.Count - 1);
+        productBackpad.TryInput(factorioGameObject);
         Destroy(lastObject.gameObject);
 
         furnaceCount = 0f;
@@ -68,12 +64,11 @@ public class Furnace : FactorioPlatformBuilding {
 
 
     public override void SetStatus() {
-        if (backpad.Count == 0) {
+        if (backpad.IsEmpty()) {
             buildStatus = BuildStatus.Idle;
             return;
         }
-        FactorioGameObjectBase lastObject = backpad[^1];
-        if (lastObject is IBurnable) {
+        if (backpad.IsSomeType<IBurnable>()) {
             buildStatus = BuildStatus.Working;
         } else { 
             buildStatus= BuildStatus.FalseInput;
@@ -83,40 +78,25 @@ public class Furnace : FactorioPlatformBuilding {
 
     public override bool TryInput(FactorioGameObjectBase factorioResource,Vector3Int pos, int i, bool mid = false) {
 
-        if (backpad.Count == 0) {
+        if (backpad.TryInput(factorioResource)) {
             PutResourceToBackpad(factorioResource);
             return true;
         }
 
-        if (backpad.Count >= backpadMax) {
-            return false;
-        }
-
-        if (backpad[0].GetType() != factorioResource.GetType()) {
-            return false;
-        }  
-        
-        PutResourceToBackpad(factorioResource);
-        return true;
+        return false;
         
     }
 
     void PutResourceToBackpad(FactorioGameObjectBase factorioResource) {
-        backpad.Add(factorioResource);
         factorioResource.transform.SetParent(transform);
         factorioResource.transform.localPosition = Vector3.zero;
     }
 
     public override FactorioGameObjectBase TryBeGrab() {
-        if (productBackpad.Count == 0) return null;
-        var resource = productBackpad[^1];
-        productBackpad.RemoveAt(productBackpad.Count - 1);
+        var resource = productBackpad.Pop();
+        if(!resource) return null;
         resource.transform.SetParent(null);
         return resource;
-    }
-
-    public override FactorioPrefabBaseObject Clone() {
-        return PrefabManager.Instance.GetPrefab("Furnace");
     }
 
 }

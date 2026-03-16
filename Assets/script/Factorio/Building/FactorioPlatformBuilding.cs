@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class FactorioPlatformBuilding : FactorioBuilding{
 
     public BuildingStatusController buildingStatusController;
-    protected List<FactorioGameObjectBase> backpad = new List<FactorioGameObjectBase>();
+    public FactorioBackpad backpad;
     protected int backpadMax = 1;
     protected PlayGroundPlatform playGroundPlatform;
     
@@ -21,8 +21,7 @@ public class FactorioPlatformBuilding : FactorioBuilding{
         base.Start();
     }
     protected override void Update() {
-        base.Update();
-        
+        base.Update();        
     }
 
     public override bool UpdateAnchor() {
