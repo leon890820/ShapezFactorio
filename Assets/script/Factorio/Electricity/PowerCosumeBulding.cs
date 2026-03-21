@@ -6,7 +6,7 @@ using UnityEngine;
 
 abstract public class PowerCosumeBulding : PowerBuilding {
 
-    public float cosumePower = 10f;
+    public float cosumePower = 0f;
 
     public override void InitBuilding() {
         CreatePowerGrid();

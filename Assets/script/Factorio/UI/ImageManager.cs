@@ -10,4 +10,8 @@ public class ImageManager : MonoBehaviour{
         image.color = color;
     }
 
+    public Sprite GetImage() {
+        return image.sprite;
+    }
+
 }

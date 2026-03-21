@@ -193,8 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 847eea7b303559e4f949dd37256a5a58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previous:
-  - {fileID: 0}
+  previous: []
   next: []
   skillNodeLineUpdater: {fileID: 5467882988919317017}
   rectTransform: {fileID: 4600602792123827437}
@@ -204,6 +203,8 @@ MonoBehaviour:
   - {r: 0.40899786, g: 0.8764492, b: 0.9528302, a: 1}
   - {r: 0.88732076, g: 1, b: 0, a: 1}
   - {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
+  descriptionController: {fileID: 8830198457151417972, guid: 3ba92302ecc10b24b99881e55e70e123, type: 3}
+  tipTransform: {fileID: 6305374848913507947}
 --- !u!114 &5467882988919317017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +340,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2039871273308663757}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2171030324273958440}
+        m_TargetAssemblyTypeName: SkillNode, Assembly-CSharp
+        m_MethodName: Research
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2750805833377048325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,8 +402,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 100, y: -50}
-  m_SizeDelta: {x: 200, y: 100}
+  m_AnchoredPosition: {x: 100, y: -69.01099}
+  m_SizeDelta: {x: 200, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5040669368605215905
 CanvasRenderer:

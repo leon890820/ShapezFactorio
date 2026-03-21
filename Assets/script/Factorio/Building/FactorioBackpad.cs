@@ -53,6 +53,17 @@ public class FactorioBackpad{
         return false;
     }
 
+    public bool IsSameType(FactorioGameObjectBase factorioResource, int index) {
+        if (backpad[index].Count == 0) {
+            return false;
+        } else {
+            if (factorioResource.GetType() == backpad[index][0].GetType()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public FactorioGameObjectBase Pop() {
         for (int index = backpad.Length - 1; index >= 0; index--) {
             if (backpad[index].Count > 0) {
@@ -127,6 +138,18 @@ public class FactorioBackpad{
         return true;
     }
 
+
+
+    public bool IsSomeType<T>(int index) {
+
+        var list = backpad[index];
+        if (list == null || list.Count == 0 || list[0] is not T)
+            return false;
+        
+
+        return true;
+    }
+
     public (FactorioGameObjectBase, int) GetBackpadIndexInfo(int index) {
         if (backpad[index].Count > 0) {
             FactorioGameObjectBase grabbedObject = backpad[index][^1];
@@ -137,6 +160,10 @@ public class FactorioBackpad{
 
     public int GetBackpadCount(int index) {
         return backpad[index].Count;
+    }
+
+    public int Count() { 
+        return backpad.Length;
     }
 
     public void Clear() {

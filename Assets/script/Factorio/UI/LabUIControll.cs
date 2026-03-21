@@ -6,25 +6,26 @@ using UnityEngine.UI;
 
 public class LabUIControll : FactorioUIControlBase{
     public FactorioBackpadUIManager[] backpadsUI;
-    public FactorioBackpadUIManager product;
 
     private Lab lab;
+    private FactorioBackpad backpad;
 
     public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) { 
-        lab = factorioGameObjectBase as Lab;     
+        lab = factorioGameObjectBase as Lab;  
+        backpad = lab.backpad;
     }
 
     public void SetbackpadImage(Sprite sprite, int number, int index) {
         backpadsUI[index].SetbackpadImage(sprite ?? basic, number);
     }
 
-    public void UpdateUI(List<FactorioGameObjectBase>[] backpad) {
-        for (int i = 0; i < backpad.Length; i++) {
-            var list = backpad[i];
-            int number = list?.Count ?? 0;
-            Sprite sprite = number > 0 ? list[0].factorioSprite : null;
+    public override void UpdateUI() {
+        for (int i = 0; i < backpad.Count(); i++) {
+            var (backpadObj, backpadCount) = backpad.GetBackpadIndexInfo(i);
+            Sprite sprite = backpadCount > 0 ? backpadObj.factorioSprite : null;
 
-            SetbackpadImage(sprite, number, i);
+            SetbackpadImage(sprite, backpadCount, i);
         }
     }
+
 }

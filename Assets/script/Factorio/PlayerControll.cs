@@ -57,6 +57,10 @@ public class PlayerControll : MonoBehaviour {
                 galaxyManager.SetGroundPlatformLlayer(buildingLayer);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.K)) {
+            SkillNodeManager.Instance.ToggleUI();
+        }
     }
 
     public void BluePrintBuildingUpdate() {
@@ -76,6 +80,7 @@ public class PlayerControll : MonoBehaviour {
     }
 
     public void SelectBuilding() {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         Ray ray = main_camera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue)) {

@@ -11,7 +11,10 @@ public class SkillNode : MonoBehaviour {
     public RectTransform rectTransform;
     public ImageManager imageManager;
     public Color[] statusColors;
-    
+
+    public DescriptionController descriptionController;
+    public Transform tipTransform;
+
     private IUnlockCondition unlockCondition;
 
     private SkillStatus skillStatus = SkillStatus.Locked;
@@ -20,7 +23,11 @@ public class SkillNode : MonoBehaviour {
 
     private void Awake() {
         unlockCondition = GetComponent<IUnlockCondition>();
-        rectTransform = transform as RectTransform;
+        rectTransform = transform as RectTransform;        
+    }
+
+    private void Start() {
+        CreateResearchDescription();
     }
 
     private void OnValidate() {
@@ -70,10 +77,38 @@ public class SkillNode : MonoBehaviour {
         return unlockCondition.IsUnlocked();
     }
 
-    public SkillStatus GetSkillStatus() { 
+    public SkillStatus GetSkillStatus() {
         return skillStatus;
     }
 
+    public void CreateResearchDescription() {
+        var descriptions = unlockCondition.GetUnlockDescription();
+        int count = 0;
+        foreach (var description in descriptions) {
+            var descriptionCont = Instantiate(descriptionController, tipTransform);
+            descriptionCont.SetSprite(description.GetSprite());
+            descriptionCont.SetText("x" + description.number.ToString());
+            descriptionCont.SetPosition(new Vector3(-70 + count * 60, 30, 0));
+        }
+    }
+
+    public void Research() {
+        if (skillStatus != SkillStatus.Available) return;
+        ResearchManager.Instance.SetSkillNode(this);
+    }
+
+    public void SetUnLock() {
+        skillStatus = SkillStatus.Unlocked;
+    }
+
+    public ProductionUnlockConditionData[] GetUnlockConditionData() {
+        return unlockCondition.GetUnlockConditionData();
+    }
+
+    public Sprite GetImage() {
+        return imageManager.GetImage();
+
+    }
 }
 
 public enum SkillStatus {

@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ abstract public class FactorioButton<T> : FactorioButtonBase {
     // Start is called before the first frame update
     protected override void Start() {
         image = GetComponent<Image>();
+        text = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Button>().onClick.AddListener(() => {
             OnClick(GetValue());
         });
@@ -36,8 +38,10 @@ public abstract class FactorioButtonBase : MonoBehaviour {
     public string ButtonName = "button";
     protected Action OnButtonClick;
     protected Image image;
+    protected TextMeshProUGUI text;
     protected virtual void Start() {
         image = GetComponent<Image>();
+        text = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Button>().onClick.AddListener(OnClick);
     }
 
@@ -56,7 +60,10 @@ public abstract class FactorioButtonBase : MonoBehaviour {
     public void SetImage(Sprite sprite) {
         if (!image) image = GetComponent<Image>();
         image.sprite = sprite;
+    }
 
+    public void SetText(string text) { 
+        this.text.text = text;
     }
 
 }
