@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class FactorioBuilding : FactorioGameObjectBase {
+public abstract class FactorioBuilding : FactorioGameObjectBase, ISaveBluePrint {
 
     public Transform pivotTransform;    
     public Vector3Int buildingSize = new Vector3Int(1, 1, 1);
@@ -58,6 +58,15 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
     public abstract bool TryPutBuilding();
 
     public virtual void InitBuilding() { }
+    public abstract void CloneBuilding(FactorioBuilding bulding);
+
+    public abstract void SaveToBlueprint();
+
+    public virtual void PutBulding() {
+        SetOriginalMaterial();
+        SetBluePrintMode(false);
+        InitBuilding();
+    }
 
     public void SetValidColor(int c) {
         rimMaterial.SetColor("_RimColor", tintColor[c]);
@@ -109,6 +118,10 @@ public abstract class FactorioBuilding : FactorioGameObjectBase {
             v.y,
             Mathf.FloorToInt(v.z)
             );
+    }
+
+    public int GetRotation() {
+        return rotation;
     }
 
 }

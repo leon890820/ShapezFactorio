@@ -6,16 +6,12 @@ public class DevStartup : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start(){
-        SpawnBuilding("PlayerGround1x1");
+        SpawnBuilding("PlayerGround1x1", new Vector3Int());
     }
 
 
 
-    void SpawnBuilding(string name) { 
-        FactorioPrefabBaseObject gameObject = PrefabManager.Instance.GetPrefab(name);
-        PlayerControll.Instance.SpawnBuilding(gameObject);
-        PlayerControll.Instance.BluePrintBuildingUpdate();
-        PlayerControll.Instance.PutBuildings();
-        PlayerControll.Instance.DisableBlueprintBuilding();
+    void SpawnBuilding(string name, Vector3Int pos) { 
+        PlayerControll.Instance.DevPutBlueBuilding(name, pos);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 using static UnityEngine.UI.Image;
@@ -24,10 +25,14 @@ public class PlayGroundPlatform : FactorioBuilding {
     private GameObject colliderGameObject;
     private Vector2Int scale;
 
+    public List<FactorioPlatformBuilding> factorioPlatformBuildings = new List<FactorioPlatformBuilding>();
+
     // Start is called before the first frame update
 
     protected override void Awake() {
         InitBuildingAppearance();
+        buildings = new FactorioPlatformBuilding[scale.x, platformLayer, scale.y];
+        scaffoldings = new Scaffolding[scale.x, platformLayer, scale.y];
         base.Awake();
     }
 
@@ -38,9 +43,7 @@ public class PlayGroundPlatform : FactorioBuilding {
     }
 
 
-    protected override void Start(){
-        buildings = new FactorioPlatformBuilding[scale.x , platformLayer , scale.y];
-        scaffoldings = new Scaffolding[scale.x, platformLayer, scale.y];
+    protected override void Start(){        
         base.Start();
     }
 
@@ -53,7 +56,7 @@ public class PlayGroundPlatform : FactorioBuilding {
             PlayerControll.Instance.AddAnchor(pos);
             return true;
         }
-        if (anchor.Equals(pos)) {
+        if (anchor[0].Equals(pos)) {
             return false;
         }
 
@@ -71,12 +74,14 @@ public class PlayGroundPlatform : FactorioBuilding {
             fb.SetPosition(anchor[0]);
             fb.SetRimMaterial();
             fb.SetValidColor(GalaxyManager.Instance.IsValid(fb) ? 1 : 0);
+            fb.CloneBuilding(this);
             result.Add(fb);
         }
 
         return result;
         
     }
+
 
     public override void UpdateBehavior() {
         if (Input.GetMouseButtonDown(0)) {
@@ -91,6 +96,7 @@ public class PlayGroundPlatform : FactorioBuilding {
 
 
     bool TryGetGroundHit(out Vector3 hitPoint) {
+        if (!main_camera) main_camera = Camera.main;
         var ray = main_camera.ScreenPointToRay(Input.mousePosition);
         if (GroundPlane.Raycast(ray, out var dist)) {
             hitPoint = ray.GetPoint(dist);
@@ -142,13 +148,13 @@ public class PlayGroundPlatform : FactorioBuilding {
     public bool SetBulding(FactorioPlatformBuilding building) {
         Vector3Int[] localPos = GetBuildingLocalPositions(building);
         FactorioPlatformBuilding[,,] builds = building is Scaffolding ? scaffoldings : buildings;
+        if (OutOfBoundary(localPos)) return false;
         if (building is Belt or TeleGraphPole) {
             if (HasBulding(localPos[0], builds)) return false;
         } else {
             if (HasBulding(localPos, builds)) return false;
         }
-
-        if (OutOfBoundary(localPos)) return false;
+        
         if (building is not Scaffolding) { 
             if(!HasScanffolding(building, localPos)) return false;
         }
@@ -157,7 +163,8 @@ public class PlayGroundPlatform : FactorioBuilding {
             builds[localPos[i].x, localPos[i].y, localPos[i].z] = building;
         }
         building.transform.parent = transform;
-
+        factorioPlatformBuildings.Add(building);
+        building.SetPlayGroundPlatform(this);
         return true;
     }
 
@@ -320,6 +327,11 @@ public class PlayGroundPlatform : FactorioBuilding {
         return result;
     }
 
+    public Vector3 GetOriginalPosition() { 
+        Debug.Log( transform.position - new Vector3(platformSize.x * 10, 0, platformSize.y * 10));
+        return transform.position - new Vector3(platformSize.x * 10, 0 , platformSize.y * 10);
+    }
+        
     public Vector3Int AbsVector3Int(Vector3Int v) { 
         return new Vector3Int(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));    
     }
@@ -373,6 +385,29 @@ public class PlayGroundPlatform : FactorioBuilding {
     public override FactorioPrefabBaseObject Clone() {
         string suffix = platformSize.x + "x" + platformSize.y;
         return PrefabManager.Instance.GetPrefab("PlayerGround" + suffix);
+    }
+
+    public override void CloneBuilding(FactorioBuilding bulding) {
+        var buildings = (bulding as PlayGroundPlatform).factorioPlatformBuildings;
+        foreach (var building in buildings) {
+            FactorioPlatformBuilding factorioPlatformBuilding = Instantiate(building.Clone().object_prefab) as FactorioPlatformBuilding;
+            if(building is StairBelt) factorioPlatformBuilding = factorioPlatformBuilding.GetComponent<StairBelt>();
+            if (building is SenderBelt) factorioPlatformBuilding = factorioPlatformBuilding.GetComponent<SenderBelt>();
+            factorioPlatformBuilding.CloneBuilding(building);
+            factorioPlatformBuilding.SetPosition(building.transform.localPosition + transform.position);
+            SetBulding(factorioPlatformBuilding);
+        }
+    }
+
+    public override void PutBulding() {
+        base.PutBulding();
+        foreach (var building in factorioPlatformBuildings) {
+            building.PutBulding();            
+        }
+    }
+
+    public override void SaveToBlueprint() { 
+    
     }
 
 

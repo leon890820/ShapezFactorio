@@ -179,6 +179,7 @@ public class StairBelt : Belt {
 
     public override BuildingDirection GetDirectionType(Vector3Int pos, int dir) {
         Vector3Int localPos =  playGroundPlatform.GetBuildingLocalPosition(this);
+        Debug.Log($"pos: {pos}, localPos: {localPos}, upstair: {upstair}");
         int bias = pos.y - localPos.y + (upstair ? 0 : 1);
 
         if (beltDirections[dir + bias * 4] == BuildingDirection.OUPUT) return BuildingDirection.INPUT;
@@ -186,6 +187,25 @@ public class StairBelt : Belt {
         return BuildingDirection.NONE;
     }
 
+    public override void CloneBuilding(FactorioBuilding building) {
+        enabled = true;
+        var belt = building as StairBelt;        
+        bias_rotation = belt.bias_rotation;
+        SetUpStair(belt.upstair);
+        SetRotation(belt.GetRotation());
+        SetRotationSec(belt.rotation_sec);        
+        type = belt.type;
+        string log = "";
+        for (int i = 0; i < beltDirections.Length; i++) {
+            beltDirections[i] = belt.beltDirections[i];
+            log += (belt.beltDirections[i]) + " ";
+        }
+        Debug.Log(log);
+        
+        meshFilter.mesh = MeshType;
 
+        ApplyMeshTransform();
+        
+    }
 
 }

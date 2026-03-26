@@ -55,6 +55,7 @@ public class PowerGridManager : MonoBehaviour{
         powerGrid.SetAllThroughFalse();
         queue.Enqueue(powerGrid.GetFirshPowerBuilding());
 
+        
         while (queue.Count > 0) { 
             PowerBuilding building = queue.Dequeue();
             building.through = true;
@@ -65,6 +66,7 @@ public class PowerGridManager : MonoBehaviour{
                 Gizmos.DrawLine(building.transform.position + Vector3.up, nextBuilding.transform.position + Vector3.up);
             }
         }
+        
 
     }
 

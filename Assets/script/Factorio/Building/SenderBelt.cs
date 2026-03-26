@@ -205,5 +205,41 @@ public class SenderBelt : Belt
         return pgp.SetBulding(this);
     }
 
+    public void FindSenderBelt() {
+        Vector3Int localPos = playGroundPlatform.GetBuildingLocalPosition(this);
+        (int rot, int num) = playGroundPlatform.IsExits(localPos);
+        PlayGroundPlatform neibor = GalaxyManager.Instance.GetNeiborPlayGroundPlatform(playGroundPlatform, rot, num);
+        if (!neibor) return;
+        if (type == BeltType.RECEIVER) {
+            Vector3 pos = transform.position + FactorioData.direction[rot] * 3;
+            SenderBelt nbelt = neibor.GetBuilding(pos)?.GetComponent<SenderBelt>();
+            if (nbelt) nbelt.receiverBelt = this;
+        } else if (type == BeltType.SENDER) {
+            Vector3 pos = transform.position + FactorioData.direction[rot] * 3;
+            SenderBelt nbelt = neibor.GetBuilding(pos)?.GetComponent<SenderBelt>();
+            if (nbelt?.type == BeltType.RECEIVER) receiverBelt = nbelt;
+        }
+    }
+
+    public override void PutBulding() {
+        SetOriginalMaterial();
+        SetBluePrintMode(false);
+        InitBuilding();
+        FindSenderBelt();
+    }
+
+    public override void CloneBuilding(FactorioBuilding building) {
+        enabled = true;
+        var belt = building as SenderBelt;
+        bias_rotation = belt.bias_rotation;
+        SetRotation(belt.GetRotation());
+        type = belt.type;
+        for (int i = 0; i < beltDirections.Length; i++) {
+            beltDirections[i] = belt.beltDirections[i];
+        }
+        meshFilter.mesh = MeshType;
+        ApplyMeshTransform();
+    }
+
 
 }

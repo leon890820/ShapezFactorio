@@ -34,8 +34,9 @@ public abstract class PowerStation : PowerBuilding {
             if (building is not PowerBuilding powerBuilding) continue;
             AddConnectPowerBuilding(powerBuilding);
             powerBuilding.AddConnectPowerBuilding(this);
-
-            powerGrids.Add(powerBuilding.GetPowerGrid());
+            var grid = powerBuilding.GetPowerGrid();
+            if (grid == null) continue;
+            powerGrids.Add(grid);
         }
         PowerGridManager.Instance.MergePowerGrid(powerGrids, this);
     }

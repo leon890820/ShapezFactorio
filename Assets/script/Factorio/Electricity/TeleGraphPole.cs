@@ -15,6 +15,8 @@ public abstract class TeleGraphPole : PowerBuilding{
     public float ropeWide = 0.03f;
     public float ropeLengthMult = 1.2f;
 
+    private bool isInitWire = false;
+
     protected override void Start() {
         base.Start();
         powerGridUIController = factorioUIControlBase as PowerGridUIController;
@@ -44,18 +46,22 @@ public abstract class TeleGraphPole : PowerBuilding{
 
     private void AddPowerBuildingInPowerGrid<T>(HashSet<PowerGrid> powerGrids,HashSet<T> neighbor) where T : PowerBuilding{
         foreach (var building in neighbor) {
+            var grid = building.GetPowerGrid();
+            if (grid == null) continue;
             AddConnectPowerBuilding(building);
             building.AddConnectPowerBuilding(this);
-            powerGrids.Add(building.GetPowerGrid());
+            powerGrids.Add(grid);
         }
 
     }
 
     public void CreateWire() {
+        if (isInitWire) return;
         var neighborBuildings = GalaxyManager.Instance.FindSurroundPlatformBuildings<TeleGraphPole>(this, connectionRange);
         foreach (var building in neighborBuildings) {
             InitRope(building);
         }
+        isInitWire = true;
     }
 
     public void InitRope(TeleGraphPole teleGraph) {
@@ -80,6 +86,13 @@ public abstract class TeleGraphPole : PowerBuilding{
             result.Add(fb);
         }
         return result;
+    }
+
+    public override void PutBulding() {
+        CreateWire();
+        SetOriginalMaterial();
+        SetBluePrintMode(false);
+        InitBuilding();
     }
 
 }

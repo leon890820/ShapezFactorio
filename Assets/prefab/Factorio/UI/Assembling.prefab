@@ -127,13 +127,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basic: {fileID: 21300000, guid: aa81609da63830248a10fc051f8c4fd4, type: 3}
+  progress: {fileID: 4822860567713378175}
   backpadUIManager:
   - {fileID: 1395141594176839777}
   - {fileID: 7449463898533323239}
   productBackpadUIManager: {fileID: 3288667887956397439}
-  progress: {fileID: 4822860567713378175}
   workingUI: {fileID: 931564682075573922}
-  ItemUI: {fileID: 772126714737767316}
+  itemUI: {fileID: 772126714737767316}
   buttonPrefab: {fileID: 1279392210696141243, guid: deaf21e715e3d5440a446ee1044a2c3a, type: 3}
 --- !u!1 &931564682075573922
 GameObject:

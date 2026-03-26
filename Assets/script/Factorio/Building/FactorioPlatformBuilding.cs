@@ -76,7 +76,9 @@ public class FactorioPlatformBuilding : FactorioBuilding{
     }
 
     public bool TryGetPlatformUnderMouse(out RaycastHit hit, out PlayGroundPlatform playGroundPlatform) {
+        if (!main_camera) main_camera = Camera.main;
         int mask = LayerMask.GetMask("playground");
+
         Ray ray = main_camera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit, float.MaxValue, mask)) {
@@ -106,6 +108,10 @@ public class FactorioPlatformBuilding : FactorioBuilding{
         SetPosition(hitPoint);
         SetValidColor(playGroundPlatform.IsValid(this) ? 1 : 0);
         SetBuildingType(playGroundPlatform);
+        SetPlayGroundPlatform(playGroundPlatform);
+    }
+
+    public void SetPlayGroundPlatform(PlayGroundPlatform playGroundPlatform) {
         this.playGroundPlatform = playGroundPlatform;
     }
 
@@ -122,6 +128,13 @@ public class FactorioPlatformBuilding : FactorioBuilding{
     }
 
     public virtual void SetBuildingType(PlayGroundPlatform pgp) { }
+    public override void CloneBuilding(FactorioBuilding bulding) {
+        SetRotation(bulding.GetRotation());
+    }
+
+    public override void SaveToBlueprint() {
+
+    }
 
     public virtual BuildingDirection GetDirectionType(Vector3Int pos, int dir) {        
         return BuildingDirection.NONE;

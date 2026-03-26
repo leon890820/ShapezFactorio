@@ -11,7 +11,10 @@ public class Belt : FactorioPlatformBuilding {
 
     public BeltType type = BeltType.Straight;
 
-    private int bias_rotation;
+    public int bias_rotation;
+
+    public StairBelt stairBelt;
+    public SenderBelt senderBelt;
 
     private FactorioGameObjectBase[,] beltBackpad;
     private float[,] beltCount;
@@ -315,8 +318,7 @@ public class Belt : FactorioPlatformBuilding {
         Vector3 pos = midPos + dir * 0.25f * (d1 + d2 * time);
         return pos;
 
-    }
-
+    }    
 
 
     protected virtual void ApplyMeshTransform() {
@@ -525,7 +527,19 @@ public class Belt : FactorioPlatformBuilding {
         return PrefabManager.Instance.GetPrefab("Belt");
     }
 
-    public enum BeltType {
+    public override void CloneBuilding(FactorioBuilding building) {
+        var belt = building as Belt;
+        bias_rotation = belt.bias_rotation;
+        SetRotation(belt.GetRotation());
+        type = belt.type;
+        for (int i = 0; i < beltDirections.Length; i++) {
+            beltDirections[i] = belt.beltDirections[i];
+        }
+        meshFilter.mesh = MeshType;
+        ApplyMeshTransform();
+    }
+
+    public enum  BeltType {
         Straight,
         LEFT,
         RIGHT,

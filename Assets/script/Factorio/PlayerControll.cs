@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +14,8 @@ public class PlayerControll : MonoBehaviour {
     private int buildingLayer = 0;
     private List<Vector3> anchor = new List<Vector3>();
     private FactorioBuilding bluePrintBuilding;
+
+    private List<FactorioBuilding> selectBuildings = new List<FactorioBuilding>();
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -40,6 +41,7 @@ public class PlayerControll : MonoBehaviour {
         HandleLayerChangeInput();
         if (EventSystem.current.IsPointerOverGameObject()) return;        
         BluePrintBuildingUpdate();
+        CopyBuilding();
     }
 
     private void HandleLayerChangeInput() {
@@ -79,6 +81,15 @@ public class PlayerControll : MonoBehaviour {
 
     }
 
+    public void DevPutBlueBuilding(string buildingName, Vector3Int pos) { 
+        var buildingPrefab = PrefabManager.Instance.GetPrefab(buildingName);
+        SpawnBuilding(buildingPrefab);
+        AddAnchor(pos);
+        bluePrintBuildings = bluePrintBuilding.GetMultiMuilding(anchor);
+        PutBuildings();
+        DisableBlueprintBuilding();
+    }
+
     public void SelectBuilding() {
         if (EventSystem.current.IsPointerOverGameObject()) return;
         Ray ray = main_camera.ScreenPointToRay(Input.mousePosition);
@@ -88,24 +99,32 @@ public class PlayerControll : MonoBehaviour {
                 FactorioGameObjectBase factorioObject = hit.collider.GetComponent<FactorioGameObjectBase>() ??
                                                         hit.collider.GetComponentInParent<FactorioGameObjectBase>();
                 factorioObject?.SetUIEnable();
+                if (factorioObject is FactorioBuilding build) {
+                    selectBuildings.Clear();
+                    selectBuildings.Add(build);
+                }
             }
+        }
+    }
+
+    public void CopyBuilding() {
+        if (bluePrintBuilding) return;
+        if (selectBuildings.Count == 0) return;
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C)) {
+            bluePrintBuilding = selectBuildings[0];
+            selectBuildings.Clear();            
         }
     }
 
 
     public void SpawnBuilding(FactorioPrefabBaseObject prefab) {
-        if (bluePrintBuilding != null) {
-            Destroy(bluePrintBuilding.gameObject);
-        }
-        bluePrintBuilding = Instantiate(prefab.object_prefab) as FactorioBuilding;
-        bluePrintBuilding.gameObject.SetActive(false);     
+        bluePrintBuilding = (prefab.object_prefab) as FactorioBuilding;     
     }
 
     
 
     public void DisableBlueprintBuilding() {
         if (bluePrintBuilding == null) return;
-        Destroy(bluePrintBuilding.gameObject);
         bluePrintBuilding = null;
 
         ClearBuildings();
@@ -163,9 +182,7 @@ public class PlayerControll : MonoBehaviour {
                 Destroy(factorioBuilding.gameObject);
                 continue;
             }
-            factorioBuilding.SetOriginalMaterial();
-            factorioBuilding.SetBluePrintMode(false);
-            factorioBuilding.InitBuilding();
+            factorioBuilding.PutBulding();
         }
         bluePrintBuildings.Clear();
         anchor.Clear();
