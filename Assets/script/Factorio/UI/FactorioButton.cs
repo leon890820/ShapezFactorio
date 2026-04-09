@@ -37,11 +37,9 @@ public abstract class FactorioButtonBase : MonoBehaviour {
 
     public string ButtonName = "button";
     protected Action OnButtonClick;
-    protected Image image;
-    protected TextMeshProUGUI text;
+    public Image image;
+    public TextMeshProUGUI text;
     protected virtual void Start() {
-        image = GetComponent<Image>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Button>().onClick.AddListener(OnClick);
     }
 
@@ -64,6 +62,10 @@ public abstract class FactorioButtonBase : MonoBehaviour {
 
     public void SetText(string text) { 
         this.text.text = text;
+    }
+
+    public void SetTextPosition(Vector3 pos) { 
+        text.transform.localPosition = pos;
     }
 
 }

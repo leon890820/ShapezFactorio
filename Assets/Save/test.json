@@ -1,0 +1,146 @@
+{
+    "name": "PlayerGround1x1",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "rotation": 0,
+    "extraJson": "",
+    "buildings": [
+        {
+            "name": "SenderBelt",
+            "x": 1,
+            "y": 0,
+            "z": 8,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":20,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
+        },
+        {
+            "name": "SenderBelt",
+            "x": 1,
+            "y": 0,
+            "z": 9,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":20,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
+        },
+        {
+            "name": "SenderBelt",
+            "x": 1,
+            "y": 0,
+            "z": 10,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":20,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
+        },
+        {
+            "name": "SenderBelt",
+            "x": 1,
+            "y": 0,
+            "z": 11,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":20,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
+        },
+        {
+            "name": "SenderBelt",
+            "x": 18,
+            "y": 0,
+            "z": 8,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":19,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[0,0,1,0]}"
+        },
+        {
+            "name": "SenderBelt",
+            "x": 18,
+            "y": 0,
+            "z": 9,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":19,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[0,0,1,0]}"
+        },
+        {
+            "name": "SenderBelt",
+            "x": 18,
+            "y": 0,
+            "z": 10,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":19,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[0,0,1,0]}"
+        },
+        {
+            "name": "SenderBelt",
+            "x": 18,
+            "y": 0,
+            "z": 11,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":19,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[0,0,1,0]}"
+        },
+        {
+            "name": "StairBelt",
+            "x": 7,
+            "y": 0,
+            "z": 7,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":12,\"biasRotation\":0,\"rotationSec\":3,\"upStair\":true,\"beltDirections\":[0,0,1,0,0,0,0,2]}"
+        },
+        {
+            "name": "Belt",
+            "x": 7,
+            "y": 1,
+            "z": 8,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":2,\"biasRotation\":3,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,1,0,0]}"
+        },
+        {
+            "name": "StairBelt",
+            "x": 8,
+            "y": 1,
+            "z": 8,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":18,\"biasRotation\":0,\"rotationSec\":1,\"upStair\":false,\"beltDirections\":[0,2,0,0,0,0,1,0]}"
+        },
+        {
+            "name": "Belt",
+            "x": 8,
+            "y": 0,
+            "z": 7,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":1,\"biasRotation\":1,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,0,1]}"
+        },
+        {
+            "name": "Belt",
+            "x": 9,
+            "y": 0,
+            "z": 7,
+            "rotation": 1,
+            "extraJson": "{\"beltType\":2,\"biasRotation\":3,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[0,2,1,0]}"
+        },
+        {
+            "name": "StairBelt",
+            "x": 9,
+            "y": 0,
+            "z": 6,
+            "rotation": 2,
+            "extraJson": "{\"beltType\":11,\"biasRotation\":0,\"rotationSec\":2,\"upStair\":true,\"beltDirections\":[1,0,0,0,0,0,2,0]}"
+        },
+        {
+            "name": "StairBelt",
+            "x": 8,
+            "y": 1,
+            "z": 6,
+            "rotation": 2,
+            "extraJson": "{\"beltType\":16,\"biasRotation\":0,\"rotationSec\":1,\"upStair\":false,\"beltDirections\":[0,2,0,0,1,0,0,0]}"
+        },
+        {
+            "name": "Belt",
+            "x": 8,
+            "y": 0,
+            "z": 5,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":1,\"biasRotation\":1,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,0,1]}"
+        },
+        {
+            "name": "Belt",
+            "x": 9,
+            "y": 0,
+            "z": 5,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":0,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
+        }
+    ]
+}

@@ -44,10 +44,23 @@ public class StairBelt : Belt {
 
 
     protected override void Start() {
+        var belts = GetComponents<Belt>();
 
-        Belt belt = GetComponent<Belt>();
-        belt.enabled = false;
-        
+        Belt belt = null;
+
+        foreach (var b in belts) {
+            if (b.GetType() == typeof(Belt)) {
+                belt = b;
+                break;
+            }
+        }
+
+        if (belt != null) {
+            belt.enabled = false;
+        } else {
+            Debug.LogWarning("No pure Belt found on " + gameObject.name);
+        }
+
         base.Start();
     }
 
@@ -168,6 +181,12 @@ public class StairBelt : Belt {
 
     }
 
+    public override void PutBulding() {
+        SetOriginalMaterial();
+        SetBluePrintMode(false);
+        InitBuilding();
+    }
+
     public void SetRotationSec(int r) { 
         rotation_sec = (r + 4) % 4;
     }
@@ -179,7 +198,6 @@ public class StairBelt : Belt {
 
     public override BuildingDirection GetDirectionType(Vector3Int pos, int dir) {
         Vector3Int localPos =  playGroundPlatform.GetBuildingLocalPosition(this);
-        Debug.Log($"pos: {pos}, localPos: {localPos}, upstair: {upstair}");
         int bias = pos.y - localPos.y + (upstair ? 0 : 1);
 
         if (beltDirections[dir + bias * 4] == BuildingDirection.OUPUT) return BuildingDirection.INPUT;
@@ -187,25 +205,57 @@ public class StairBelt : Belt {
         return BuildingDirection.NONE;
     }
 
+    protected override void ApplyMesh() {
+        meshFilter.mesh = MeshType;
+        ApplyMeshTransform();
+    }
+
     public override void CloneBuilding(FactorioBuilding building) {
         enabled = true;
-        var belt = building as StairBelt;        
+        var belt = building as StairBelt;
         bias_rotation = belt.bias_rotation;
         SetUpStair(belt.upstair);
         SetRotation(belt.GetRotation());
         SetRotationSec(belt.rotation_sec);        
         type = belt.type;
-        string log = "";
         for (int i = 0; i < beltDirections.Length; i++) {
             beltDirections[i] = belt.beltDirections[i];
-            log += (belt.beltDirections[i]) + " ";
         }
-        Debug.Log(log);
+        ApplyMesh();
         
-        meshFilter.mesh = MeshType;
+    }
 
-        ApplyMeshTransform();
-        
+    public override BlueprintData GetBlueprintData() {
+        var extra = new BeltExtraData() {
+            beltType = type,
+            biasRotation = bias_rotation,
+            upStair = upstair,
+            rotationSec = rotation_sec,
+            beltDirections = beltDirections,
+        };
+        var bias = playGroundPlatform.platformSize * 10;
+        return new BlueprintData() {
+            name = GetType().Name,
+            x = Mathf.FloorToInt(transform.localPosition.x) + bias.x,
+            y = Mathf.FloorToInt(transform.localPosition.y),
+            z = Mathf.FloorToInt(transform.localPosition.z) + bias.y,
+            rotation = GetRotation(),
+            extraJson = JsonUtility.ToJson(extra)
+        };
+    }
+
+    public override FactorioBuilding LoadBlueprint(BlueprintData data) {
+        var building = Instantiate(Clone().object_prefab) as StairBelt;
+        building.SetPosition(new Vector3(data.x, data.y, data.z));
+        building.SetRotation(data.rotation);        
+        BeltExtraData extra = JsonUtility.FromJson<BeltExtraData>(data.extraJson);
+        building.bias_rotation = extra.biasRotation;
+        building.beltDirections = extra.beltDirections;
+        building.SetRotationSec(extra.rotationSec);
+        building.SetUpStair(extra.upStair);
+        building.type = extra.beltType;
+        building.gameObject.SetActive(false);
+        return building;
     }
 
 }

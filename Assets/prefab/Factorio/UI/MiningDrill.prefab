@@ -127,11 +127,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basic: {fileID: 21300000, guid: aa81609da63830248a10fc051f8c4fd4, type: 3}
-  product: {fileID: 7329364853320780516}
   progress: {fileID: 4822860567713378175}
+  product: {fileID: 7329364853320780516}
   workingUI: {fileID: 931564682075573922}
   ItemUI: {fileID: 772126714737767316}
-  buttonPrefab: {fileID: 2729352461889395295, guid: deaf21e715e3d5440a446ee1044a2c3a, type: 3}
+  buttonPrefab: {fileID: -4800568190585679671, guid: deaf21e715e3d5440a446ee1044a2c3a, type: 3}
 --- !u!1 &931564682075573922
 GameObject:
   m_ObjectHideFlags: 0

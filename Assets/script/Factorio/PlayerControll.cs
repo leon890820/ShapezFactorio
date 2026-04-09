@@ -16,6 +16,7 @@ public class PlayerControll : MonoBehaviour {
     private FactorioBuilding bluePrintBuilding;
 
     private List<FactorioBuilding> selectBuildings = new List<FactorioBuilding>();
+    private bool cloneMode = false;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -42,6 +43,7 @@ public class PlayerControll : MonoBehaviour {
         if (EventSystem.current.IsPointerOverGameObject()) return;        
         BluePrintBuildingUpdate();
         CopyBuilding();
+        SaveBuilding();
     }
 
     private void HandleLayerChangeInput() {
@@ -62,6 +64,10 @@ public class PlayerControll : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.K)) {
             SkillNodeManager.Instance.ToggleUI();
+        }
+
+        if (Input.GetKeyDown(KeyCode.B)){ 
+            BluePrintManager.Instance.ToggleUI();
         }
     }
 
@@ -112,24 +118,43 @@ public class PlayerControll : MonoBehaviour {
         if (selectBuildings.Count == 0) return;
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C)) {
             bluePrintBuilding = selectBuildings[0];
-            selectBuildings.Clear();            
+            selectBuildings.Clear();
+            cloneMode = true;
         }
+
+    }
+
+    public void SaveBuilding() {
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.G)) {
+            if (cloneMode) {
+                bluePrintBuilding.SaveToBlueprint("test.json");
+            }
+        }
+    }
+
+    public void LoadBuilding(BlueprintData data) { 
+        var buildingName = data.name;
+        var bulding = PrefabManager.Instance.GetPrefab(buildingName).object_prefab as FactorioBuilding;
+        bluePrintBuilding = bulding.LoadBlueprint(data);
     }
 
 
     public void SpawnBuilding(FactorioPrefabBaseObject prefab) {
-        bluePrintBuilding = (prefab.object_prefab) as FactorioBuilding;     
+        if (bluePrintBuilding) Destroy(bluePrintBuilding.gameObject);
+        bluePrintBuilding = Instantiate(prefab.object_prefab) as FactorioBuilding;    
+        bluePrintBuilding.gameObject.SetActive(false);
     }
 
     
 
     public void DisableBlueprintBuilding() {
         if (bluePrintBuilding == null) return;
+        if(!cloneMode) Destroy(bluePrintBuilding.gameObject);
         bluePrintBuilding = null;
 
         ClearBuildings();
         anchor.Clear();
-
+        cloneMode = false;
     }
 
     public List<FactorioBuilding> GetBluePrintBuildings() { 
@@ -168,6 +193,7 @@ public class PlayerControll : MonoBehaviour {
     public void ClearBuildings() {
         if (bluePrintBuildings == null) return;
         foreach (FactorioBuilding factorioBuilding in bluePrintBuildings) {
+            if (!factorioBuilding) continue;
             Destroy(factorioBuilding.gameObject);
         }
         bluePrintBuildings.Clear();

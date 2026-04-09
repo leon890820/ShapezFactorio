@@ -38,6 +38,7 @@ public abstract class TeleGraphPole : PowerBuilding{
     }
 
     public void ReBuildPowerGrid() {
+        if (powerGrid == null) return;
         HashSet<PowerGrid> powerGrids = new HashSet<PowerGrid> {powerGrid};
         var powerNeighbor = GalaxyManager.Instance.FindSurroundPlatformBuildings<PowerBuilding>(this, powerRange);
         AddPowerBuildingInPowerGrid(powerGrids, powerNeighbor);

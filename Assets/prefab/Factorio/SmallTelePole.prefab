@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f8e7d0ebba092de4b83a7a6ba742c15e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -93,9 +93,9 @@ MonoBehaviour:
   factorioSprite: {fileID: 0}
   pivotTransform: {fileID: 1109157431202784520}
   buildingSize: {x: 1, y: 1, z: 1}
-  tintColor: []
   rimMaterial: {fileID: 2100000, guid: 0e0fc7f64db4a7149bc04c0ef52d44ed, type: 2}
-  playGroundPlatform: {fileID: 0}
+  buildStatus: 0
+  buildingStatusController: {fileID: 0}
   through: 0
   wireTransform: {fileID: 517152858143893838}
   ropePrefab: {fileID: 5419131036483154630, guid: fd9c71e81190deb4cae5e9c7dbc9eaf8, type: 3}

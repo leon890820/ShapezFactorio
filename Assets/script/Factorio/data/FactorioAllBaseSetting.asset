@@ -43,6 +43,16 @@ MonoBehaviour:
       name: Belt
       object_prefab: {fileID: 53998353698826942, guid: ccd5c8be98c0f7a409a4d85322d58d99, type: 3}
       info: {fileID: 21300000, guid: 4a190f810d878ed4b84235d40a0625ba, type: 3}
+  - key: StairBelt
+    prefab:
+      name: StairBelt
+      object_prefab: {fileID: 6320916979659149313, guid: c659be26d77ea6440b3ab99a439e45fa, type: 3}
+      info: {fileID: 21300000, guid: 4a190f810d878ed4b84235d40a0625ba, type: 3}
+  - key: SenderBelt
+    prefab:
+      name: SenderBelt
+      object_prefab: {fileID: 6462108867853870984, guid: e0d486c82a371884f9ce25deff56dc80, type: 3}
+      info: {fileID: 21300000, guid: 4a190f810d878ed4b84235d40a0625ba, type: 3}
   - key: MiningDrill
     prefab:
       name: Mining_Drill

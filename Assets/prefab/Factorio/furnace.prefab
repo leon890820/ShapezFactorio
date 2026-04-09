@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5e2c3acaddf59842aca58eee802a863, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5e2c3acaddf59842aca58eee802a863, type: 3}
       propertyPath: m_LocalPosition.y
@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5e2c3acaddf59842aca58eee802a863, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5e2c3acaddf59842aca58eee802a863, type: 3}
       propertyPath: m_LocalRotation.w
@@ -118,11 +118,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIPrefab: {fileID: 927094593582732503, guid: d63bcb8c49c198b498b5df95f35daabe, type: 3}
+  factorioSprite: {fileID: 0}
   pivotTransform: {fileID: 6285631622193099615}
   buildingSize: {x: 2, y: 2, z: 2}
-  tintColor: []
   rimMaterial: {fileID: 2100000, guid: 0e0fc7f64db4a7149bc04c0ef52d44ed, type: 2}
-  playGroundPlatform: {fileID: 0}
+  buildStatus: 0
+  buildingStatusController: {fileID: 0}
   furnaceSpeed: 1
   furnaceCount: 0
 --- !u!65 &4520233550761920348

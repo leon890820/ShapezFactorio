@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using Unity.VisualScripting;
+using System.IO;
+using System.Linq;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.UI.Image;
+
 
 public class PlayGroundPlatform : FactorioBuilding {
 
@@ -68,7 +67,6 @@ public class PlayGroundPlatform : FactorioBuilding {
 
     public override List<FactorioBuilding> GetMultiMuilding(List<Vector3> anchor) {
         List<FactorioBuilding> result = new List<FactorioBuilding>(); ;
-
         if (anchor.Count == 1) {
             PlayGroundPlatform fb = Instantiate(Clone().object_prefab) as PlayGroundPlatform;
             fb.SetPosition(anchor[0]);
@@ -145,14 +143,14 @@ public class PlayGroundPlatform : FactorioBuilding {
     }
 
 
-    public bool SetBulding(FactorioPlatformBuilding building) {
+    public bool SetBuilding(FactorioPlatformBuilding building) {
         Vector3Int[] localPos = GetBuildingLocalPositions(building);
         FactorioPlatformBuilding[,,] builds = building is Scaffolding ? scaffoldings : buildings;
         if (OutOfBoundary(localPos)) return false;
         if (building is Belt or TeleGraphPole) {
             if (HasBulding(localPos[0], builds)) return false;
         } else {
-            if (HasBulding(localPos, builds)) return false;
+            if (HasBulding(localPos, builds)) return false;            
         }
         
         if (building is not Scaffolding) { 
@@ -305,7 +303,6 @@ public class PlayGroundPlatform : FactorioBuilding {
         Vector3Int buildingSize = AbsVector3Int(building.buildingSize);
         Vector3Int[] result = new Vector3Int[buildingSize.x * buildingSize.y * buildingSize.z];
         Vector3 positionBias = building.transform.position - transform.position;
-
         Vector3Int halfSize = buildingSize / 2;
 
         Vector2Int gridOffset = scale / 2;
@@ -391,11 +388,9 @@ public class PlayGroundPlatform : FactorioBuilding {
         var buildings = (bulding as PlayGroundPlatform).factorioPlatformBuildings;
         foreach (var building in buildings) {
             FactorioPlatformBuilding factorioPlatformBuilding = Instantiate(building.Clone().object_prefab) as FactorioPlatformBuilding;
-            if(building is StairBelt) factorioPlatformBuilding = factorioPlatformBuilding.GetComponent<StairBelt>();
-            if (building is SenderBelt) factorioPlatformBuilding = factorioPlatformBuilding.GetComponent<SenderBelt>();
             factorioPlatformBuilding.CloneBuilding(building);
             factorioPlatformBuilding.SetPosition(building.transform.localPosition + transform.position);
-            SetBulding(factorioPlatformBuilding);
+            SetBuilding(factorioPlatformBuilding);
         }
     }
 
@@ -406,11 +401,54 @@ public class PlayGroundPlatform : FactorioBuilding {
         }
     }
 
-    public override void SaveToBlueprint() { 
-    
+    public override void SaveToBlueprint(string path) {
+        var data = GetBlueprintData();
+        string json = JsonUtility.ToJson(data, true);
+
+        string folderPath = Path.Combine(Application.dataPath, "Save");
+
+        if (!Directory.Exists(folderPath)) {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string fileName = string.IsNullOrEmpty(path) ? "blueprint.json" : path;
+        string fullPath = Path.Combine(folderPath, fileName);
+
+        File.WriteAllText(fullPath, json);
+
+        Debug.Log("Saved to: " + fullPath);
+
+#if UNITY_EDITOR
+        UnityEditor.AssetDatabase.Refresh();
+#endif
     }
 
+    public override BlueprintData GetBlueprintData() {
+        string suffix = platformSize.x + "x" + platformSize.y;
+        var data = new PlayGroundBuildingBlueprintData() {
+            name = "PlayerGround" + suffix,
+            x = 0,
+            y = 0,
+            z = 0,
+            rotation = 0,
+            buildings = factorioPlatformBuildings.Select(b => b.GetBlueprintData()).ToArray()
+        };
+        return data;
+    }
 
+    public override FactorioBuilding LoadBlueprint(BlueprintData data) {
+        var playGroundData = data as PlayGroundBuildingBlueprintData;
+        var playGroundBuliding = Instantiate(Clone().object_prefab) as PlayGroundPlatform;
+        playGroundBuliding.SetPosition(new Vector3(playGroundData.x, playGroundData.y, playGroundData.z));
+        for (int i = 0; i < playGroundData.buildings.Length; i++) { 
+            var buildingData = playGroundData.buildings[i];
+            var buildingPrefab = PrefabManager.Instance.GetPrefab(buildingData.name).object_prefab as FactorioBuilding;
+            var building = buildingPrefab.LoadBlueprint(buildingData) as FactorioPlatformBuilding;
+            playGroundBuliding.SetBuilding(building);
+        }
+        return playGroundBuliding;
+        
+    }
     private void InitPlatformMesh() {
         meshFilter = gameObject.AddComponent<MeshFilter>();
         Mesh mesh = new Mesh();
@@ -538,6 +576,13 @@ public class PlayGroundPlatform : FactorioBuilding {
             }
         }
     }
+}
 
+public class PlayGroundBuildingBlueprintData : BlueprintData {
+    public BlueprintData[] buildings;
+    public override string ToString() {
+        int count = buildings != null ? buildings.Length : 0;
 
+        return $"[PlayGround] name: {name}, pos: ({x},{y},{z}), rot: {rotation}, buildings count: {count}";
+    }
 }

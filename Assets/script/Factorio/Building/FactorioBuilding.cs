@@ -59,8 +59,11 @@ public abstract class FactorioBuilding : FactorioGameObjectBase, ISaveBluePrint 
 
     public virtual void InitBuilding() { }
     public abstract void CloneBuilding(FactorioBuilding bulding);
+    public abstract BlueprintData GetBlueprintData();
+    public abstract FactorioBuilding LoadBlueprint(BlueprintData data);
 
-    public abstract void SaveToBlueprint();
+
+    public abstract void SaveToBlueprint(string path);
 
     public virtual void PutBulding() {
         SetOriginalMaterial();

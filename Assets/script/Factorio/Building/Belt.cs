@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Belt;
+using static FactorioPlatformBuilding;
 
 
 public class Belt : FactorioPlatformBuilding {
@@ -380,6 +382,7 @@ public class Belt : FactorioPlatformBuilding {
         FactorioPlatformBuilding[] buildings = pgp.GetNeiborBuilding(this);
         Vector3Int localPos = pgp.GetBuildingLocalPosition(this);
 
+
         for (int i = 0; i < buildings.Length; i++) {
             if (!buildings[i]) continue;
             Vector3Int dir = FactorioData.direction[i];
@@ -390,6 +393,8 @@ public class Belt : FactorioPlatformBuilding {
         if (CheckAllDirectionNoInput()) {
             beltDirections[R(rotation, 2)] = BuildingDirection.INPUT;
         }
+
+        
 
         SetBeltType();
         SetRotation(rotation);
@@ -420,12 +425,9 @@ public class Belt : FactorioPlatformBuilding {
         beltDirections[R(dirI, 0)] = BuildingDirection.OUPUT;
         beltDirections[R(dirI, 2)] = BuildingDirection.INPUT;
 
-        
-
         SetBeltType();
         SetRotation(rotation);
-        meshFilter.mesh = MeshType;
-        ApplyMeshTransform();
+        ApplyMesh();
 
     }
 
@@ -520,12 +522,13 @@ public class Belt : FactorioPlatformBuilding {
         return BuildingDirection.NONE;
     }
 
+    protected virtual void ApplyMesh() {
+        meshFilter.mesh = MeshType;
+        ApplyMeshTransform();
+    }
    
     public static int R(int baseDir, int rot) => (baseDir + rot) % 4;
 
-    public override FactorioPrefabBaseObject Clone() {
-        return PrefabManager.Instance.GetPrefab("Belt");
-    }
 
     public override void CloneBuilding(FactorioBuilding building) {
         var belt = building as Belt;
@@ -535,9 +538,38 @@ public class Belt : FactorioPlatformBuilding {
         for (int i = 0; i < beltDirections.Length; i++) {
             beltDirections[i] = belt.beltDirections[i];
         }
-        meshFilter.mesh = MeshType;
-        ApplyMeshTransform();
+        ApplyMesh();
     }
+
+    public override BlueprintData GetBlueprintData() {
+        var extra = new BeltExtraData() {
+            beltType = type,
+            biasRotation = bias_rotation,
+            beltDirections = beltDirections,
+        };
+        var bias = playGroundPlatform.platformSize * 10;
+        return new BlueprintData() {
+            name = GetType().Name,
+            x = Mathf.FloorToInt(transform.localPosition.x) + bias.x,
+            y = Mathf.FloorToInt(transform.localPosition.y),
+            z = Mathf.FloorToInt(transform.localPosition.z) + bias.y,
+            rotation = GetRotation(),
+            extraJson = JsonUtility.ToJson(extra)
+        };
+    }
+    public override FactorioBuilding LoadBlueprint(BlueprintData data) {
+        var building = Instantiate(Clone().object_prefab) as Belt;
+        building.SetPosition(new Vector3(data.x, data.y, data.z));
+        building.SetRotation(data.rotation);
+        BeltExtraData extra = JsonUtility.FromJson<BeltExtraData>(data.extraJson);
+        building.bias_rotation = extra.biasRotation;
+        building.beltDirections = extra.beltDirections;
+        building.type = extra.beltType;
+        building.ApplyMesh();
+        building.gameObject.SetActive(false);
+        return building;
+    }
+
 
     public enum  BeltType {
         Straight,
@@ -561,8 +593,13 @@ public class Belt : FactorioPlatformBuilding {
         DOWNRIGHT,
         SENDER,
         RECEIVER
-    }
-    
-
-
+    }    
+}
+[System.Serializable]
+public class BeltExtraData {
+    public BeltType beltType;
+    public int biasRotation;
+    public int rotationSec;
+    public bool upStair;
+    public BuildingDirection[] beltDirections;
 }

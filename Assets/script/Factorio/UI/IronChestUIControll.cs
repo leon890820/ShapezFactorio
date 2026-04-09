@@ -5,21 +5,21 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class IronChestUIControll : FactorioUIControlBase {
-    public ButtonController buttonPrefab;
+    public ClickButton buttonPrefab;
     public GameObject ItemUI;
 
-    private ButtonController[] buttons;
+    private ClickButton[] buttons;
     private int row = 10;
     private FactorioBackpad chestBackpad;
 
     public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) {
         var ic = factorioGameObjectBase as IronChest;
-        buttons = new ButtonController[ic.chestSize];
+        buttons = new ClickButton[ic.chestSize];
         Vector3 origin = new Vector3(-290, 100, 0);
         for (int i = 0; i < ic.chestSize; i++) {
             int rowIndex = i / row;
             int columnIndex = i % row;
-            ButtonController buttonObject = Instantiate(buttonPrefab);
+            ClickButton buttonObject = Instantiate(buttonPrefab);
             buttonObject.transform.SetParent(ItemUI.transform);
             buttonObject.GetComponent<RectTransform>().localPosition = origin + new Vector3(60 * columnIndex, -60 * rowIndex, 0);
             buttons[i] = buttonObject;

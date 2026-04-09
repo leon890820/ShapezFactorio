@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using System;
 
 public class FactorioPlatformBuilding : FactorioBuilding{
 
@@ -72,7 +72,7 @@ public class FactorioPlatformBuilding : FactorioBuilding{
 
     public override bool TryPutBuilding() {
         bool hasPlatform = TryGetPlatformUnderMouse(out var hit, out var playGroundPlatform, transform.position);
-        return hasPlatform && playGroundPlatform.SetBulding(this);
+        return hasPlatform && playGroundPlatform.SetBuilding(this);
     }
 
     public bool TryGetPlatformUnderMouse(out RaycastHit hit, out PlayGroundPlatform playGroundPlatform) {
@@ -132,8 +132,26 @@ public class FactorioPlatformBuilding : FactorioBuilding{
         SetRotation(bulding.GetRotation());
     }
 
-    public override void SaveToBlueprint() {
+    public override void SaveToBlueprint(string path) {
 
+    }
+
+    public override BlueprintData GetBlueprintData() { 
+        var bias = playGroundPlatform.platformSize * 10;
+        return new PlatFormBuildingBlueprintData() {
+            name = GetType().Name,
+            x = Mathf.FloorToInt(transform.localPosition.x) + bias.x, 
+            y = Mathf.FloorToInt(transform.localPosition.y), 
+            z = Mathf.FloorToInt(transform.localPosition.z) + bias.y, 
+            rotation = GetRotation() 
+        };
+    }
+    public override FactorioBuilding LoadBlueprint(BlueprintData data) {
+        var building = Instantiate(Clone().object_prefab) as FactorioPlatformBuilding;
+        building.SetPosition(new Vector3(data.x, data.y, data.z));
+        building.SetRotation(data.rotation);
+        building.gameObject.SetActive(false);
+        return building;
     }
 
     public virtual BuildingDirection GetDirectionType(Vector3Int pos, int dir) {        
@@ -146,6 +164,11 @@ public class FactorioPlatformBuilding : FactorioBuilding{
         OUPUT,
     }
 
+}
+
+[Serializable]
+public class PlatFormBuildingBlueprintData : BlueprintData {
+    
 }
 
 public static class FactorioGameObjectUIManager {

@@ -29,9 +29,23 @@ public class SenderBelt : Belt
         beltCount = new float[4];
     }
     protected override void Start() {
+        var belts = GetComponents<Belt>();
 
-        Belt belt = GetComponent<Belt>();
-        belt.enabled = false;
+        Belt belt = null;
+
+        foreach (var b in belts) {
+            if (b.GetType() == typeof(Belt)) {
+                belt = b;
+                break;
+            }
+        }
+
+        if (belt != null) {
+            belt.enabled = false;
+        } else {
+            Debug.LogWarning("No pure Belt found on " + gameObject.name);
+        }
+
         base.Start();
     }
 
@@ -202,7 +216,7 @@ public class SenderBelt : Belt
             SenderBelt nbelt = neibor.GetBuilding(pos)?.GetComponent<SenderBelt>();
             if(nbelt) nbelt.receiverBelt = this;            
         }
-        return pgp.SetBulding(this);
+        return pgp.SetBuilding(this);
     }
 
     public void FindSenderBelt() {
@@ -228,6 +242,11 @@ public class SenderBelt : Belt
         FindSenderBelt();
     }
 
+    protected override void ApplyMesh() {
+        meshFilter.mesh = MeshType;
+        ApplyMeshTransform();
+    }
+
     public override void CloneBuilding(FactorioBuilding building) {
         enabled = true;
         var belt = building as SenderBelt;
@@ -241,5 +260,21 @@ public class SenderBelt : Belt
         ApplyMeshTransform();
     }
 
+    public override BlueprintData GetBlueprintData() {
+        var extra = new BeltExtraData() {
+            beltType = type,
+            biasRotation = bias_rotation,
+            beltDirections = beltDirections,
+        };
+        var bias = playGroundPlatform.platformSize * 10;
+        return new BlueprintData() {
+            name = GetType().Name,
+            x = Mathf.FloorToInt(transform.localPosition.x) + bias.x,
+            y = Mathf.FloorToInt(transform.localPosition.y),
+            z = Mathf.FloorToInt(transform.localPosition.z) + bias.y,
+            rotation = GetRotation(),
+            extraJson = JsonUtility.ToJson(extra)
+        };
+    }
 
 }

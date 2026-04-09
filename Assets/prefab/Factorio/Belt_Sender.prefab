@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ff86bae5e2bab8f4caedc695c2478d60, type: 2}
     - target: {fileID: 919132149155446097, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}
       propertyPath: m_Name
-      value: Belt_Forward
+      value: Belt_Sender
       objectReference: {fileID: 0}
     - target: {fileID: 1151388028547126963, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}
       propertyPath: m_LocalScale.y
@@ -82,6 +82,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 6462108867853870984}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 53998353698826942}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}
       insertIndex: -1
@@ -89,9 +92,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6320916979659149313}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6462108867853870984}
   m_SourcePrefab: {fileID: 100100000, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}
 --- !u!33 &1946115677922738342 stripped
 MeshFilter:
@@ -103,7 +103,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}
   m_PrefabInstance: {fileID: 4335946053455261535}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &53998353698826942
+--- !u!114 &6462108867853870984
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,6 +111,35 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3525533627074482702}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c933feb1bbb4bde4e9b24812af948221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIPrefab: {fileID: 0}
+  factorioSprite: {fileID: 0}
+  pivotTransform: {fileID: 3735404635935308268}
+  buildingSize: {x: 1, y: 1, z: 1}
+  rimMaterial: {fileID: 2100000, guid: ff86bae5e2bab8f4caedc695c2478d60, type: 2}
+  buildStatus: 0
+  buildingStatusController: {fileID: 0}
+  beltSpeed: 0.5
+  meshes:
+  - {fileID: -2432090755550338912, guid: b7a03d8c5d0f9744ca567f77219abc53, type: 3}
+  - {fileID: -2432090755550338912, guid: ba3adb6261778764096f34f61a4ad2f6, type: 3}
+  meshFilter: {fileID: 1946115677922738342}
+  type: 0
+  bias_rotation: 0
+  stairBelt: {fileID: 0}
+  senderBelt: {fileID: 0}
+  beltBackpad: []
+--- !u!114 &53998353698826942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525533627074482702}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b7ff3db0f72bb94883e3f799edf6dda, type: 3}
   m_Name: 
@@ -193,35 +222,6 @@ MonoBehaviour:
   stairBelt: {fileID: 6320916979659149313}
   senderBelt: {fileID: 6462108867853870984}
   forkPrefab: {fileID: 919132149155446097, guid: 7101832547818d14a8969bfae0f2ca44, type: 3}
---- !u!114 &6462108867853870984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3525533627074482702}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c933feb1bbb4bde4e9b24812af948221, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UIPrefab: {fileID: 0}
-  factorioSprite: {fileID: 0}
-  pivotTransform: {fileID: 3735404635935308268}
-  buildingSize: {x: 1, y: 1, z: 1}
-  rimMaterial: {fileID: 2100000, guid: ff86bae5e2bab8f4caedc695c2478d60, type: 2}
-  buildStatus: 0
-  buildingStatusController: {fileID: 0}
-  beltSpeed: 0.5
-  meshes:
-  - {fileID: -2432090755550338912, guid: b7a03d8c5d0f9744ca567f77219abc53, type: 3}
-  - {fileID: -2432090755550338912, guid: ba3adb6261778764096f34f61a4ad2f6, type: 3}
-  meshFilter: {fileID: 1946115677922738342}
-  type: 0
-  bias_rotation: 0
-  stairBelt: {fileID: 0}
-  senderBelt: {fileID: 0}
-  beltBackpad: []
 --- !u!4 &3735404635935308268 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1151388028547126963, guid: e4d6f36f327edbe48b0a6b597f3739f2, type: 3}

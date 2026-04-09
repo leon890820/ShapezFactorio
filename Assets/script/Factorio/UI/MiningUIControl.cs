@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class MiningUIControl : FactorioUIControlBase {
     public FactorioBackpadUIManager product;    
@@ -11,7 +7,7 @@ public class MiningUIControl : FactorioUIControlBase {
     public GameObject workingUI;
     public GameObject ItemUI;
 
-    public ButtonController buttonPrefab;
+    public ClickButton buttonPrefab;
 
     private MiningDrill minedrill;
     private FactorioBackpad backpad;
@@ -26,14 +22,14 @@ public class MiningUIControl : FactorioUIControlBase {
         float startX = -(resourceCount * 0.5f * space) + (space * 0.5f);
 
         for (int i = 0; i < planet.minableResource.Count; i++) {
-            ButtonController button = Instantiate(buttonPrefab);
+            ClickButton button = Instantiate(buttonPrefab);
             button.transform.SetParent(ItemUI.transform, false);
             button.GetComponent<RectTransform>().anchoredPosition = new Vector2(startX, 0);
             startX += space;
 
             button.SetImage(PrefabManager.Instance.GetSprite(planet.minableResource[i]));            
             string resourceName = planet.minableResource[i];
-            button.AddListener(() => SetMiningResource(resourceName));
+            button.AddAction(() => SetMiningResource(resourceName));
         }
 
         backpad = minedrill.backpad;
