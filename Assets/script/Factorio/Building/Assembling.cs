@@ -42,7 +42,7 @@ public class Assembling : PowerCosumeBulding {
     private void TryAssembling() {
         for (int i = 0; i < productIngredient.Count; i++) {
             for (int count = 0; count < productIngredient[i].number; count++) {
-                FactorioGameObjectBase lastObject = backpad.Pop(count);
+                FactorioGameObjectBase lastObject = backpad.Pop(i);
                 Destroy(lastObject.gameObject);
             }
         }
@@ -70,6 +70,7 @@ public class Assembling : PowerCosumeBulding {
         product = null;
         backpad.Clear();
         productBackpad.Clear();
+        assembling_count = 0f;
     }
 
     public override void UpdateUI() {
@@ -91,7 +92,7 @@ public class Assembling : PowerCosumeBulding {
              return BuildStatus.NoRecipe;
         } else if (productBackpad.IsFull()) {
             return BuildStatus.OutputFull;
-        } else if (CanAssemble()) {
+        } else if (!CanAssemble()) {
              return BuildStatus.NoInput;
         }  
         return BuildStatus.Working;
@@ -114,8 +115,9 @@ public class Assembling : PowerCosumeBulding {
     }
 
     public override bool TryInput(FactorioGameObjectBase factorioResource, Vector3Int pos, int i, bool mid = false) {
+        if (productIngredient == null) return false;
         for (int index = 0; index < productIngredient.Count; index++) {
-            FactorioGameObjectBase ingredient = productIngredient[i].factorioPrefab.object_prefab;
+            FactorioGameObjectBase ingredient = productIngredient[index].factorioPrefab.object_prefab;
             if (ingredient.GetType() == factorioResource.GetType()) {
                 backpad.TryInput(factorioResource, index);
                 factorioResource.transform.SetParent(transform);
