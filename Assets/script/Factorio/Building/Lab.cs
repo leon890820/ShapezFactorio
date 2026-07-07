@@ -54,7 +54,6 @@ public class Lab : PowerCosumeBulding {
         if (scienceList == null || scienceList.Count == 0)
             return;
 
-        factorioUIControlBase.SetValue(researchCount);
         for (int s = 0; s < scienceList.Count; s++) {
             var science = scienceList[s];
             if (science == null)

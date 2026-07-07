@@ -39,7 +39,7 @@ public class FactorioBaseSetting : ScriptableObject {
 
 [System.Serializable]
 public class FactorioPrefabBaseObject {
-    public string name;
     public FactorioGameObjectBase object_prefab;
+    public FactorioUIControlBase ui_prefab;
     public Sprite info;
 }

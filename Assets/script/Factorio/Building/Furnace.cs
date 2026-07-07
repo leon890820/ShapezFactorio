@@ -29,10 +29,6 @@ public class Furnace : FactorioPlatformBuilding {
         base.Update();        
     }
 
-    public override void UpdateUI() {      
-        base.UpdateUI();
-        factorioUIControlBase.SetValue(furnaceCount);
-    }
 
     public override void Run() {
         if (productBackpad.IsFull()) return;

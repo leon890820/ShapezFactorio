@@ -104,7 +104,7 @@ public class PlayerControll : MonoBehaviour {
             if (Input.GetMouseButtonDown(0)) {
                 FactorioGameObjectBase factorioObject = hit.collider.GetComponent<FactorioGameObjectBase>() ??
                                                         hit.collider.GetComponentInParent<FactorioGameObjectBase>();
-                factorioObject?.SetUIEnable();
+                FactorioUIControllManager.Instance.Open(factorioObject);
                 if (factorioObject is FactorioBuilding build) {
                     selectBuildings.Clear();
                     selectBuildings.Add(build);

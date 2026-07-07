@@ -65,10 +65,6 @@ public class MiningDrill : PowerCosumeBulding {
     }
 
 
-    public override void UpdateUI() {
-        base.UpdateUI();
-        factorioUIControlBase.SetValue(mining_count / mining_time);
-    }
 
 
 

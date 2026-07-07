@@ -24,8 +24,11 @@ public abstract class FactorioUIControlBase : MonoBehaviour {
         progress.value = value;
     }
     public void Close() {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
-    abstract public void InitItemUI(FactorioGameObjectBase factorioBuilding);
+    virtual public void InitUI() { 
+    
+    }
+    abstract public void BindFactorioGameObject(FactorioGameObjectBase factorioBuilding);
 }

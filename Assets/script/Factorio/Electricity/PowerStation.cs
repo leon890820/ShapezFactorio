@@ -7,7 +7,6 @@ public abstract class PowerStation : PowerBuilding {
 
     protected override void Start() {
         base.Start();
-        powerGridUIController = factorioUIControlBase as PowerGridUIController;
     }
 
     protected override void Update() {

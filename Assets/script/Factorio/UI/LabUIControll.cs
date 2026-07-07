@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class LabUIControll : FactorioUIControlBase{
     public FactorioBackpadUIManager[] backpadsUI;
@@ -10,7 +7,7 @@ public class LabUIControll : FactorioUIControlBase{
     private Lab lab;
     private FactorioBackpad backpad;
 
-    public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) { 
+    public override void BindFactorioGameObject(FactorioGameObjectBase factorioGameObjectBase) { 
         lab = factorioGameObjectBase as Lab;  
         backpad = lab.backpad;
     }

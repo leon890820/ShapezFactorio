@@ -12,7 +12,7 @@ public class IronChestUIControll : FactorioUIControlBase {
     private int row = 10;
     private FactorioBackpad chestBackpad;
 
-    public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) {
+    public override void BindFactorioGameObject(FactorioGameObjectBase factorioGameObjectBase) {
         var ic = factorioGameObjectBase as IronChest;
         buttons = new ClickButton[ic.chestSize];
         Vector3 origin = new Vector3(-290, 100, 0);

@@ -12,7 +12,7 @@ public class FurnaceUIControl : FactorioUIControlBase {
     private FactorioBackpad backpad;
     private FactorioBackpad product;
 
-    public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) {
+    public override void BindFactorioGameObject(FactorioGameObjectBase factorioGameObjectBase) {
         var furnace = factorioGameObjectBase as Furnace;
         backpad = furnace.backpad;
         product = furnace.productBackpad;

@@ -170,21 +170,3 @@ public class FactorioPlatformBuilding : FactorioBuilding{
 public class PlatFormBuildingBlueprintData : BlueprintData {
     
 }
-
-public static class FactorioGameObjectUIManager {
-    public static List<FactorioUIControlBase> UIList = new List<FactorioUIControlBase>();
-
-    public static void ClearAllUI() {
-        foreach (FactorioUIControlBase controller in UIList) { 
-            controller.SetActive(false);
-        }
-        UIList.Clear();
-    }
-
-    public static void AddUI(FactorioUIControlBase factorioUIControlBase) {
-        ClearAllUI();
-        UIList.Add(factorioUIControlBase);
-        factorioUIControlBase.SetActive(true);
-    }
-
-}

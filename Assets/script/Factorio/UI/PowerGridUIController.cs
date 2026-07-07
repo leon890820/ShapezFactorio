@@ -6,7 +6,7 @@ using UnityEngine;
 public class PowerGridUIController : FactorioUIControlBase{
     public TextMeshProUGUI totalPowerText;
 
-    public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) {
+    public override void BindFactorioGameObject(FactorioGameObjectBase factorioGameObjectBase) {
         
     }
 

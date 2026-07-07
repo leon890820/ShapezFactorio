@@ -12,7 +12,7 @@ public class MiningUIControl : FactorioUIControlBase {
     private MiningDrill minedrill;
     private FactorioBackpad backpad;
 
-    public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) {
+    public override void BindFactorioGameObject(FactorioGameObjectBase factorioGameObjectBase) {
         minedrill = factorioGameObjectBase as MiningDrill;
         var cc = minedrill.GetChunkCoord();
         FactorioPlanet planet = GalaxyManager.Instance.GetFactorioPlanet(cc);

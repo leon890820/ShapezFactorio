@@ -19,7 +19,6 @@ public abstract class TeleGraphPole : PowerBuilding{
 
     protected override void Start() {
         base.Start();
-        powerGridUIController = factorioUIControlBase as PowerGridUIController;
     }
 
     public override void InitBuilding() {

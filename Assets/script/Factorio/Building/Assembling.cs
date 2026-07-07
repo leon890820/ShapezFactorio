@@ -73,10 +73,6 @@ public class Assembling : PowerCosumeBulding {
         assembling_count = 0f;
     }
 
-    public override void UpdateUI() {
-        base.UpdateUI();
-        factorioUIControlBase.SetValue(assembling_count);
-    }
 
     public void SetAnimation() {
         if (bluePrintMode || buildStatus != BuildStatus.Working) {

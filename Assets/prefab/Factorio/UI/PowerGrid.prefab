@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basic: {fileID: 0}
+  progress: {fileID: 0}
   totalPowerText: {fileID: 8731533449748826436}
 --- !u!1 &2786356566031261061
 GameObject:

@@ -16,7 +16,7 @@ public class AssemblingUIControll : FactorioUIControlBase {
 
     Assembling assembling;
 
-    public override void InitItemUI(FactorioGameObjectBase factorioGameObjectBase) {
+    public override void BindFactorioGameObject(FactorioGameObjectBase factorioGameObjectBase) {
         assembling = factorioGameObjectBase as Assembling;
         Vector3 origin = new Vector3(-350, 80, 0);
 

@@ -32,13 +32,11 @@ public class IronChest : FactorioPlatformBuilding{
     private void AddFactorioGameObjectToBackpad(FactorioGameObjectBase factorioResource) {
         factorioResource.transform.SetParent(transform);
         factorioResource.transform.localPosition = new Vector3();        
-        factorioUIControlBase.UpdateUI();
     }
 
     public override FactorioGameObjectBase TryBeGrab() {
         var grabbedObject = backpad.Pop();
         if (grabbedObject) {
-            factorioUIControlBase.UpdateUI();
             grabbedObject.transform.SetParent(null);            
         }
         return grabbedObject;
