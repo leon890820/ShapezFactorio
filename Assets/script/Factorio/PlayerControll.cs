@@ -40,7 +40,7 @@ public class PlayerControll : MonoBehaviour {
         }
 
         HandleLayerChangeInput();
-        if (EventSystem.current.IsPointerOverGameObject()) return;        
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         BluePrintBuildingUpdate();
         CopyBuilding();
         SaveBuilding();
@@ -66,7 +66,7 @@ public class PlayerControll : MonoBehaviour {
             SkillNodeManager.Instance.ToggleUI();
         }
 
-        if (Input.GetKeyDown(KeyCode.B)){ 
+        if (Input.GetKeyDown(KeyCode.B)){
             BluePrintManager.Instance.ToggleUI();
         }
     }
@@ -87,8 +87,9 @@ public class PlayerControll : MonoBehaviour {
 
     }
 
-    public void DevPutBlueBuilding(string buildingName, Vector3Int pos) { 
-        var buildingPrefab = PrefabManager.Instance.GetPrefab(buildingName);
+    public void DevPutBlueBuilding(FactorioId buildingId, Vector3Int pos) {
+        var buildingPrefab = PrefabManager.Instance.GetPrefab(buildingId);
+        if (buildingPrefab == null) return;
         SpawnBuilding(buildingPrefab);
         AddAnchor(pos);
         bluePrintBuildings = bluePrintBuilding.GetMultiMuilding(anchor);
@@ -132,20 +133,19 @@ public class PlayerControll : MonoBehaviour {
         }
     }
 
-    public void LoadBuilding(BlueprintData data) { 
-        var buildingName = data.name;
-        var bulding = PrefabManager.Instance.GetPrefab(buildingName).object_prefab as FactorioBuilding;
+    public void LoadBuilding(BlueprintData data) {
+        var bulding = PrefabManager.Instance.GetPrefab(data.GetId()).object_prefab as FactorioBuilding;
         bluePrintBuilding = bulding.LoadBlueprint(data);
     }
 
 
     public void SpawnBuilding(FactorioPrefabBaseObject prefab) {
         if (bluePrintBuilding) Destroy(bluePrintBuilding.gameObject);
-        bluePrintBuilding = Instantiate(prefab.object_prefab) as FactorioBuilding;    
+        bluePrintBuilding = Instantiate(prefab.object_prefab) as FactorioBuilding;
         bluePrintBuilding.gameObject.SetActive(false);
     }
 
-    
+
 
     public void DisableBlueprintBuilding() {
         if (bluePrintBuilding == null) return;
@@ -157,11 +157,11 @@ public class PlayerControll : MonoBehaviour {
         cloneMode = false;
     }
 
-    public List<FactorioBuilding> GetBluePrintBuildings() { 
+    public List<FactorioBuilding> GetBluePrintBuildings() {
         return bluePrintBuildings;
     }
 
-    public void SetRotation(int rot) { 
+    public void SetRotation(int rot) {
         rotation = rot;
     }
     public int GetRotation() {
@@ -174,7 +174,7 @@ public class PlayerControll : MonoBehaviour {
 
     public List<Vector3> GetAnchor() {
         return anchor;
-    
+
     }
 
     public void AddAnchor(Vector3 pos) {
@@ -186,7 +186,7 @@ public class PlayerControll : MonoBehaviour {
         anchor.RemoveAt(anchor.Count - 1);
     }
 
-    public void ClearAnchor() { 
+    public void ClearAnchor() {
         anchor.Clear();
     }
 
@@ -199,7 +199,7 @@ public class PlayerControll : MonoBehaviour {
         bluePrintBuildings.Clear();
     }
 
-    
+
 
     public void PutBuildings() {
         if (bluePrintBuildings == null) return;

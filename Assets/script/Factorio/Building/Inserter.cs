@@ -89,7 +89,7 @@ public class Inserter : PowerCosumeBulding {
     }
 
     public override FactorioPrefabBaseObject Clone() {
-        return PrefabManager.Instance.GetPrefab("Inserter");
+        return PrefabManager.Instance.GetPrefab(FactorioId.Inserter);
     }
 
 }

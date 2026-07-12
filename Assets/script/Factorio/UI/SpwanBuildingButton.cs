@@ -4,17 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SpwanBuildingButton : FactorioButtonBase {
-    public string spwanName;
+    public FactorioId spwanId;
 
     public override void OnClick() {
-        FactorioPrefabBaseObject gameObject = PrefabManager.Instance.GetPrefab(spwanName);
+        FactorioPrefabBaseObject gameObject = PrefabManager.Instance.GetPrefab(spwanId);
+        if (gameObject == null) return;
         PlayerControll.Instance.SpawnBuilding(gameObject);
         base.OnClick();
     }
 
     public void SetImage() {
         if (!image) image = GetComponent<Image>();
-        image.sprite = PrefabManager.Instance.GetSprite(spwanName); ;
+        image.sprite = PrefabManager.Instance.GetSprite(spwanId);
     }
 
 }

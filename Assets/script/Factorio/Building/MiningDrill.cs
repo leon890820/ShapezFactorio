@@ -89,7 +89,7 @@ public class MiningDrill : PowerCosumeBulding {
         factorioGameObjectBase.transform.SetParent(transform);
         factorioGameObjectBase.transform.localPosition = Vector3.zero;        
         factorioGameObjectBase.SetSprite(miningResource.info);
-        GameStats.Instance.IncrementStat(factorioGameObjectBase.GetType().Name, 1);
+        GameStats.Instance.IncrementStat(factorioGameObjectBase.GetId(), 1);
         backpad.TryInput(factorioGameObjectBase);
         mining_count = 0;
         ResetAnimation();
@@ -140,7 +140,7 @@ public class MiningDrill : PowerCosumeBulding {
     }
 
     public override FactorioPrefabBaseObject Clone() {
-        return PrefabManager.Instance.GetPrefab("MiningDrill");
+        return PrefabManager.Instance.GetPrefab(FactorioId.MiningDrill);
     }
 
 }

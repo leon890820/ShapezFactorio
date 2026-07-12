@@ -7,48 +7,56 @@
     "extraJson": "",
     "buildings": [
         {
-            "name": "DebugChest",
-            "x": 6,
+            "name": "MiningDrill",
+            "x": 5,
             "y": 0,
-            "z": 6,
+            "z": 5,
             "rotation": 0,
             "extraJson": ""
         },
         {
-            "name": "SolarPowerStation",
-            "x": 16,
-            "y": 0,
-            "z": 4,
-            "rotation": 0,
-            "extraJson": ""
-        },
-        {
-            "name": "SolarPowerStation",
-            "x": 16,
-            "y": 0,
-            "z": 8,
-            "rotation": 0,
-            "extraJson": ""
-        },
-        {
-            "name": "SmallTelePole",
-            "x": 13,
+            "name": "Belt",
+            "x": 5,
             "y": 0,
             "z": 3,
             "rotation": 0,
-            "extraJson": ""
+            "extraJson": "{\"beltType\":0,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
         },
         {
-            "name": "SmallTelePole",
+            "name": "Belt",
+            "x": 6,
+            "y": 0,
+            "z": 3,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":0,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
+        },
+        {
+            "name": "Belt",
+            "x": 7,
+            "y": 0,
+            "z": 3,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":0,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
+        },
+        {
+            "name": "Belt",
             "x": 8,
             "y": 0,
-            "z": 4,
+            "z": 3,
             "rotation": 0,
-            "extraJson": ""
+            "extraJson": "{\"beltType\":0,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
         },
         {
-            "name": "Assembling",
+            "name": "Belt",
             "x": 9,
+            "y": 0,
+            "z": 3,
+            "rotation": 0,
+            "extraJson": "{\"beltType\":0,\"biasRotation\":0,\"rotationSec\":0,\"upStair\":false,\"beltDirections\":[2,0,1,0]}"
+        },
+        {
+            "name": "Furnace",
+            "x": 8,
             "y": 0,
             "z": 6,
             "rotation": 0,
@@ -56,7 +64,47 @@
         },
         {
             "name": "Inserter",
-            "x": 7,
+            "x": 8,
+            "y": 0,
+            "z": 4,
+            "rotation": 0,
+            "extraJson": ""
+        },
+        {
+            "name": "SolarPowerStation",
+            "x": 4,
+            "y": 0,
+            "z": 12,
+            "rotation": 0,
+            "extraJson": ""
+        },
+        {
+            "name": "SmallTelePole",
+            "x": 4,
+            "y": 0,
+            "z": 9,
+            "rotation": 0,
+            "extraJson": ""
+        },
+        {
+            "name": "SmallTelePole",
+            "x": 4,
+            "y": 0,
+            "z": 7,
+            "rotation": 0,
+            "extraJson": ""
+        },
+        {
+            "name": "IronChest",
+            "x": 10,
+            "y": 0,
+            "z": 6,
+            "rotation": 0,
+            "extraJson": ""
+        },
+        {
+            "name": "Inserter",
+            "x": 9,
             "y": 0,
             "z": 6,
             "rotation": 1,

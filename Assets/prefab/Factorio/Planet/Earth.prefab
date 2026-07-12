@@ -90,5 +90,5 @@ MonoBehaviour:
   shape: {fileID: 1468709447141111213}
   radius: 200
   minableResource:
-  - IronOre
-  - CopperOre
+  - 1
+  - 2

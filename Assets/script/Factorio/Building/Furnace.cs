@@ -45,7 +45,7 @@ public class Furnace : FactorioPlatformBuilding {
         FactorioGameObjectBasePacket productPrefabPacket = burnable.GetBurnProduct();
         FactorioPrefabBaseObject productPrefab = productPrefabPacket.factorioPrefab;
         FactorioGameObjectBase factorioGameObject = Instantiate(productPrefab.object_prefab);
-        GameStats.Instance.IncrementStat(factorioGameObject.GetType().Name, 1);
+        GameStats.Instance.IncrementStat(factorioGameObject.GetId(), 1);
 
         factorioGameObject.transform.SetParent(transform);
         factorioGameObject.transform.localPosition = Vector3.zero;

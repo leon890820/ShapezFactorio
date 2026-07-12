@@ -8,7 +8,7 @@ public class FactorioUIControllManager : MonoBehaviour{
     [SerializeField] private FactorioBaseSetting baseSetting;
     [SerializeField] private Transform uiRoot;
 
-    private Dictionary<string, FactorioUIControlBase> uiInstanceMap = new ();
+    private Dictionary<FactorioId, FactorioUIControlBase> uiInstanceMap = new ();
     private FactorioUIControlBase currentUI;
 
     private void Awake() {
@@ -24,7 +24,7 @@ public class FactorioUIControllManager : MonoBehaviour{
 
         if (target == null) return;
 
-        currentUI = GetOrCreateUI(target.GetType().ToString());        
+        currentUI = GetOrCreateUI(target.GetId());
         if (currentUI == null) return;
         currentUI.Open(target);
     }
@@ -36,7 +36,9 @@ public class FactorioUIControllManager : MonoBehaviour{
         currentUI = null;
     }
 
-    private FactorioUIControlBase GetOrCreateUI(string uiType) {
+    private FactorioUIControlBase GetOrCreateUI(FactorioId uiType) {
+        if (uiType == FactorioId.None) return null;
+
         if (uiInstanceMap.TryGetValue(uiType, out var instance)) {
             return instance;
         }

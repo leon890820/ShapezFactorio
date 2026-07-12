@@ -5,7 +5,7 @@ using UnityEngine;
 
 [Serializable]
 public class FactorioPrefabEntry {
-    public string key;
+    public FactorioId id;
     public FactorioPrefabBaseObject prefab;
 }
 
@@ -16,22 +16,23 @@ public class FactorioBaseSetting : ScriptableObject {
     [SerializeField]
     private List<FactorioPrefabEntry> prefabEntries = new List<FactorioPrefabEntry>();
 
-    private Dictionary<string, FactorioPrefabBaseObject> _dict;
+    private Dictionary<FactorioId, FactorioPrefabBaseObject> _dict;
 
-    public FactorioPrefabBaseObject GetPrefab(string key) {
+    public FactorioPrefabBaseObject GetPrefab(FactorioId id) {
         if (_dict == null) {
             BuildDictionary();
         }
 
-        _dict.TryGetValue(key, out var result);
+        _dict.TryGetValue(id, out var result);
         return result;
     }
 
     private void BuildDictionary() {
-        _dict = new Dictionary<string, FactorioPrefabBaseObject>();
+        _dict = new Dictionary<FactorioId, FactorioPrefabBaseObject>();
         foreach (var entry in prefabEntries) {
-            if (!string.IsNullOrEmpty(entry.key) && entry.prefab != null) {
-                _dict[entry.key] = entry.prefab;
+            if (entry.id != FactorioId.None && entry.prefab != null) {
+                entry.prefab.object_prefab?.InitId(entry.id);
+                _dict[entry.id] = entry.prefab;
             }
         }
     }

@@ -12,7 +12,7 @@ public class FactorioPlanet : MonoBehaviour{
     public FactorioPlanetShape shape;
     public float radius = 200f;
 
-    public List<string> minableResource; 
+    public List<FactorioId> minableResource;
 
     // === 初始化 ===
     protected virtual void Awake() {
@@ -37,9 +37,9 @@ public class FactorioPlanet : MonoBehaviour{
 
     // === 主要地形生成流程 ===
     void GenerateTerrain() {
-        bodyPlaceholder.ResetMesh();       
+        bodyPlaceholder.ResetMesh();
         shape.CalcHeight();
-        shape.Release(); 
+        shape.Release();
     }
 
 

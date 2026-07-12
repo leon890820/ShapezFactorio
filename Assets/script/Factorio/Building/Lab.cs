@@ -59,7 +59,7 @@ public class Lab : PowerCosumeBulding {
             if (science == null)
                 continue;
 
-            if (researchManager.IsResearchComplete(science.name))
+            if (researchManager.IsResearchComplete(science.GetId()))
                 continue;
 
             if (!HasRequiredScienceInBackpad(science))
@@ -89,7 +89,7 @@ public class Lab : PowerCosumeBulding {
     private void AddResearchProgress() {
         researchCount += researchSpeed * Time.deltaTime;
         if (researchCount >= 1f) {
-            ResearchManager.Instance.IncrementProgress(currentSciencePack.GetType().ToString());
+            ResearchManager.Instance.IncrementProgress(currentSciencePack.GetId());
             Destroy(currentSciencePack.gameObject);
             currentSciencePack = null;
             researchCount = 0f;

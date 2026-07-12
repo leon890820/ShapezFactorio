@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class FactorioGameObjectBase : MonoBehaviour,IAssembled{
+    [SerializeField] private FactorioId id = FactorioId.None;
     public Sprite factorioSprite;
+    public FactorioId Id => id;
 
     protected virtual void Awake() {
 
@@ -17,6 +19,14 @@ public abstract class FactorioGameObjectBase : MonoBehaviour,IAssembled{
     }
 
     public abstract FactorioPrefabBaseObject Clone();
+
+    public void InitId(FactorioId id) {
+        this.id = id;
+    }
+
+    public FactorioId GetId() {
+        return id;
+    }
 
     public virtual List<FactorioGameObjectBasePacket> GetItemMaterial() {
         return null;

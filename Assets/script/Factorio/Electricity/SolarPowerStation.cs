@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class SolarPowerStation : PowerStation{
     public override FactorioPrefabBaseObject Clone() {
-        return PrefabManager.Instance.GetPrefab("SolarPowerStation");
+        return PrefabManager.Instance.GetPrefab(FactorioId.SolarPowerStation);
     }
 }

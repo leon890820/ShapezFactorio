@@ -124,7 +124,7 @@ public class FactorioPlatformBuilding : FactorioBuilding{
     }
 
     public override FactorioPrefabBaseObject Clone() {
-        return PrefabManager.Instance.GetPrefab(GetType().Name);
+        return PrefabManager.Instance.GetPrefab(GetId());
     }
 
     public virtual void SetBuildingType(PlayGroundPlatform pgp) { }
@@ -139,7 +139,8 @@ public class FactorioPlatformBuilding : FactorioBuilding{
     public override BlueprintData GetBlueprintData() { 
         var bias = playGroundPlatform.platformSize * 10;
         return new PlatFormBuildingBlueprintData() {
-            name = GetType().Name,
+            id = GetId(),
+            name = GetId().ToString(),
             x = Mathf.FloorToInt(transform.localPosition.x) + bias.x, 
             y = Mathf.FloorToInt(transform.localPosition.y), 
             z = Mathf.FloorToInt(transform.localPosition.z) + bias.y, 

@@ -177,7 +177,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: Assembling
+  spwanId: 11
 --- !u!114 &42574329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,7 +360,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: DebugChest
+  spwanId: 18
 --- !u!114 &135326162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,7 +580,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: Belt
+  spwanId: 6
 --- !u!1 &219469853
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,7 +793,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: Furnace
+  spwanId: 5
 --- !u!1 &293522224
 GameObject:
   m_ObjectHideFlags: 0
@@ -2936,7 +2936,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: PlayerGround2x1
+  spwanId: 20
 --- !u!1 &1120877603
 GameObject:
   m_ObjectHideFlags: 0
@@ -3369,7 +3369,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: Lab
+  spwanId: 16
 --- !u!114 &1386162861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4899,7 +4899,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: SmallTelePole
+  spwanId: 14
 --- !u!114 &1719104050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5005,7 +5005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   conditions:
-  - name: IronPlate
+  - id: 3
     requiredCount: 20
 --- !u!1 &1782416571
 GameObject:
@@ -5062,7 +5062,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: IronChest
+  spwanId: 15
 --- !u!114 &1782416574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5361,7 +5361,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: SolarPowerStation
+  spwanId: 13
 --- !u!114 &1949998176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5700,7 +5700,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: MiningDrill
+  spwanId: 9
 --- !u!1 &2039433440
 GameObject:
   m_ObjectHideFlags: 0
@@ -5929,7 +5929,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: Inserter
+  spwanId: 10
 --- !u!1001 &2105424144
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6183,7 +6183,7 @@ MonoBehaviour:
   ButtonName: button
   image: {fileID: 0}
   text: {fileID: 0}
-  spwanName: PlayerGround1x1
+  spwanId: 19
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

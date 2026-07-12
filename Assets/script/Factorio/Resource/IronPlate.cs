@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class IronPlate : FactorioGameObjectBase{
     public override FactorioPrefabBaseObject Clone() {
-        return PrefabManager.Instance.GetPrefab("IronPlate");
+        return PrefabManager.Instance.GetPrefab(FactorioId.IronPlate);
     }
 }

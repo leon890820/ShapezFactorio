@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SmallTelePole : TeleGraphPole{
     public override FactorioPrefabBaseObject Clone() {
-        return PrefabManager.Instance.GetPrefab("SmallTelePole");
+        return PrefabManager.Instance.GetPrefab(FactorioId.SmallTelePole);
     }
 
     public override void SetPosition(Vector3 pos) {

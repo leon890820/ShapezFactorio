@@ -56,7 +56,7 @@ public class AssemblingUIControll : FactorioUIControlBase {
         }
     }
 
-    private void SetAssemblingProduct(string product, int number) {
+    private void SetAssemblingProduct(FactorioId product, int number) {
         FactorioPrefabBaseObject fpbo = PrefabManager.Instance.GetPrefab(product);
         assembling.SetProduct(new FactorioGameObjectBasePacket(fpbo, number));
     }

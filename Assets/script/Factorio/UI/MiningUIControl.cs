@@ -12,24 +12,24 @@ public class MiningUIControl : FactorioUIControlBase {
 
     private MiningDrill minedrill;
     private FactorioBackpad backpad;
-    private readonly Dictionary<string, ClickButton> resourceButtons = new();
+    private readonly Dictionary<FactorioId, ClickButton> resourceButtons = new();
 
     public override void InitUI() {
-        string[] resourceNames = FactorioLibrary.BasicResources;
+        FactorioId[] resourceIds = FactorioLibrary.BasicResources;
         float space = 60f;
-        int resourceCount = resourceNames.Length;
+        int resourceCount = resourceIds.Length;
         float startX = -(resourceCount * 0.5f * space) + (space * 0.5f);
         for (int i = 0; i < resourceCount; i++) {
-            string resourceName = resourceNames[i];
+            FactorioId resourceId = resourceIds[i];
             ClickButton button = Instantiate(buttonPrefab);
             button.transform.SetParent(ItemUI.transform, false);
             button.GetComponent<RectTransform>().anchoredPosition = new Vector2(startX, 0);
             startX += space;
 
-            button.SetImage(PrefabManager.Instance.GetSprite(resourceName));
-            button.AddAction(() => SetMiningResource(resourceName));
+            button.SetImage(PrefabManager.Instance.GetSprite(resourceId));
+            button.AddAction(() => SetMiningResource(resourceId));
             button.gameObject.SetActive(false);
-            resourceButtons[resourceName] = button;
+            resourceButtons[resourceId] = button;
         }
 
     }
@@ -48,9 +48,9 @@ public class MiningUIControl : FactorioUIControlBase {
         if (!planet) return;
 
         List<ClickButton> availableButtons = new();
-        foreach (string resourceName in planet.minableResource) {
-            if (!FactorioLibrary.IsBasicResource(resourceName)) continue;
-            if (!resourceButtons.TryGetValue(resourceName, out ClickButton button)) continue;
+        foreach (FactorioId resourceId in planet.minableResource) {
+            if (!FactorioLibrary.IsBasicResource(resourceId)) continue;
+            if (!resourceButtons.TryGetValue(resourceId, out ClickButton button)) continue;
 
             availableButtons.Add(button);
         }
@@ -64,8 +64,8 @@ public class MiningUIControl : FactorioUIControlBase {
         }
     }
 
-    public void SetMiningResource(string name) {
-        FactorioPrefabBaseObject fgob = PrefabManager.Instance.GetPrefab(name);
+    public void SetMiningResource(FactorioId id) {
+        FactorioPrefabBaseObject fgob = PrefabManager.Instance.GetPrefab(id);
         minedrill.SetResource(fgob);
     }
 

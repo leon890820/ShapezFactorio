@@ -49,7 +49,7 @@ public class Assembling : PowerCosumeBulding {
 
         for (int i = 0; i < product.number; i++) {
             FactorioGameObjectBase factorioGameObject = Instantiate(product.factorioPrefab.object_prefab);
-            GameStats.Instance.IncrementStat(factorioGameObject.GetType().Name, 1);
+            GameStats.Instance.IncrementStat(factorioGameObject.GetId(), 1);
             factorioGameObject.transform.SetParent(transform);
             factorioGameObject.transform.localPosition = Vector3.zero;
 

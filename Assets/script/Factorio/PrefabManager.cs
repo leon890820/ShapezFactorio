@@ -16,11 +16,11 @@ public class PrefabManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    public FactorioPrefabBaseObject GetPrefab(string name) {
-        return factorioBaseSetting.GetPrefab(name);
+    public FactorioPrefabBaseObject GetPrefab(FactorioId id) {
+        return factorioBaseSetting.GetPrefab(id);
     }
 
-    public Sprite GetSprite(string name) {
-        return factorioBaseSetting.GetPrefab(name).info;
+    public Sprite GetSprite(FactorioId id) {
+        return GetPrefab(id)?.info;
     }
 }

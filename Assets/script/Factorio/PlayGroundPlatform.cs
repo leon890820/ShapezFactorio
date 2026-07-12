@@ -380,8 +380,7 @@ public class PlayGroundPlatform : FactorioBuilding {
     }
 
     public override FactorioPrefabBaseObject Clone() {
-        string suffix = platformSize.x + "x" + platformSize.y;
-        return PrefabManager.Instance.GetPrefab("PlayerGround" + suffix);
+        return PrefabManager.Instance.GetPrefab(GetPlatformId());
     }
 
     public override void CloneBuilding(FactorioBuilding bulding) {
@@ -424,9 +423,10 @@ public class PlayGroundPlatform : FactorioBuilding {
     }
 
     public override BlueprintData GetBlueprintData() {
-        string suffix = platformSize.x + "x" + platformSize.y;
+        FactorioId platformId = GetPlatformId();
         var data = new PlayGroundBuildingBlueprintData() {
-            name = "PlayerGround" + suffix,
+            id = platformId,
+            name = platformId.ToString(),
             x = 0,
             y = 0,
             z = 0,
@@ -442,13 +442,20 @@ public class PlayGroundPlatform : FactorioBuilding {
         playGroundBuliding.SetPosition(new Vector3(playGroundData.x, playGroundData.y, playGroundData.z));
         for (int i = 0; i < playGroundData.buildings.Length; i++) { 
             var buildingData = playGroundData.buildings[i];
-            var buildingPrefab = PrefabManager.Instance.GetPrefab(buildingData.name).object_prefab as FactorioBuilding;
+            var buildingPrefab = PrefabManager.Instance.GetPrefab(buildingData.GetId()).object_prefab as FactorioBuilding;
             var building = buildingPrefab.LoadBlueprint(buildingData) as FactorioPlatformBuilding;
             playGroundBuliding.SetBuilding(building);
         }
         return playGroundBuliding;
         
     }
+
+    private FactorioId GetPlatformId() {
+        if (platformSize == new Vector2Int(1, 1)) return FactorioId.PlayerGround1x1;
+        if (platformSize == new Vector2Int(2, 1)) return FactorioId.PlayerGround2x1;
+        return FactorioId.None;
+    }
+
     private void InitPlatformMesh() {
         meshFilter = gameObject.AddComponent<MeshFilter>();
         Mesh mesh = new Mesh();

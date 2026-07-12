@@ -13,102 +13,102 @@ MonoBehaviour:
   m_Name: FactorioAllBaseSetting
   m_EditorClassIdentifier: 
   prefabEntries:
-  - key: IronOre
+  - id: 1
     prefab:
       object_prefab: {fileID: 8062840230757444813, guid: 515da65b2a5e05744a2272551ff4890a, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: 1b6042eeaa0776848ad46288f3d6cc7e, type: 3}
-  - key: CopperOre
+  - id: 2
     prefab:
       object_prefab: {fileID: 2738734058647379323, guid: e4400da29c1ab6e46a92f4f460feae7f, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: 866a4929dfcced643b73ed0f2541730f, type: 3}
-  - key: IronPlate
+  - id: 3
     prefab:
       object_prefab: {fileID: 2860653878297800083, guid: 3b526c558ef4d044a985342de012a931, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: 0a0022ba13fed9d46acccd122668e28a, type: 3}
-  - key: CopperPlate
+  - id: 4
     prefab:
       object_prefab: {fileID: 4571124443902627078, guid: 484b94185195a0d4195c2202fc8c4a04, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: cd8c4c585ae35754e80ffb2ff03a9054, type: 3}
-  - key: Furnace
+  - id: 5
     prefab:
       object_prefab: {fileID: 3306030583405989832, guid: a8a75af4d02b4ba409819c1099ef6760, type: 3}
       ui_prefab: {fileID: 5985712503400623160, guid: d63bcb8c49c198b498b5df95f35daabe, type: 3}
       info: {fileID: 21300000, guid: e034dddd69d59e74dbadfb9ecfd74203, type: 3}
-  - key: Belt
+  - id: 6
     prefab:
       object_prefab: {fileID: 53998353698826942, guid: ccd5c8be98c0f7a409a4d85322d58d99, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: 4a190f810d878ed4b84235d40a0625ba, type: 3}
-  - key: StairBelt
+  - id: 7
     prefab:
       object_prefab: {fileID: 6320916979659149313, guid: c659be26d77ea6440b3ab99a439e45fa, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: 4a190f810d878ed4b84235d40a0625ba, type: 3}
-  - key: SenderBelt
+  - id: 8
     prefab:
       object_prefab: {fileID: 6462108867853870984, guid: e0d486c82a371884f9ce25deff56dc80, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: 4a190f810d878ed4b84235d40a0625ba, type: 3}
-  - key: MiningDrill
+  - id: 9
     prefab:
       object_prefab: {fileID: 1426529606628258192, guid: be4f7ec185788944780c7138a3a3eeb1, type: 3}
       ui_prefab: {fileID: 4782470631030306313, guid: 9b74dbe2ff6463a47962814f18fcd5be, type: 3}
       info: {fileID: 21300000, guid: 5a8b74e5c70998a458605c646ff7914c, type: 3}
-  - key: Inserter
+  - id: 10
     prefab:
       object_prefab: {fileID: 3080137978823493041, guid: cdee701af43bcc0459ed15f936b56f7a, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
-  - key: Assembling
+  - id: 11
     prefab:
       object_prefab: {fileID: 1161653960368072227, guid: 46fc4ca59c99db34283a0c6c540f81b4, type: 3}
       ui_prefab: {fileID: 5612976086501538082, guid: fdc495fe361844f45b756bef3ef9f49c, type: 3}
       info: {fileID: 21300000, guid: 25ce1eceeb7bd0247b0ce8bca740a344, type: 3}
-  - key: Gear
+  - id: 12
     prefab:
       object_prefab: {fileID: 4838283898619873523, guid: 774764fba1d34e140ae70b35b533fe5a, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: d4e2cfda758505f49a54e5ea7e52c83a, type: 3}
-  - key: SolarPowerStation
+  - id: 13
     prefab:
       object_prefab: {fileID: 2197223863417077101, guid: 79ca2b7426fd6d5459f5e6420c30320b, type: 3}
       ui_prefab: {fileID: 6201904268555671390, guid: 4c88e0154f18b8c46b6fb9ac92f246eb, type: 3}
       info: {fileID: 21300000, guid: 85af3ab143e6cd540b57f9fdf91da3e8, type: 3}
-  - key: SmallTelePole
+  - id: 14
     prefab:
       object_prefab: {fileID: 5631043936192904428, guid: ca57db3f9fbea7d419b22e12f532e338, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: a4a2d87dee89d0149990cedea09be108, type: 3}
-  - key: IronChest
+  - id: 15
     prefab:
       object_prefab: {fileID: 1613856145474230075, guid: b8188c5192bcef445aed1f7e5dd0aa33, type: 3}
       ui_prefab: {fileID: 2597535460367803966, guid: ad351c396fd76c541980a401741e3113, type: 3}
       info: {fileID: 21300000, guid: 2427e72b7cc2ef443922eb5e64261a05, type: 3}
-  - key: Lab
+  - id: 16
     prefab:
       object_prefab: {fileID: 2081726020065542569, guid: bd0b8c1df7d1bd74ab38661e1c680727, type: 3}
       ui_prefab: {fileID: 2641304885697383296, guid: 53eb9ebd6f5ad7340a18e89991e394fb, type: 3}
       info: {fileID: 21300000, guid: 72cf87187eb958749a5047a582faabe1, type: 3}
-  - key: RedSciencePack
+  - id: 17
     prefab:
       object_prefab: {fileID: 5144405753172528200, guid: 27200c413f22b5549a0197a4550d6a92, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: c5a552b7c52e6384abbf6918bea1dccc, type: 3}
-  - key: DebugChest
+  - id: 18
     prefab:
       object_prefab: {fileID: 1394356217255512443, guid: ff2c57c11780fc5499394ea649c4c583, type: 3}
       ui_prefab: {fileID: 2597535460367803966, guid: ad351c396fd76c541980a401741e3113, type: 3}
       info: {fileID: 21300000, guid: 2427e72b7cc2ef443922eb5e64261a05, type: 3}
-  - key: PlayerGround1x1
+  - id: 19
     prefab:
       object_prefab: {fileID: 7709512150654115890, guid: 36f7018541ae75c49b357b27d4f0fe3a, type: 3}
       ui_prefab: {fileID: 0}
       info: {fileID: 21300000, guid: 0dc80a370e18fb846858768494d84159, type: 3}
-  - key: PlayerGround2x1
+  - id: 20
     prefab:
       object_prefab: {fileID: 2923547314365164821, guid: d53810be49fe66a48b0cf2e5cf69d65f, type: 3}
       ui_prefab: {fileID: 0}

@@ -14,7 +14,7 @@ public class ProductionUnlockCondition : MonoBehaviour, IUnlockCondition{
         FactorioGameObjectBasePacket[] packet = new FactorioGameObjectBasePacket[conditions.Length];
         for(int i = 0; i < conditions.Length; i++) {
             Debug.Log("conditions[i].name : " + PrefabManager.Instance);
-            FactorioPrefabBaseObject factorioPrefabBaseObject = PrefabManager.Instance.GetPrefab(conditions[i].name);
+            FactorioPrefabBaseObject factorioPrefabBaseObject = PrefabManager.Instance.GetPrefab(conditions[i].id);
             packet[i] = new FactorioGameObjectBasePacket(factorioPrefabBaseObject, conditions[i].requiredCount);
         }
         return packet;
@@ -27,6 +27,6 @@ public class ProductionUnlockCondition : MonoBehaviour, IUnlockCondition{
 
 [Serializable]
 public class ProductionUnlockConditionData {
-    public string name;
+    public FactorioId id;
     public int requiredCount;
 }

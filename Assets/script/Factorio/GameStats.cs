@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameStats : MonoBehaviour{
     public static GameStats Instance { get; private set; }
     public Action OnStatsUpdated;
-    private Dictionary<string, int> stats = new Dictionary<string, int>();
+    private Dictionary<FactorioId, int> stats = new Dictionary<FactorioId, int>();
 
 
     private void Awake() {
@@ -17,22 +17,23 @@ public class GameStats : MonoBehaviour{
         Instance = this;
     }
 
-    public void IncrementStat(string statName, int amount = 1) {
-        if (stats.ContainsKey(statName)) {
-            stats[statName] += amount;
+    public void IncrementStat(FactorioId id, int amount = 1) {
+        if (id == FactorioId.None) return;
+
+        if (stats.ContainsKey(id)) {
+            stats[id] += amount;
         } else {
-            stats[statName] = amount;
+            stats[id] = amount;
         }
         Debug.Log("IncrementStat");
         OnStatsUpdated?.Invoke();
     }
 
-    public int GetItemAmount(string name) {
-        if (stats.ContainsKey(name)) {
-            return stats[name];
+    public int GetItemAmount(FactorioId id) {
+        if (stats.ContainsKey(id)) {
+            return stats[id];
         }
         return 0;
     }
-
 
 }

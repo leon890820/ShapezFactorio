@@ -268,7 +268,8 @@ public class SenderBelt : Belt
         };
         var bias = playGroundPlatform.platformSize * 10;
         return new BlueprintData() {
-            name = GetType().Name,
+            id = GetId(),
+            name = GetId().ToString(),
             x = Mathf.FloorToInt(transform.localPosition.x) + bias.x,
             y = Mathf.FloorToInt(transform.localPosition.y),
             z = Mathf.FloorToInt(transform.localPosition.z) + bias.y,
