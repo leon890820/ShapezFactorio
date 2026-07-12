@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DebugChest : IronChest{
-    string factorioObject = "CopperPlate";
+    string factorioObject = "RedSciencePack";
 
     protected override void Start() {
         base.Start();

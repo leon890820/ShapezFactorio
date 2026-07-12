@@ -8,9 +8,9 @@ public class MiningDrill : PowerCosumeBulding {
     public Animator animator1;
     public Animator animator2;
 
-    private float mining_time = 8f;
+    private float mining_time = 1f;
     private float mining_speed = 1f;
-    private float mining_count = 0f;
+    public float mining_count = 0f;
     private FactorioPrefabBaseObject miningResource;
 
     protected override void Awake() {

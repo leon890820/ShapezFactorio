@@ -22,16 +22,17 @@ public class FactorioUIControllManager : MonoBehaviour{
     public void Open(FactorioGameObjectBase target) {
         CloseCurrent();
 
+        if (target == null) return;
+
         currentUI = GetOrCreateUI(target.GetType().ToString());        
         if (currentUI == null) return;
-        currentUI.InitUI();
-        currentUI.SetActive(true);
+        currentUI.Open(target);
     }
 
     public void CloseCurrent() {
         if (currentUI == null)
             return;
-        currentUI.SetActive(false);
+        currentUI.Close();
         currentUI = null;
     }
 

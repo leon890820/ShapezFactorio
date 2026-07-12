@@ -11,18 +11,21 @@ public class FurnaceUIControl : FactorioUIControlBase {
 
     private FactorioBackpad backpad;
     private FactorioBackpad product;
+    private Furnace furnace;
 
     public override void BindFactorioGameObject(FactorioGameObjectBase factorioGameObjectBase) {
-        var furnace = factorioGameObjectBase as Furnace;
+        furnace = factorioGameObjectBase as Furnace;
         backpad = furnace.backpad;
         product = furnace.productBackpad;
     }
 
     public override void UpdateUI() {
+        if (!furnace) return;
         var (backpadObj, backpadCount) = backpad.GetBackpadIndexInfo(0);
         var (productObj, productCount) = product.GetBackpadIndexInfo(0);
         backpadUIManager.SetbackpadImage(backpadObj?.factorioSprite ?? basic, backpadCount);
         productUIManager.SetbackpadImage(productObj?.factorioSprite ?? basic, productCount);
+        progress.value = furnace.furnaceCount;
     }
 
 }

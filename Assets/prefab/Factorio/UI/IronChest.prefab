@@ -53,7 +53,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &13855403766362104
 RectTransform:
   m_ObjectHideFlags: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   progress: {fileID: 0}
   buttonPrefab: {fileID: -4800568190585679671, guid: deaf21e715e3d5440a446ee1044a2c3a, type: 3}
   ItemUI: {fileID: 772126714737767316}
+  slotCount: 30
 --- !u!1 &2786356566031261061
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,8 +385,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AssemblingUIControll, Assembly-CSharp
+      - m_Target: {fileID: 2597535460367803966}
+        m_TargetAssemblyTypeName: FactorioUIControlBase, Assembly-CSharp
         m_MethodName: Close
         m_Mode: 1
         m_Arguments:

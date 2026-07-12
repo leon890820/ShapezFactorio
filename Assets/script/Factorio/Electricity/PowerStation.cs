@@ -11,13 +11,8 @@ public abstract class PowerStation : PowerBuilding {
 
     protected override void Update() {
         base.Update();
-        SetPowerGridUI();
     }
 
-    void SetPowerGridUI() {
-        if (powerGrid == null) return;
-        powerGridUIController.SetTotalPoewrText(powerGrid.GetPowerCapacity());
-    }
 
     public override void InitBuilding() {
         CreatePowerGrid();

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,10 +5,28 @@ public abstract class FactorioUIControlBase : MonoBehaviour {
     public Sprite basic;
     public Slider progress;
 
-    protected readonly Dictionary<string, int> productPair = new Dictionary<string, int> {
-        { "Gear", 1 },
-        { "RedSciencePack", 1}
-    };
+    private bool initialized;
+    private bool bound;
+    protected FactorioGameObjectBase target;
+
+    public void Open(FactorioGameObjectBase factorioBuilding) {
+        if (!initialized) {
+            InitUI();
+            initialized = true;
+        }
+
+        target = factorioBuilding;
+        BindFactorioGameObject(factorioBuilding);
+        bound = true;
+
+        SetActive(true);
+        UpdateUI();
+    }
+
+    private void Update() {
+        if (!bound || !gameObject.activeSelf) return;
+        UpdateUI();
+    }
 
     public virtual void SetActive(bool active) {
         gameObject.SetActive(active);
@@ -23,12 +39,16 @@ public abstract class FactorioUIControlBase : MonoBehaviour {
     public virtual void SetValue(float value) {
         progress.value = value;
     }
-    public void Close() {
-        gameObject.SetActive(false);
+
+    public virtual void Close() {
+        bound = false;
+        target = null;
+        SetActive(false);
     }
 
-    virtual public void InitUI() { 
+    public virtual void InitUI() {
     
     }
-    abstract public void BindFactorioGameObject(FactorioGameObjectBase factorioBuilding);
+
+    public abstract void BindFactorioGameObject(FactorioGameObjectBase factorioBuilding);
 }

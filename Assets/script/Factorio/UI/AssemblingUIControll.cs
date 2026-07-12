@@ -16,12 +16,11 @@ public class AssemblingUIControll : FactorioUIControlBase {
 
     Assembling assembling;
 
-    public override void BindFactorioGameObject(FactorioGameObjectBase factorioGameObjectBase) {
-        assembling = factorioGameObjectBase as Assembling;
+    public override void InitUI() {
         Vector3 origin = new Vector3(-350, 80, 0);
 
         int index = 0;
-        foreach (var pair in productPair) {
+        foreach (var pair in FactorioLibrary.AssemblingProducts) {
             GameObject buttonObject = Instantiate(buttonPrefab);
             buttonObject.transform.SetParent(itemUI.transform, false);
             buttonObject.GetComponent<RectTransform>().localPosition = origin + new Vector3(60 * index, 0, 0);
@@ -35,11 +34,15 @@ public class AssemblingUIControll : FactorioUIControlBase {
 
             index++;
         }
+    }
 
-
+    public override void BindFactorioGameObject(FactorioGameObjectBase factorioGameObjectBase) {
+        assembling = factorioGameObjectBase as Assembling;
     }
 
     public override void UpdateUI() {
+        if (!assembling) return;
+
         for (int i = 0; i < backpadUIManager.Length; i++) {
             var ingredient = i < assembling.productIngredient?.Count ? assembling.productIngredient[i]: null;
             backpadUIManager[i].SetbackpadImage(ingredient?.GetSprite() ?? basic, assembling.backpad.GetBackpadCount(i));
